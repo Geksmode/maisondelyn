@@ -74,18 +74,52 @@
         <p>Lễ đính hôn, tiệc độc thân, buổi chụp ảnh, dạ tiệc.</p>
       </li>
       </ul>
+      <lyn-estimate class="tool reveal" lang="vi" data-amount="từ {total}" data-deposit="Đặt cọc (30 %): {deposit}" data-msg="Ước tính: {formule}, {n} người thân, {h} giờ dặm lại, khoảng {total}.">
+        <h2 class="sub">Ước tính chi phí</h2>
+        <fieldset class="chips"><legend>Gói dịch vụ</legend><label><input type="radio" name="formule" value="mariee" data-price="350" checked><span>Gói cô dâu</span></label><label><input type="radio" name="formule" value="essai" data-price="120"><span>Chỉ trang điểm thử</span></label><label><input type="radio" name="formule" value="evenement" data-price="90"><span>Sự kiện hoặc chụp ảnh</span></label><label><input type="radio" name="formule" value="proches" data-price="0"><span>Chỉ người thân</span></label></fieldset>
+        <div class="fields">
+          <div class="field"><label for="est-proches">Người thân cần trang điểm</label><span class="stepper"><button type="button" data-step="-1" aria-label="Bớt">−</button><input id="est-proches" type="number" min="0" max="12" value="0" inputmode="numeric"><button type="button" data-step="1" aria-label="Thêm">+</button></span></div>
+          <div class="field"><label for="est-retouches">Số giờ dặm lại</label><span class="stepper"><button type="button" data-step="-1" aria-label="Bớt">−</button><input id="est-retouches" type="number" min="0" max="8" value="0" inputmode="numeric"><button type="button" data-step="1" aria-label="Thêm">+</button></span></div>
+        </div>
+        <p class="total"><span>Tổng ước tính</span><output for="est-proches est-retouches"></output><small></small></p>
+        <p class="small">Ước tính tham khảo, miễn phí di chuyển trong Paris. Báo giá chính thức tùy theo ngày và địa điểm.</p>
+        <a class="btn" href="contact.html"><span>Yêu cầu báo giá này</span><svg aria-hidden="true" width="18" height="10" viewBox="0 0 18 10"><path d="M0 5h16M12 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.2"/></svg></a>
+      </lyn-estimate>
       <h2 class="sub">Ba phong cách</h2>
       <dl class="steps reveal">
         <dt>Tự nhiên</dt><dd>Làn da rạng rỡ, đều màu, gần như vô hình.</dd>
         <dt>Sang trọng</dt><dd>Đôi mắt được nhấn nhá và đôi môi nổi bật, mà vẫn là chính bạn.</dd>
         <dt>Quyến rũ</dt><dd>Nhiều ánh sáng, độ tương phản và chiều sâu hơn cho buổi tối.</dd>
       </dl>
+      <lyn-quiz data-step="Câu hỏi {i}/3">
+        <button type="button" class="btn ghost" data-open><span>Tìm phong cách của tôi</span><svg aria-hidden="true" width="18" height="10" viewBox="0 0 18 10"><path d="M0 5h16M12 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.2"/></svg></button>
+        <dialog class="quiz" aria-label="Kiểu trang điểm nào hợp với bạn?">
+          <button type="button" class="quiz-close" data-close aria-label="Đóng">×</button>
+          <p class="quiz-step"></p>
+          <h2>Kiểu trang điểm nào hợp với bạn?</h2>
+          <fieldset data-q="0"><legend>Hằng ngày, bạn trang điểm…</legend><button type="button" data-v="naturel">Gần như không, chỉ chút lớp nền</button><button type="button" data-v="sophistique">Nhấn vào mắt hoặc môi</button><button type="button" data-v="glamour">Tôi thích trang điểm rõ nét</button></fieldset>
+          <fieldset data-q="1" hidden><legend>Đám cưới của bạn giống…</legend><button type="button" data-v="naturel">Đồng quê hoặc ấm cúng</button><button type="button" data-v="sophistique">Thanh lịch và cổ điển</button><button type="button" data-v="glamour">Một bữa tiệc lớn kéo dài đến khuya</button></fieldset>
+          <fieldset data-q="2" hidden><legend>Điều bạn mong muốn nhất…</legend><button type="button" data-v="naturel">Nhận ra chính mình trong ảnh</button><button type="button" data-v="sophistique">Rạng rỡ và tinh tế</button><button type="button" data-v="glamour">Thật nổi bật khi bước vào</button></fieldset>
+          <div class="result" data-result="naturel" hidden><img src="../img/naturel.jpg" srcset="../img/naturel-640.webp 640w, ../img/naturel-960.webp 960w, ../img/naturel-1280.webp 1280w, ../img/naturel-1440.webp 1440w" sizes="(max-width: 900px) 100vw, 50vw" width="1440" height="2560" data-full="../img/naturel-1440.webp" loading="lazy" decoding="async" alt=""><div><p class="kicker">Phong cách của bạn</p><h3>Tự nhiên</h3><p>Làn da rạng rỡ, đều màu, gần như vô hình.</p><a class="btn" href="contact.html?style=naturel#devis"><span>Yêu cầu báo giá với phong cách này</span><svg aria-hidden="true" width="18" height="10" viewBox="0 0 18 10"><path d="M0 5h16M12 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.2"/></svg></a><button type="button" class="again" data-again>Làm lại</button></div></div>
+          <div class="result" data-result="sophistique" hidden><img src="../img/mariee-tableau.jpg" srcset="../img/mariee-tableau-640.webp 640w, ../img/mariee-tableau-960.webp 960w, ../img/mariee-tableau-1280.webp 1280w, ../img/mariee-tableau-1920.webp 1920w, ../img/mariee-tableau-2560.webp 2560w" sizes="(max-width: 900px) 100vw, 50vw" width="2560" height="1440" data-full="../img/mariee-tableau-2560.webp" loading="lazy" decoding="async" alt=""><div><p class="kicker">Phong cách của bạn</p><h3>Sang trọng</h3><p>Đôi mắt được nhấn nhá và đôi môi nổi bật, mà vẫn là chính bạn.</p><a class="btn" href="contact.html?style=sophistique#devis"><span>Yêu cầu báo giá với phong cách này</span><svg aria-hidden="true" width="18" height="10" viewBox="0 0 18 10"><path d="M0 5h16M12 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.2"/></svg></a><button type="button" class="again" data-again>Làm lại</button></div></div>
+          <div class="result" data-result="glamour" hidden><img src="../img/mariee-damas.jpg" srcset="../img/mariee-damas-640.webp 640w, ../img/mariee-damas-960.webp 960w, ../img/mariee-damas-1280.webp 1280w, ../img/mariee-damas-1920.webp 1920w, ../img/mariee-damas-2560.webp 2560w" sizes="(max-width: 900px) 100vw, 50vw" width="2560" height="1440" data-full="../img/mariee-damas-2560.webp" loading="lazy" decoding="async" alt=""><div><p class="kicker">Phong cách của bạn</p><h3>Quyến rũ</h3><p>Nhiều ánh sáng, độ tương phản và chiều sâu hơn cho buổi tối.</p><a class="btn" href="contact.html?style=glamour#devis"><span>Yêu cầu báo giá với phong cách này</span><svg aria-hidden="true" width="18" height="10" viewBox="0 0 18 10"><path d="M0 5h16M12 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.2"/></svg></a><button type="button" class="again" data-again>Làm lại</button></div></div>
+        </dialog>
+      </lyn-quiz>
       <h2 class="sub">Quy trình</h2>
       <dl class="steps reveal">
         <dt>Trang điểm thử</dt><dd>Từ hai đến bốn tháng trước, chúng ta cùng chọn kiểu trang điểm.</dd>
         <dt>Ngày cưới</dt><dd>Tôi đến nơi bạn chuẩn bị, mang theo đầy đủ dụng cụ.</dd>
         <dt>Sau lễ cưới</dt><dd>Tùy theo gói, tôi ở lại để dặm lại hoặc đổi kiểu trang điểm.</dd>
       </dl>
+      <lyn-dayplan class="tool reveal" lang="vi" data-arrive="Tôi đến và chuẩn bị" data-proche="Người thân {i}" data-team="Người thân {a} và {b}" data-bride="Cô dâu" data-ready="Sẵn sàng: thay váy và chụp ảnh" data-cer="Lễ cưới" data-early="Bắt đầu trước 7 giờ sáng: có thể có phụ phí.">
+        <h2 class="sub">Buổi sáng của bạn, theo từng giờ</h2>
+        <div class="fields">
+          <div class="field"><label for="tl-heure">Giờ làm lễ</label><input id="tl-heure" type="time" value="14:00" min="09:00" max="20:00" step="900"></div>
+          <div class="field"><label for="tl-proches">Người thân cần trang điểm</label><span class="stepper"><button type="button" data-step="-1" aria-label="Bớt">−</button><input id="tl-proches" type="number" min="0" max="12" value="2" inputmode="numeric"><button type="button" data-step="1" aria-label="Thêm">+</button></span></div>
+        </div>
+        <ol class="plan" aria-live="polite"></ol>
+        <p class="small">Lịch trình tham khảo, sẽ được điều chỉnh cùng nhau trong buổi trang điểm thử. Nếu nhiều hơn năm người, một trợ lý sẽ làm cùng tôi.</p>
+      </lyn-dayplan>
       <p class="small">Miễn phí di chuyển trong Paris; báo giá riêng cho vùng Île-de-France và các nơi khác tại Pháp. Khoản đặt cọc 30 % giúp giữ ngày; phần còn lại thanh toán vào ngày cưới. Có thể có phụ phí nếu bắt đầu trước 7 giờ sáng.</p>
       <a class="btn" href="contact.html"><span>Đặt lịch hẹn</span><svg aria-hidden="true" width="18" height="10" viewBox="0 0 18 10"><path d="M0 5h16M12 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.2"/></svg></a>
     </section>

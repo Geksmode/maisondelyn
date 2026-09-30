@@ -421,7 +421,125 @@ LEGAL = {
 
 import langues  # noqa: E402
 
-for _d, _src in ((T, langues.T), (C, langues.C), (H, langues.H), (LEGAL, langues.LEGAL)):
+
+# ---------------------------------------------------------------- outils interactifs
+# Estimateur de prix, quiz de style et planning du jour J (composants de components.js).
+# Les textes VI et KO sont dans langues.OUTILS.
+OUTILS = {
+    "fr": dict(
+        est_h="Estimer mon budget", est_formula="Formule",
+        est_opts=["Forfait mariée", "Essai seul", "Événement ou shooting", "Proches seulement"],
+        est_proches="Proches à maquiller", est_retouches="Heures de retouches",
+        est_total="Total estimé", est_amount="à partir de {total}", est_deposit="Acompte (30 %) : {deposit}",
+        est_note="Estimation indicative, déplacement inclus dans Paris. Le devis définitif dépend de la date et du lieu.",
+        est_cta="Demander ce devis", est_msg="Estimation : {formule}, {n} proche(s), {h} h de retouches, environ {total}.",
+        minus="Retirer", plus="Ajouter",
+        quiz_open="Trouver mon style", quiz_h="Quel maquillage pour vous ?",
+        quiz_q=[("Au quotidien, votre maquillage, c'est…", ["Presque rien, un peu de teint", "Un regard ou une bouche travaillés", "J'aime quand ça se voit"]),
+                ("Votre mariage ressemble plutôt à…", ["Un mariage champêtre ou intime", "Une fête élégante et classique", "Une grande fête jusqu'au bout de la nuit"]),
+                ("Ce que vous voulez surtout…", ["Vous reconnaître sur les photos", "Être lumineuse et raffinée", "Un effet waouh en entrant"])],
+        quiz_step="Question {i} sur 3", quiz_result="Votre style", quiz_cta="Demander un devis avec ce style", quiz_again="Recommencer",
+        tl_h="Votre matinée, heure par heure", tl_ceremony="Heure de la cérémonie", tl_proches="Proches à maquiller",
+        tl_arrive="J'arrive et je m'installe", tl_proche="Proche {i}", tl_team="Proches {a} et {b}", tl_bride="La mariée",
+        tl_ready="Prête : habillage et photos", tl_cer="Cérémonie",
+        tl_note="Planning indicatif, ajusté ensemble pendant l'essai. Au-delà de cinq personnes, une assistante travaille avec moi.",
+        tl_early="Début avant 7 h : un supplément peut s'appliquer."),
+    "en": dict(
+        est_h="Estimate your budget", est_formula="Package",
+        est_opts=["Bridal package", "Trial only", "Event or shoot", "Family and friends only"],
+        est_proches="Family and friends", est_retouches="Hours of touch-ups",
+        est_total="Estimated total", est_amount="from {total}", est_deposit="Deposit (30 %): {deposit}",
+        est_note="Indicative estimate, travel included in Paris. The final quote depends on the date and place.",
+        est_cta="Request this quote", est_msg="Estimate: {formule}, {n} family and friends, {h} h of touch-ups, about {total}.",
+        minus="Remove", plus="Add",
+        quiz_open="Find my style", quiz_h="Which make-up suits you?",
+        quiz_q=[("Day to day, your make-up is…", ["Barely there, a little complexion", "Defined eyes or a statement lip", "I like it to show"]),
+                ("Your wedding feels more like…", ["Countryside or intimate", "Elegant and classic", "A big party all night long"]),
+                ("Above all, you want…", ["To recognise yourself in the photos", "To look luminous and refined", "A wow effect as you walk in"])],
+        quiz_step="Question {i} of 3", quiz_result="Your style", quiz_cta="Request a quote with this style", quiz_again="Start again",
+        tl_h="Your morning, hour by hour", tl_ceremony="Ceremony time", tl_proches="Family and friends",
+        tl_arrive="I arrive and set up", tl_proche="Guest {i}", tl_team="Guests {a} and {b}", tl_bride="The bride",
+        tl_ready="Ready: dressing and photos", tl_cer="Ceremony",
+        tl_note="Indicative schedule, adjusted together at the trial. For more than five people, an assistant works alongside me.",
+        tl_early="Start before 7 am: a supplement may apply."),
+}
+
+FORMULES = [("mariee", 350), ("essai", 120), ("evenement", 90), ("proches", 0)]
+STYLES = ["a-definir", "naturel", "sophistique", "glamour"]  # valeurs du champ « Style » du formulaire
+STYLE_PHOTOS = {"naturel": "naturel", "sophistique": "mariee-tableau", "glamour": "mariee-damas"}
+
+
+def attr(s):
+    """Texte sûr dans un attribut HTML."""
+    return s.replace("&", "&amp;").replace('"', "&quot;")
+
+
+def stepper(o, id_, label, value, lo, hi):
+    return (f'<div class="field"><label for="{id_}">{label}</label><span class="stepper">'
+            f'<button type="button" data-step="-1" aria-label="{o["minus"]}">−</button>'
+            f'<input id="{id_}" type="number" min="{lo}" max="{hi}" value="{value}" inputmode="numeric">'
+            f'<button type="button" data-step="1" aria-label="{o["plus"]}">+</button></span></div>')
+
+
+def estimate_html(lang):
+    o = OUTILS[lang]
+    chips = "".join(
+        f'<label><input type="radio" name="formule" value="{v}" data-price="{p}"{" checked" if i == 0 else ""}><span>{n}</span></label>'
+        for i, ((v, p), n) in enumerate(zip(FORMULES, o["est_opts"])))
+    return f"""      <lyn-estimate class="tool reveal" lang="{lang}" data-amount="{attr(o['est_amount'])}" data-deposit="{attr(o['est_deposit'])}" data-msg="{attr(o['est_msg'])}">
+        <h2 class="sub">{o['est_h']}</h2>
+        <fieldset class="chips"><legend>{o['est_formula']}</legend>{chips}</fieldset>
+        <div class="fields">
+          {stepper(o, "est-proches", o['est_proches'], 0, 0, 12)}
+          {stepper(o, "est-retouches", o['est_retouches'], 0, 0, 8)}
+        </div>
+        <p class="total"><span>{o['est_total']}</span><output for="est-proches est-retouches"></output><small></small></p>
+        <p class="small">{o['est_note']}</p>
+        {btn("contact.html", o['est_cta'])}
+      </lyn-estimate>"""
+
+
+def dayplan_html(lang):
+    o = OUTILS[lang]
+    data = " ".join(f'data-{k[3:]}="{attr(o[k])}"' for k in ("tl_arrive", "tl_proche", "tl_team", "tl_bride", "tl_ready", "tl_cer", "tl_early"))
+    return f"""      <lyn-dayplan class="tool reveal" lang="{lang}" {data}>
+        <h2 class="sub">{o['tl_h']}</h2>
+        <div class="fields">
+          <div class="field"><label for="tl-heure">{o['tl_ceremony']}</label><input id="tl-heure" type="time" value="14:00" min="09:00" max="20:00" step="900"></div>
+          {stepper(o, "tl-proches", o['tl_proches'], 2, 0, 12)}
+        </div>
+        <ol class="plan" aria-live="polite"></ol>
+        <p class="small">{o['tl_note']}</p>
+      </lyn-dayplan>"""
+
+
+def quiz_html(lang, pre, inline=False):
+    o = OUTILS[lang]
+    styles = C[lang]["extra"]["styles"]
+    qs = "\n".join(
+        f'          <fieldset data-q="{k}"{" hidden" if k else ""}><legend>{q}</legend>'
+        + "".join(f'<button type="button" data-v="{STYLES[i + 1]}">{a}</button>' for i, a in enumerate(answers))
+        + "</fieldset>" for k, (q, answers) in enumerate(o["quiz_q"]))
+    results = "\n".join(
+        f'          <div class="result" data-result="{key}" hidden>{pic(pre, STYLE_PHOTOS[key], "half")} alt="">'
+        f'<div><p class="kicker">{o["quiz_result"]}</p><h3>{name}</h3><p>{desc}</p>'
+        f'{btn("contact.html?style=" + key + "#devis", o["quiz_cta"])}'
+        f'<button type="button" class="again" data-again>{o["quiz_again"]}</button></div></div>'
+        for key, (name, desc) in zip(STYLES[1:], styles))
+    trigger = (f'<button type="button" class="quiz-link" data-open>{o["quiz_open"]}</button>' if inline else
+               f'<button type="button" class="btn ghost" data-open>{btn_inner(o["quiz_open"])}</button>')
+    return f"""<lyn-quiz data-step="{attr(o['quiz_step'])}">
+        {trigger}
+        <dialog class="quiz" aria-label="{attr(o['quiz_h'])}">
+          <button type="button" class="quiz-close" data-close aria-label="{T[lang]['close']}">×</button>
+          <p class="quiz-step"></p>
+          <h2>{o['quiz_h']}</h2>
+{qs}
+{results}
+        </dialog>
+      </lyn-quiz>"""
+
+for _d, _src in ((T, langues.T), (C, langues.C), (H, langues.H), (LEGAL, langues.LEGAL), (OUTILS, langues.OUTILS)):
     _d.update(_src)
 
 BRIDES = [("mariee-damas", "wide"), ("mariee-fenetre", "wide"), ("mariee-tableau", "wide"), ("mariee-polaroid", "wide"), ("couple", "wide")]
@@ -454,12 +572,15 @@ def build(lang):
       <ul class="services">
 {items}
       </ul>
+{estimate_html(lang)}
       <h2 class="sub">{c['extra']['styles_h']}</h2>
       <dl class="steps reveal">
 {"".join(f"        <dt>{a}</dt><dd>{b}</dd>" + chr(10) for a, b in c['extra']['styles'])}      </dl>
+      {quiz_html(lang, pre)}
       <h2 class="sub">{c['extra']['steps_h']}</h2>
       <dl class="steps reveal">
 {"".join(f"        <dt>{a}</dt><dd>{b}</dd>" + chr(10) for a, b in c['extra']['steps'])}      </dl>
+{dayplan_html(lang)}
       <p class="small">{cond}</p>
       {btn("contact.html", T[lang]['book'])}
     </section>""", "")
@@ -506,7 +627,7 @@ def build(lang):
         <label>{f['lieu']}<input name="lieu" required maxlength="120"></label>
         <label>{f['nb']}<input name="personnes" type="number" min="1" max="30" value="1" required inputmode="numeric"></label>
         <label>{f['prest']}<select name="prestation">{opts}</select></label>
-        <label>{f['style']}<select name="style">{"".join(f"<option>{x}</option>" for x in f['styles'])}</select></label>
+        <label>{f['style']}<select name="style">{"".join(f'<option value="{v}">{x}</option>' for v, x in zip(STYLES, f['styles']))}</select>{quiz_html(lang, pre, inline=True)}</label>
         <label class="full">{f['msg']}<textarea name="message" rows="3" maxlength="2000"></textarea></label>
         <button class="btn" type="submit">{btn_inner(f['send'])}</button>
         <p class="status" role="status" aria-live="polite"></p>

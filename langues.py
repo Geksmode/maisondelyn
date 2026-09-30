@@ -212,3 +212,43 @@ LEGAL = {
       <h2>쿠키</h2>
       <p>이 사이트는 쿠키나 광고 추적 도구를 사용하지 않습니다. 글꼴은 사이트에 직접 호스팅됩니다.</p>"""),
 }
+
+# Outils interactifs : estimateur de prix, quiz de style, planning du jour J.
+OUTILS = {
+    "vi": dict(
+        est_h="Ước tính chi phí", est_formula="Gói dịch vụ",
+        est_opts=["Gói cô dâu", "Chỉ trang điểm thử", "Sự kiện hoặc chụp ảnh", "Chỉ người thân"],
+        est_proches="Người thân cần trang điểm", est_retouches="Số giờ dặm lại",
+        est_total="Tổng ước tính", est_amount="từ {total}", est_deposit="Đặt cọc (30 %): {deposit}",
+        est_note="Ước tính tham khảo, miễn phí di chuyển trong Paris. Báo giá chính thức tùy theo ngày và địa điểm.",
+        est_cta="Yêu cầu báo giá này", est_msg="Ước tính: {formule}, {n} người thân, {h} giờ dặm lại, khoảng {total}.",
+        minus="Bớt", plus="Thêm",
+        quiz_open="Tìm phong cách của tôi", quiz_h="Kiểu trang điểm nào hợp với bạn?",
+        quiz_q=[("Hằng ngày, bạn trang điểm…", ["Gần như không, chỉ chút lớp nền", "Nhấn vào mắt hoặc môi", "Tôi thích trang điểm rõ nét"]),
+                ("Đám cưới của bạn giống…", ["Đồng quê hoặc ấm cúng", "Thanh lịch và cổ điển", "Một bữa tiệc lớn kéo dài đến khuya"]),
+                ("Điều bạn mong muốn nhất…", ["Nhận ra chính mình trong ảnh", "Rạng rỡ và tinh tế", "Thật nổi bật khi bước vào"])],
+        quiz_step="Câu hỏi {i}/3", quiz_result="Phong cách của bạn", quiz_cta="Yêu cầu báo giá với phong cách này", quiz_again="Làm lại",
+        tl_h="Buổi sáng của bạn, theo từng giờ", tl_ceremony="Giờ làm lễ", tl_proches="Người thân cần trang điểm",
+        tl_arrive="Tôi đến và chuẩn bị", tl_proche="Người thân {i}", tl_team="Người thân {a} và {b}", tl_bride="Cô dâu",
+        tl_ready="Sẵn sàng: thay váy và chụp ảnh", tl_cer="Lễ cưới",
+        tl_note="Lịch trình tham khảo, sẽ được điều chỉnh cùng nhau trong buổi trang điểm thử. Nếu nhiều hơn năm người, một trợ lý sẽ làm cùng tôi.",
+        tl_early="Bắt đầu trước 7 giờ sáng: có thể có phụ phí."),
+    "ko": dict(
+        est_h="예상 비용 계산", est_formula="패키지",
+        est_opts=["신부 패키지", "리허설만", "이벤트·촬영", "가족·지인만"],
+        est_proches="메이크업할 가족·지인", est_retouches="수정 메이크업 시간",
+        est_total="예상 합계", est_amount="{total}부터", est_deposit="계약금(30 %): {deposit}",
+        est_note="참고용 예상 금액이며 파리 시내 출장비가 포함되어 있습니다. 최종 견적은 날짜와 장소에 따라 달라집니다.",
+        est_cta="이 견적으로 문의하기", est_msg="예상: {formule}, 가족·지인 {n}명, 수정 메이크업 {h}시간, 약 {total}.",
+        minus="빼기", plus="더하기",
+        quiz_open="내 스타일 찾기", quiz_h="나에게 어울리는 메이크업은?",
+        quiz_q=[("평소 메이크업은…", ["거의 안 해요, 피부 표현 정도", "눈매나 입술에 포인트", "화려한 게 좋아요"]),
+                ("결혼식 분위기는…", ["야외나 스몰 웨딩", "우아하고 클래식하게", "밤새 이어지는 큰 파티"]),
+                ("가장 원하는 것은…", ["사진 속에서도 나다운 모습", "맑고 세련된 느낌", "입장할 때 모두가 감탄하는 느낌"])],
+        quiz_step="질문 {i}/3", quiz_result="나의 스타일", quiz_cta="이 스타일로 견적 문의하기", quiz_again="다시 하기",
+        tl_h="결혼식 당일 아침 일정", tl_ceremony="예식 시간", tl_proches="메이크업할 가족·지인",
+        tl_arrive="도착 및 준비", tl_proche="가족·지인 {i}", tl_team="가족·지인 {a}, {b}", tl_bride="신부",
+        tl_ready="준비 완료: 드레스와 사진 촬영", tl_cer="예식",
+        tl_note="참고용 일정이며 리허설 때 함께 조정합니다. 5명이 넘으면 어시스턴트가 함께 작업합니다.",
+        tl_early="오전 7시 이전 시작 시 추가 요금이 있을 수 있습니다."),
+}

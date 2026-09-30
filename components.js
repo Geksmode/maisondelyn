@@ -62,6 +62,13 @@ class LynQuoteForm extends HTMLElement {
   connectedCallback() {
     const form = this.querySelector('form'), status = this.querySelector('[role=status]');
     if (!form) return;
+    const params = new URLSearchParams(location.search);
+    for (const name of ['prestation', 'personnes', 'style', 'message']) {
+      const field = form.elements[name], value = params.get(name);
+      if (!field || !value) continue;
+      if (field.tagName === 'SELECT' && ![...field.options].some((o) => o.value === value)) continue;
+      field.value = value.slice(0, 2000);
+    }
     // Pas de date de mariage dans le passé.
     const day = form.querySelector('[type=date]');
     if (day) day.min = new Date().toISOString().slice(0, 10);
@@ -86,6 +93,139 @@ class LynQuoteForm extends HTMLElement {
   }
 }
 
+// Boutons − / + autour d'un champ nombre (estimateur et planning).
+function wireSteppers(root, onChange) {
+  root.querySelectorAll('.stepper').forEach((s) => {
+    const input = s.querySelector('input');
+    s.addEventListener('click', (e) => {
+      const b = e.target.closest('[data-step]');
+      if (!b) return;
+      const v = Math.min(+input.max, Math.max(+input.min, (+input.value || 0) + +b.dataset.step));
+      input.value = v;
+      onChange();
+    });
+  });
+  root.addEventListener('input', onChange);
+  root.addEventListener('change', onChange);
+}
+
+const fill = (tpl, values) => tpl.replace(/\{(\w+)\}/g, (_, k) => values[k] ?? '');
+const clampInput = (input) => Math.min(+input.max, Math.max(+input.min, Math.round(+input.value || 0)));
+
+// <lyn-estimate> : total estimé en direct, et lien vers le devis pré-rempli.
+class LynEstimate extends HTMLElement {
+  connectedCallback() {
+    // « 350 € » dans toutes les langues, comme dans le reste du site.
+    const num = new Intl.NumberFormat(this.lang || 'fr', { maximumFractionDigits: 0 });
+    const euro = { format: (v) => `${num.format(v)}\u00a0€` };
+    const out = this.querySelector('output'), deposit = this.querySelector('.total small'), cta = this.querySelector('.btn');
+    const proches = this.querySelector('#est-proches'), heures = this.querySelector('#est-retouches');
+    const base = cta.getAttribute('href');
+    const update = () => {
+      const f = this.querySelector('[name=formule]:checked');
+      const n = clampInput(proches), h = clampInput(heures);
+      const total = +f.dataset.price + n * 70 + h * 60;
+      out.textContent = fill(this.dataset.amount, { total: euro.format(total) });
+      deposit.textContent = fill(this.dataset.deposit, { deposit: euro.format(Math.round(total * 0.3)) });
+      const bride = f.value === 'mariee' || f.value === 'essai';
+      const params = new URLSearchParams({
+        prestation: f.value === 'essai' ? 'mariee' : f.value,
+        personnes: Math.max(1, n + (bride ? 1 : 0)),
+        message: fill(this.dataset.msg, { formule: f.nextElementSibling.textContent, n, h, total: euro.format(total) }),
+      });
+      cta.href = `${base}?${params}#devis`;
+    };
+    wireSteppers(this, update);
+    update();
+  }
+}
+
+// <lyn-dayplan> : planning de la matinée calculé à partir de l'heure de la cérémonie.
+class LynDayplan extends HTMLElement {
+  connectedCallback() {
+    const time = new Intl.DateTimeFormat(this.lang || 'fr', { hour: '2-digit', minute: '2-digit' });
+    const at = (min) => time.format(new Date(2026, 0, 1, Math.floor(min / 60), min % 60));
+    const heure = this.querySelector('#tl-heure'), proches = this.querySelector('#tl-proches'), list = this.querySelector('.plan');
+    const d = this.dataset;
+    const update = () => {
+      const [hh, mm] = (heure.value || '14:00').split(':').map(Number);
+      const ceremony = hh * 60 + mm, ready = ceremony - 60, bride = ready - 75;
+      const n = clampInput(proches);
+      // Au-delà de cinq proches, une assistante maquille en même temps : deux personnes par créneau.
+      const slots = [];
+      if (n > 5) for (let i = 1; i <= n; i += 2) slots.push(i + 1 <= n ? fill(d.team, { a: i, b: i + 1 }) : fill(d.proche, { i }));
+      else for (let i = 1; i <= n; i++) slots.push(fill(d.proche, { i }));
+      const first = bride - slots.length * 45, arrive = first - 20;
+      const rows = [[arrive, d.arrive], ...slots.map((s, k) => [first + k * 45, s]), [bride, d.bride], [ready, d.ready], [ceremony, d.cer]];
+      list.replaceChildren(...rows.map(([m, label], k) => {
+        const li = document.createElement('li');
+        if (k === rows.length - 1) li.className = 'key';
+        const t = document.createElement('time');
+        t.textContent = at(m);
+        li.append(t, document.createTextNode(label));
+        return li;
+      }));
+      if (arrive < 7 * 60) {
+        const li = document.createElement('li');
+        li.className = 'warn';
+        li.textContent = d.early;
+        list.append(li);
+      }
+    };
+    wireSteppers(this, update);
+    update();
+  }
+}
+
+// <lyn-quiz> : trois questions, un style proposé, et le devis pré-rempli avec ce style.
+class LynQuiz extends HTMLElement {
+  connectedCallback() {
+    const dlg = this.querySelector('dialog'), step = dlg.querySelector('.quiz-step');
+    const questions = [...dlg.querySelectorAll('[data-q]')], results = [...dlg.querySelectorAll('[data-result]')];
+    let answers = [];
+    const show = (k) => {
+      questions.forEach((q, i) => { q.hidden = i !== k; });
+      results.forEach((r) => { r.hidden = true; });
+      step.textContent = fill(this.dataset.step, { i: k + 1 });
+      step.hidden = false;
+      questions[k].querySelector('button').focus();
+    };
+    const finish = () => {
+      const count = {};
+      answers.forEach((v) => { count[v] = (count[v] || 0) + 1; });
+      // Trois réponses différentes : « sophistiqué », le style du milieu.
+      const style = Object.keys(count).find((v) => count[v] >= 2) || 'sophistique';
+      questions.forEach((q) => { q.hidden = true; });
+      step.hidden = true;
+      const r = results.find((x) => x.dataset.result === style);
+      r.hidden = false;
+      r.querySelector('.btn').focus();
+    };
+    this.querySelector('[data-open]').addEventListener('click', () => { answers = []; show(0); dlg.showModal(); });
+    dlg.querySelector('[data-close]').addEventListener('click', () => dlg.close());
+    dlg.addEventListener('click', (e) => {
+      if (e.target === dlg) return dlg.close();
+      const answer = e.target.closest('[data-v]');
+      if (answer) {
+        answers.push(answer.dataset.v);
+        return answers.length === questions.length ? finish() : show(answers.length);
+      }
+      if (e.target.closest('[data-again]')) { answers = []; show(0); return; }
+      // Sur la page Contact, le résultat remplit directement le champ « Style ».
+      const cta = e.target.closest('.result .btn'), select = this.closest('form')?.querySelector('[name=style]');
+      if (cta && select) {
+        e.preventDefault();
+        select.value = cta.closest('[data-result]').dataset.result;
+        dlg.close();
+        select.focus();
+      }
+    });
+  }
+}
+
+customElements.define('lyn-estimate', LynEstimate);
+customElements.define('lyn-dayplan', LynDayplan);
+customElements.define('lyn-quiz', LynQuiz);
 customElements.define('lyn-lightbox', LynLightbox);
 customElements.define('lyn-book-button', LynBookButton);
 customElements.define('lyn-quote-form', LynQuoteForm);
