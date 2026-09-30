@@ -22,7 +22,7 @@ class LynLightbox extends HTMLElement {
     let i = 0, x0 = null;
     const show = (k) => {
       i = (k + shots.length) % shots.length;
-      const swap = () => { big.src = shots[i].currentSrc || shots[i].src; big.alt = shots[i].alt; count.textContent = `${i + 1} / ${shots.length}`; };
+      const swap = () => { big.src = shots[i].dataset.full || shots[i].currentSrc || shots[i].src; big.alt = shots[i].alt; count.textContent = `${i + 1} / ${shots.length}`; };
       dlg.open && document.startViewTransition && !reduceMotion ? document.startViewTransition(swap) : swap();
     };
     shots.forEach((el, k) => {

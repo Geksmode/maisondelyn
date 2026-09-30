@@ -18,7 +18,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-img { display: block; width: 100%; }
+img { display: block; width: 100%; height: auto; }
 a { color: inherit; }
 
 h1, h2, dt, .brand {
@@ -408,3 +408,10 @@ input, select, textarea { transition: border-color .25s ease; }
   .marquee span::after { margin-left: 28px; }
   .marquee span:nth-child(8)::after { content: none; }
 }
+
+/* Pied de page, pages légales, note RGPD */
+.bottom .links { display: flex; gap: 24px; flex-wrap: wrap; }
+.legal h2 { font-size: 24px; margin: 48px 0 12px; }
+.legal p { max-width: 64ch; color: var(--cacao); }
+.legal mark { background: var(--blush); color: var(--encre); padding: 0 4px; }
+.fine { grid-column: 1 / -1; font-size: 13px; color: var(--cacao); }

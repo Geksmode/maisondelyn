@@ -1,7 +1,8 @@
 """Génère le site Maison de Lyn (FR à la racine, EN dans en/).
 
-Usage : python3 build2.py <dossier du dépôt>
+Usage : python3 build.py <dossier du dépôt>
 """
+import json
 import os
 import re
 import sys
@@ -11,6 +12,29 @@ IG = "https://www.instagram.com/maisondelyn_mua/"
 BASE = "https://geksmode.github.io/maisondelyn/"
 NB = " "  # espace insécable
 
+# Tailles disponibles pour chaque photo (écrit par images.py).
+with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "img", "manifest.json")) as _fh:
+    IMGS = json.load(_fh)
+
+# Largeur affichée de chaque emplacement, pour que le navigateur choisisse la bonne taille.
+SIZES = {
+    "full": "100vw",
+    "half": "(max-width: 900px) 100vw, 50vw",
+    "big": "(max-width: 900px) 100vw, 62vw",
+    "small": "(max-width: 900px) 100vw, 36vw",
+    "third": "(max-width: 900px) 100vw, 33vw",
+}
+
+
+def pic(pre, name, slot, attrs="", lazy=True):
+    """<img> responsive : WebP en plusieurs largeurs, JPEG de secours, dimensions réservées."""
+    m = IMGS[name]
+    srcset = ", ".join(f"{pre}img/{name}-{w}.webp {w}w" for w in m["sizes"])
+    full = f"{pre}img/{name}-{m['sizes'][-1]}.webp"
+    extra = ' loading="lazy" decoding="async"' if lazy else ' fetchpriority="high"'
+    return (f'<img{attrs} src="{pre}img/{name}.jpg" srcset="{srcset}" sizes="{SIZES[slot]}" '
+            f'width="{m["w"]}" height="{m["h"]}" data-full="{full}"{extra}')
+
 T = {
     "fr": {
         "nav": [("prestations.html", "Prestations"), ("galerie.html", "Galerie"), ("faq.html", "FAQ"), ("contact.html", "Contact")],
@@ -18,6 +42,8 @@ T = {
         "book": "Prendre rendez-vous",
         "footer": "Maquillage de mariée, Paris",
         "close": "Fermer",
+        "legal": "Mentions légales",
+        "privacy": "Confidentialité",
         "prev": "Photo précédente",
         "next": "Photo suivante",
     },
@@ -27,6 +53,8 @@ T = {
         "book": "Book an appointment",
         "footer": "Bridal make-up, Paris",
         "close": "Close",
+        "legal": "Legal notice",
+        "privacy": "Privacy",
         "prev": "Previous photo",
         "next": "Next photo",
     },
@@ -75,9 +103,12 @@ def page(lang, fname, title, desc, body, script=""):
   <link rel="alternate" hreflang="fr" href="{BASE}{fname}">
   <link rel="alternate" hreflang="en" href="{BASE}en/{fname}">
   <link rel="alternate" hreflang="x-default" href="{BASE}{fname}">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;1,6..96,500&family=Jost:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="preload" href="{pre}fonts/BodoniModa-normal-500-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="{pre}fonts/Jost-normal-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="{pre}fonts/fonts.css">
+  <link rel="icon" href="{pre}favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="{pre}apple-touch-icon.png">
+  <meta name="theme-color" content="#F5F1EE">
   <meta property="og:type" content="website">
   <meta property="og:title" content="{title}">
   <meta property="og:description" content="{desc}">
@@ -102,7 +133,7 @@ def page(lang, fname, title, desc, body, script=""):
 
   <footer class="bottom">
     <span>Maison de Lyn · {t['footer']}</span>
-    <a href="{IG}">Instagram</a>
+    <span class="links"><a href="{IG}">Instagram</a><a href="mentions-legales.html">{t['legal']}</a><a href="confidentialite.html">{t['privacy']}</a></span>
   </footer>
   <lyn-lightbox label-close="{t['close']}" label-prev="{t['prev']}" label-next="{t['next']}"></lyn-lightbox>
 {BOOK if fname != "contact.html" else ""}{script}  <script type="module" src="{pre}components.js"></script>
@@ -153,7 +184,8 @@ C["fr"] = dict(
                   msg="Votre message", send="Envoyer",
                   wip="Le formulaire sera actif très bientôt. En attendant, écrivez-moi sur Instagram.",
                   ok="Merci, votre demande est bien arrivée. Je vous réponds sous 48 h.",
-                  err="L'envoi n'a pas fonctionné. Réessayez ou écrivez-moi sur Instagram."),
+                  err="L'envoi n'a pas fonctionné. Réessayez ou écrivez-moi sur Instagram.",
+                  gdpr='Vos informations servent uniquement à répondre à votre demande. <a href="confidentialite.html">En savoir plus</a>.'),
              "Ou sur Instagram"),
 )
 
@@ -202,7 +234,8 @@ C["en"] = dict(
                   msg="Your message", send="Send",
                   wip="The form will be live very soon. Meanwhile, message me on Instagram.",
                   ok="Thank you, your request has arrived. I'll reply within 48 h.",
-                  err="Sending failed. Please try again or message me on Instagram."),
+                  err="Sending failed. Please try again or message me on Instagram.",
+                  gdpr='Your details are only used to answer your request. <a href="confidentialite.html">Learn more</a>.'),
              "Or on Instagram"),
 )
 
@@ -252,7 +285,7 @@ def home_body(lang):
         f'        <li><span class="num">0{i}</span><span class="name">{n}</span><span class="price">{p}</span></li>'
         for i, (n, p) in enumerate(h["offers"], 1))
     return f"""    <section class="hero">
-      <img src="{pre}img/mariee-fenetre.jpg" alt="{h['alt_hero']}">
+      {pic(pre, "mariee-fenetre", "full", lazy=False)} alt="{h['alt_hero']}">
       <div class="hero-text">
         <h1>{h['h1']}</h1>
         <p>{h['place']}</p>
@@ -267,12 +300,12 @@ def home_body(lang):
         <p>{h['intro']}</p>
         {btn("contact.html", T[lang]['book'])}
       </div>
-      <img data-lightbox src="{pre}img/mariee-tableau.jpg" alt="" loading="lazy">
+      {pic(pre, "mariee-tableau", "half", " data-lightbox")} alt="">
     </section>
 
     <section class="duo">
-      <figure class="big reveal"><img data-lightbox src="{pre}img/mariee-damas.jpg" alt="" loading="lazy"><figcaption>{h['cap1']}</figcaption></figure>
-      <figure class="small reveal"><img data-lightbox src="{pre}img/couple.jpg" alt="" loading="lazy"><figcaption>{h['cap2']}</figcaption></figure>
+      <figure class="big reveal">{pic(pre, "mariee-damas", "big", " data-lightbox")} alt=""><figcaption>{h['cap1']}</figcaption></figure>
+      <figure class="small reveal">{pic(pre, "couple", "small", " data-lightbox")} alt=""><figcaption>{h['cap2']}</figcaption></figure>
     </section>
 
     <section class="seoul reveal">
@@ -289,13 +322,66 @@ def home_body(lang):
     </section>
 
     <section class="closing">
-      <img src="{pre}img/mariee-polaroid.jpg" alt="" loading="lazy">
+      {pic(pre, "mariee-polaroid", "full")} alt="">
       <div>
         <h2>{h['closing']}</h2>
         {btn("contact.html", T[lang]['book'], "light")}
       </div>
     </section>"""
 
+
+TODO = '<mark>[à compléter]</mark>'
+LEGAL = {
+    "fr": dict(
+        legal_t="Mentions légales · Maison de Lyn", legal_h="Mentions légales",
+        legal_body=f"""      <h2>Éditrice du site</h2>
+      <p>Maison de Lyn, {TODO} (nom et prénom de Linh), entrepreneuse individuelle.<br>
+      SIRET : {TODO}<br>
+      Adresse : {TODO}<br>
+      E-mail : {TODO}</p>
+      <p>Directrice de la publication : {TODO}</p>
+      <h2>Hébergement</h2>
+      <p>GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis.</p>
+      <h2>Photographies et contenus</h2>
+      <p>Les photographies et textes de ce site sont la propriété de Maison de Lyn et de leurs auteurs. Toute reproduction sans autorisation est interdite.</p>""",
+        privacy_t="Confidentialité · Maison de Lyn", privacy_h="Confidentialité",
+        privacy_body=f"""      <h2>Données collectées</h2>
+      <p>Le formulaire de contact recueille votre nom, e-mail, téléphone, date et lieu du mariage, nombre de personnes, prestation et style souhaités, et votre message.</p>
+      <h2>Utilisation</h2>
+      <p>Ces informations servent uniquement à répondre à votre demande et à préparer votre devis. Elles ne sont ni vendues ni utilisées à des fins publicitaires.</p>
+      <h2>Destinataires</h2>
+      <p>Linh (Maison de Lyn) et le service d'envoi du formulaire, Formspree, qui transmet votre message par e-mail.</p>
+      <h2>Durée de conservation</h2>
+      <p>Trois ans après notre dernier échange, sauf si un contrat est signé.</p>
+      <h2>Vos droits</h2>
+      <p>Vous pouvez demander l'accès, la correction ou la suppression de vos données en écrivant à {TODO}. Vous pouvez aussi adresser une réclamation à la CNIL (cnil.fr).</p>
+      <h2>Cookies</h2>
+      <p>Ce site n'utilise aucun cookie ni outil de suivi publicitaire. Les polices sont hébergées sur le site lui-même.</p>"""),
+    "en": dict(
+        legal_t="Legal notice · Maison de Lyn", legal_h="Legal notice",
+        legal_body=f"""      <h2>Publisher</h2>
+      <p>Maison de Lyn, {TODO} (Linh's full name), sole trader registered in France.<br>
+      SIRET: {TODO}<br>
+      Address: {TODO}<br>
+      Email: {TODO}</p>
+      <h2>Hosting</h2>
+      <p>GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, United States.</p>
+      <h2>Photos and content</h2>
+      <p>Photos and texts on this site belong to Maison de Lyn and their authors. Reproduction without permission is prohibited.</p>""",
+        privacy_t="Privacy · Maison de Lyn", privacy_h="Privacy",
+        privacy_body=f"""      <h2>What is collected</h2>
+      <p>The contact form collects your name, email, phone, wedding date and place, number of people, service and preferred style, and your message.</p>
+      <h2>How it is used</h2>
+      <p>Only to answer your request and prepare your quote. It is never sold or used for advertising.</p>
+      <h2>Who receives it</h2>
+      <p>Linh (Maison de Lyn) and the form service, Formspree, which forwards your message by email.</p>
+      <h2>How long it is kept</h2>
+      <p>Three years after our last exchange, unless a contract is signed.</p>
+      <h2>Your rights</h2>
+      <p>You can ask to access, correct or delete your data by writing to {TODO}. You can also contact the French data authority, CNIL (cnil.fr).</p>
+      <h2>Cookies</h2>
+      <p>This site uses no cookies or advertising trackers. Fonts are hosted on the site itself.</p>"""),
+}
 
 BRIDES = [("mariee-damas", "wide"), ("mariee-fenetre", "wide"), ("mariee-tableau", "wide"), ("mariee-polaroid", "wide"), ("couple", "wide")]
 EDITO = ["boucles", "naturel", "robe-blanche", "tweed", "tweed-2"]
@@ -338,8 +424,8 @@ def build(lang):
     </section>""", "")
 
     t, d, h_b, h_e, ig = c["gallery"]
-    brides = "\n".join(f'        <img class="reveal" data-lightbox src="{pre}img/{n}.jpg" alt="" loading="lazy">' for n, _ in BRIDES)
-    edito = "\n".join(f'        <img class="reveal" data-lightbox src="{pre}img/{n}.jpg" alt="" loading="lazy">' for n in EDITO)
+    brides = "\n".join('        ' + pic(pre, n, "half", ' class="reveal" data-lightbox') + ' alt="">' for n, _ in BRIDES)
+    edito = "\n".join('        ' + pic(pre, n, "third", ' class="reveal" data-lightbox') + ' alt="">' for n in EDITO)
     files["galerie.html"] = (t, d, f"""    <section class="page wide">
       <h1>{h_b}</h1>
       <div class="grid landscape">
@@ -382,10 +468,33 @@ def build(lang):
         <label class="full">{f['msg']}<textarea name="message" rows="3"></textarea></label>
         <button class="btn" type="submit">{btn_inner(f['send'])}</button>
         <p class="status" role="status" aria-live="polite"></p>
+        <p class="fine">{f['gdpr']}</p>
       </form>
       </lyn-quote-form>
       {btn(IG, ig, "ghost")}
     </section>""", "")
+
+    L = LEGAL[lang]
+    files["mentions-legales.html"] = (L["legal_t"], L["legal_t"], f"""    <section class="page legal">
+      <h1>{L['legal_h']}</h1>
+{L['legal_body']}
+    </section>""", "")
+    files["confidentialite.html"] = (L["privacy_t"], L["privacy_t"], f"""    <section class="page legal">
+      <h1>{L['privacy_h']}</h1>
+{L['privacy_body']}
+    </section>""", "")
+    if lang == "fr":
+        html = page("fr", "404.html", "Page introuvable · Maison de Lyn", "Page introuvable", """    <section class="page">
+      <h1>Page introuvable</h1>
+      <p class="lead">Cette page n'existe pas ou a été déplacée.<br><span lang="en">This page doesn't exist or has moved.</span></p>
+      <a class="btn" href="index.html"><span>Retour à l'accueil</span></a>
+    </section>""")
+        # La page 404 peut s'afficher à n'importe quelle adresse : liens absolus.
+        html = re.sub(r'(href|src)="(?!https?:|#|mailto:)([^"]+)"', lambda m: f'{m.group(1)}="{BASE}{m.group(2)}"', html)
+        html = re.sub(r'  <link rel="alternate" hreflang[^\n]*\n', '', html)
+        html = html.replace('<meta charset="utf-8">', '<meta charset="utf-8">\n  <meta name="robots" content="noindex">')
+        with open(os.path.join(out, "404.html"), "w") as fh:
+            fh.write(fix(html))
 
     for fname, (t, d, body, script) in files.items():
         with open(os.path.join(out, fname), "w") as fh:
