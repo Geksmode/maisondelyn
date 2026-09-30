@@ -33,6 +33,18 @@ T = {
 }
 
 
+ARROW = '<svg aria-hidden="true" width="18" height="10" viewBox="0 0 18 10"><path d="M0 5h16M12 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.2"/></svg>'
+
+
+def btn_inner(label):
+    return f"<span>{label}</span>{ARROW}"
+
+
+def btn(href, label, kind=""):
+    cls = f"btn {kind}".strip()
+    return f'<a class="{cls}" href="{href}">{btn_inner(label)}</a>'
+
+
 LDJSON = """  <script type="application/ld+json">
   {"@context": "https://schema.org", "@type": "BeautySalon", "name": "Maison de Lyn",
    "description": "Maquillage de mariée et d'événements à Paris et en Île-de-France",
@@ -47,6 +59,7 @@ LDJSON = """  <script type="application/ld+json">
 
 def page(lang, fname, title, desc, body, script=""):
     t = T[lang]
+    BOOK = f'  <lyn-book-button><a class="btn" href="contact.html">{btn_inner(t["book"])}</a></lyn-book-button>\n' 
     other = "en" if lang == "fr" else "fr"
     pre = "../" if lang == "en" else ""
     alt = ("en/" if lang == "fr" else "../") + fname
@@ -91,33 +104,8 @@ def page(lang, fname, title, desc, body, script=""):
     <span>Maison de Lyn · {t['footer']}</span>
     <a href="{IG}">Instagram</a>
   </footer>
-  <dialog class="lightbox" aria-label="Photo">
-    <img alt="">
-    <button class="lb-close" aria-label="{t['close']}">×</button>
-    <button class="lb-prev" aria-label="{t['prev']}">‹</button>
-    <button class="lb-next" aria-label="{t['next']}">›</button>
-    <p class="lb-count"></p>
-  </dialog>
-{script}  <script>
-    const shots = [...document.querySelectorAll('[data-lightbox]')], lb = document.querySelector('.lightbox');
-    if (shots.length && lb.showModal) {{
-      const big = lb.querySelector('img'), count = lb.querySelector('.lb-count');
-      let i = 0, x0 = null;
-      const show = (k) => {{ i = (k + shots.length) % shots.length; big.src = shots[i].currentSrc || shots[i].src; big.alt = shots[i].alt; count.textContent = (i + 1) + ' / ' + shots.length; }};
-      shots.forEach((el, k) => {{ el.addEventListener('click', () => {{ show(k); lb.showModal(); }}); }});
-      lb.querySelector('.lb-close').onclick = () => lb.close();
-      lb.querySelector('.lb-prev').onclick = () => show(i - 1);
-      lb.querySelector('.lb-next').onclick = () => show(i + 1);
-      lb.addEventListener('click', (e) => {{ if (e.target === lb) lb.close(); }});
-      lb.addEventListener('keydown', (e) => {{ if (e.key === 'ArrowLeft') show(i - 1); if (e.key === 'ArrowRight') show(i + 1); }});
-      lb.addEventListener('touchstart', (e) => {{ x0 = e.touches[0].clientX; }}, {{ passive: true }});
-      lb.addEventListener('touchend', (e) => {{ if (x0 === null) return; const dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 40) show(dx < 0 ? i + 1 : i - 1); x0 = null; }});
-    }}
-    const io = 'IntersectionObserver' in window && new IntersectionObserver((es) => es.forEach(e => {{
-      if (e.isIntersecting) {{ e.target.classList.add('in'); io.unobserve(e.target); }}
-    }}), {{ threshold: .15 }});
-    document.querySelectorAll('.reveal').forEach(el => io ? io.observe(el) : el.classList.add('in'));
-  </script>
+  <lyn-lightbox label-close="{t['close']}" label-prev="{t['prev']}" label-next="{t['next']}"></lyn-lightbox>
+{BOOK if fname != "contact.html" else ""}{script}  <script type="module" src="{pre}components.js"></script>
 </body>
 </html>
 """
@@ -277,7 +265,7 @@ def home_body(lang):
       <div>
         <h2>{h['hello']}</h2>
         <p>{h['intro']}</p>
-        <a class="more" href="contact.html">{T[lang]['book']}</a>
+        {btn("contact.html", T[lang]['book'])}
       </div>
       <img data-lightbox src="{pre}img/mariee-tableau.jpg" alt="" loading="lazy">
     </section>
@@ -297,14 +285,14 @@ def home_body(lang):
       <ol>
 {offers}
       </ol>
-      <a class="more" href="prestations.html">{h['offers_link']}</a>
+      {btn("prestations.html", h['offers_link'], "ghost")}
     </section>
 
     <section class="closing">
       <img src="{pre}img/mariee-polaroid.jpg" alt="" loading="lazy">
       <div>
         <h2>{h['closing']}</h2>
-        <a class="more light" href="contact.html">{T[lang]['book']}</a>
+        {btn("contact.html", T[lang]['book'], "light")}
       </div>
     </section>"""
 
@@ -346,7 +334,7 @@ def build(lang):
       <dl class="steps reveal">
 {"".join(f"        <dt>{a}</dt><dd>{b}</dd>" + chr(10) for a, b in c['extra']['steps'])}      </dl>
       <p class="small">{cond}</p>
-      <a class="more" href="contact.html">{T[lang]['book']}</a>
+      {btn("contact.html", T[lang]['book'])}
     </section>""", "")
 
     t, d, h_b, h_e, ig = c["gallery"]
@@ -361,7 +349,7 @@ def build(lang):
       <div class="grid portrait">
 {edito}
       </div>
-      <a class="more" href="{IG}">{ig}</a>
+      {btn(IG, ig, "ghost")}
     </section>""", "")
 
     t, d, qa, h1 = c["faq"]
@@ -371,7 +359,7 @@ def build(lang):
       <dl class="faq reveal">
 {qas}
       </dl>
-      <a class="more" href="contact.html">{T[lang]['book']}</a>
+      {btn("contact.html", T[lang]['book'])}
     </section>""", "")
 
     t, d, h1, lead, f, ig = c["contact"]
@@ -380,6 +368,7 @@ def build(lang):
       <h1>{h1}</h1>
       <p class="lead">{lead}</p>
       <!-- Remplacer VOTRE_ID par l'identifiant Formspree (formspree.io) pour recevoir les demandes par e-mail. -->
+      <lyn-quote-form data-wip="{f['wip']}" data-ok="{f['ok']}" data-err="{f['err']}">
       <form id="devis" class="reveal" action="https://formspree.io/f/VOTRE_ID" method="POST">
         <input type="hidden" name="langue" value="{lang}">
         <label>{f['nom']}<input name="nom" required autocomplete="name"></label>
@@ -390,25 +379,13 @@ def build(lang):
         <label>{f['nb']}<input name="personnes" type="number" min="1" value="1" required></label>
         <label>{f['prest']}<select name="prestation">{opts}</select></label>
         <label>{f['style']}<select name="style">{"".join(f"<option>{x}</option>" for x in f['styles'])}</select></label>
-        <label class="full">{f['msg']}<textarea name="message" rows="4"></textarea></label>
-        <button type="submit">{f['send']}</button>
+        <label class="full">{f['msg']}<textarea name="message" rows="3"></textarea></label>
+        <button class="btn" type="submit">{btn_inner(f['send'])}</button>
         <p class="status" role="status" aria-live="polite"></p>
       </form>
-      <a class="more" href="{IG}">{ig}</a>
-    </section>""", f"""  <script>
-    const form = document.getElementById('devis'), status = form.querySelector('.status');
-    form.addEventListener('submit', async (e) => {{
-      e.preventDefault();
-      if (form.action.includes('VOTRE_ID')) {{ status.textContent = "{f['wip']}"; return; }}
-      try {{
-        const r = await fetch(form.action, {{ method: 'POST', body: new FormData(form), headers: {{ Accept: 'application/json' }} }});
-        if (!r.ok) throw new Error();
-        form.reset();
-        status.textContent = "{f['ok']}";
-      }} catch {{ status.textContent = "{f['err']}"; }}
-    }});
-  </script>
-""")
+      </lyn-quote-form>
+      {btn(IG, ig, "ghost")}
+    </section>""", "")
 
     for fname, (t, d, body, script) in files.items():
         with open(os.path.join(out, fname), "w") as fh:

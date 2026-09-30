@@ -129,16 +129,7 @@ input, select, textarea {
 select { cursor: pointer; }
 textarea { resize: vertical; }
 input:focus, select:focus, textarea:focus { outline: none; border-bottom-color: var(--encre); }
-form button {
-  justify-self: start;
-  font: 500 16px var(--sans);
-  color: var(--porcelaine);
-  background: var(--grenat);
-  border: 0;
-  padding: 16px 40px;
-  cursor: pointer;
-}
-form button:hover { background: var(--encre); }
+form .btn { grid-column: 1 / -1; justify-self: start; }
 .status { color: var(--cacao); }
 
 /* Pied de page */
@@ -277,3 +268,129 @@ figcaption { margin-top: 12px; font-size: 13px; color: var(--cacao); }
 .grid .reveal:nth-child(3n) { transition-delay: .24s; }
 .lightbox button:focus { outline: none; }
 .lightbox button:focus-visible { outline: 1px solid var(--porcelaine); }
+
+
+/* ================= Technologies modernes ================= */
+
+/* Transitions fluides entre les pages (View Transitions API) */
+@view-transition { navigation: auto; }
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: .35s; }
+.brand { view-transition-name: brand; }
+
+/* Titres équilibrés, paragraphes sans orpheline */
+h1, h2, .huge { text-wrap: balance; }
+p, dd { text-wrap: pretty; }
+
+/* Hauteurs d'écran dynamiques (barres du navigateur mobile) */
+.hero { height: 100dvh; }
+
+/* Boutons */
+.btn {
+  --bg: var(--grenat);
+  --fg: var(--porcelaine);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 52px;
+  margin-top: 40px;
+  padding: 0 28px;
+  font: 400 16px/1 var(--sans);
+  letter-spacing: .02em;
+  color: var(--fg);
+  background: var(--bg);
+  border: 1px solid var(--bg);
+  border-radius: 999px;
+  text-decoration: none;
+  cursor: pointer;
+  overflow: hidden;
+  isolation: isolate;
+  transition: color .35s ease, border-color .35s ease, transform .15s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--encre);
+  transform: translateY(101%);
+  transition: transform .45s cubic-bezier(.2, .7, .2, 1);
+}
+.btn svg { transition: transform .35s cubic-bezier(.2, .7, .2, 1); }
+@media (hover: hover) {
+  .btn:hover { border-color: var(--encre); }
+  .btn:hover::before { transform: none; }
+  .btn:hover svg { transform: translateX(4px); }
+}
+.btn:active { transform: scale(.97); }
+.btn:focus-visible { outline: 2px solid var(--grenat); outline-offset: 3px; }
+.btn.ghost { --bg: transparent; --fg: var(--encre); border-color: var(--encre); }
+@media (hover: hover) { .btn.ghost:hover { color: var(--porcelaine); } }
+.btn.light { --bg: var(--porcelaine); --fg: var(--encre); }
+@media (hover: hover) { .btn.light:hover { color: var(--porcelaine); border-color: var(--porcelaine); } }
+.btn[aria-busy="true"] { pointer-events: none; opacity: .7; }
+.btn[aria-busy="true"] svg { animation: nudge .8s ease-in-out infinite; }
+@keyframes nudge { 50% { transform: translateX(6px); } }
+
+/* Liens du menu : soulignement animé */
+.top nav a:not(.switch) { background: linear-gradient(currentColor, currentColor) left bottom / 0 1px no-repeat; transition: background-size .35s ease; padding: 10px 0; }
+.top nav a:not(.switch):hover, .top nav a[aria-current] { text-decoration: none; background-size: 100% 1px; }
+.top nav a:focus-visible, .switch:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+
+/* Bouton flottant mobile <lyn-book-button> */
+lyn-book-button { display: none; }
+@media (max-width: 720px) {
+  lyn-book-button {
+    display: block;
+    position: fixed;
+    left: 50%;
+    bottom: max(16px, env(safe-area-inset-bottom));
+    z-index: 20;
+    translate: -50% 140%;
+    transition: translate .45s cubic-bezier(.2, .7, .2, 1);
+  }
+  lyn-book-button[visible] { translate: -50% 0; }
+  lyn-book-button .btn { margin: 0; box-shadow: 0 8px 24px rgba(27, 22, 21, .25); white-space: nowrap; }
+}
+
+/* Visionneuse : apparition native (@starting-style) */
+.lightbox[open] { opacity: 1; transition: opacity .3s ease, display .3s allow-discrete, overlay .3s allow-discrete; }
+@starting-style { .lightbox[open] { opacity: 0; } }
+[data-lightbox]:focus-visible { outline: 2px solid var(--grenat); outline-offset: 4px; }
+
+/* Formulaire */
+:root { accent-color: var(--grenat); }
+textarea { field-sizing: content; min-height: 3lh; }
+input:user-invalid, select:user-invalid, textarea:user-invalid { border-bottom-color: var(--grenat); }
+label:has(:user-invalid) { color: var(--grenat); }
+label:has(:focus-visible) { color: var(--encre); }
+input, select, textarea { transition: border-color .25s ease; }
+
+/* Apparitions pilotées par le défilement, sans JavaScript quand c'est possible */
+@supports (animation-timeline: view()) {
+  .reveal, .reveal.in {
+    opacity: 1;
+    transform: none;
+    transition: none;
+    animation: rise linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 55%;
+  }
+  @keyframes rise { from { opacity: 0; transform: translateY(32px); } }
+  /* Légère parallaxe sur les grandes photos */
+  .hero img { animation: zoom 14s ease-out both, drift linear both; animation-timeline: auto, scroll(root); animation-range: normal, 0 100vh; }
+  @keyframes drift { to { translate: 0 12vh; } }
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal, .reveal.in, .hero img { animation: none !important; opacity: 1; transform: none; translate: none; }
+  .btn, .btn::before, .btn svg, lyn-book-button { transition: none; }
+  @view-transition { navigation: none; }
+}
+
+/* Grille des offres : s'adapte à la largeur de son conteneur (container queries) */
+.offers { container-type: inline-size; }
+@container (max-width: 560px) {
+  .offers li { grid-template-columns: 40px 1fr; }
+  .offers .price { grid-column: 2; }
+}
