@@ -14,6 +14,9 @@ Site vitrine de Linh, maquilleuse de mariée à Paris. HTML et CSS statiques, pu
 ## Formulaire
 Le formulaire de `contact.html` utilise [Formspree](https://formspree.io) (gratuit). Créez un formulaire avec l'adresse e-mail de Linh, puis remplacez `VOTRE_ID` dans `build.py` et régénérez.
 
+## Langues
+Français à la racine, anglais dans `en/`, vietnamien dans `vi/`, coréen dans `ko/`. Les textes FR et EN sont dans `build.py`, les textes VI et KO dans `langues.py` (à faire relire par Linh). Après une modification des textes coréens, relancer `python3 polices.py` pour mettre à jour les caractères de la police coréenne.
+
 ## Photos
 Les photos sources (2560 px) passent par `python3 images.py <dossier>` : chaque photo est déclinée en WebP de 640 à 2560 px, plus un JPEG de secours, et `img/manifest.json` est mis à jour. Relancer ensuite `python3 build.py .`.
 

@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'inline-speculation-rules'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src https://formspree.io; form-action https://formspree.io; base-uri 'none'; object-src 'none'; upgrade-insecure-requests">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>Liên hệ · Maison de Lyn</title>
+  <meta name="description" content="Yêu cầu báo giá trang điểm cô dâu tại Paris: phản hồi trong vòng 48 giờ.">
+  <link rel="alternate" hreflang="fr" href="https://geksmode.github.io/maisondelyn/contact.html">
+  <link rel="alternate" hreflang="en" href="https://geksmode.github.io/maisondelyn/en/contact.html">
+  <link rel="alternate" hreflang="vi" href="https://geksmode.github.io/maisondelyn/vi/contact.html">
+  <link rel="alternate" hreflang="ko" href="https://geksmode.github.io/maisondelyn/ko/contact.html">
+  <link rel="alternate" hreflang="x-default" href="https://geksmode.github.io/maisondelyn/contact.html">
+  <link rel="preload" href="../fonts/BodoniModa-normal-500-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../fonts/Jost-normal-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+  <meta name="theme-color" content="#F5F1EE">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Liên hệ · Maison de Lyn">
+  <meta property="og:description" content="Yêu cầu báo giá trang điểm cô dâu tại Paris: phản hồi trong vòng 48 giờ.">
+  <meta property="og:image" content="https://geksmode.github.io/maisondelyn/img/mariee-fenetre.jpg">
+  <meta property="og:url" content="https://geksmode.github.io/maisondelyn/vi/contact.html">
+  <meta property="og:locale" content="vi_VN">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="top">
+    <a class="brand" href="index.html">Maison de Lyn</a>
+    <nav>
+        <a href="prestations.html">Dịch vụ</a>
+        <a href="galerie.html">Hình ảnh</a>
+        <a href="faq.html">Hỏi đáp</a>
+        <a href="contact.html" aria-current="page">Liên hệ</a>
+      <button class="switch" type="button" popovertarget="langues" aria-label="Ngôn ngữ">VI</button>
+    </nav>
+    <div id="langues" class="langues" popover role="navigation" aria-label="Ngôn ngữ">
+      <a href="../contact.html" hreflang="fr" lang="fr">Français</a>
+      <a href="../en/contact.html" hreflang="en" lang="en">English</a>
+      <a href="../vi/contact.html" hreflang="vi" lang="vi" aria-current="page">Tiếng Việt</a>
+      <a href="../ko/contact.html" hreflang="ko" lang="ko">한국어</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="page">
+      <h1>Liên hệ</h1>
+      <p class="lead">Hãy kể cho tôi về đám cưới của bạn. Tôi sẽ trả lời trong vòng 48 giờ, kèm lịch trống và báo giá.</p>
+      <!-- Remplacer VOTRE_ID par l'identifiant Formspree (formspree.io) pour recevoir les demandes par e-mail. -->
+      <lyn-quote-form data-wip="Biểu mẫu sẽ sớm hoạt động. Trong lúc chờ, bạn hãy nhắn tin cho tôi qua Instagram." data-ok="Cảm ơn bạn, tôi đã nhận được yêu cầu. Tôi sẽ trả lời trong vòng 48 giờ." data-err="Gửi không thành công. Bạn hãy thử lại hoặc nhắn tin cho tôi qua Instagram.">
+      <form id="devis" class="reveal" action="https://formspree.io/f/VOTRE_ID" method="POST">
+        <input type="hidden" name="langue" value="vi">
+        <input type="text" name="_gotcha" class="trap" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <label>Họ và tên<input name="nom" required maxlength="80" autocomplete="name"></label>
+        <label>Email<input name="email" type="email" required maxlength="120" autocomplete="email"></label>
+        <label>Số điện thoại<input name="telephone" type="tel" required maxlength="30" autocomplete="tel" inputmode="tel"></label>
+        <label>Ngày cưới<input name="date" type="date" required></label>
+        <label>Thành phố nơi chuẩn bị<input name="lieu" required maxlength="120"></label>
+        <label>Số người cần trang điểm<input name="personnes" type="number" min="1" max="30" value="1" required inputmode="numeric"></label>
+        <label>Dịch vụ<select name="prestation"><option value="mariee">Cô dâu</option><option value="proches">Chỉ người thân</option><option value="evenement">Sự kiện hoặc chụp ảnh</option><option value="planner">Tôi là wedding planner</option></select></label>
+        <label>Phong cách mong muốn<select name="style"><option>Tôi chưa biết</option><option>Tự nhiên</option><option>Sang trọng</option><option>Quyến rũ</option></select></label>
+        <label class="full">Lời nhắn<textarea name="message" rows="3" maxlength="2000"></textarea></label>
+        <button class="btn" type="submit"><span>Gửi</span><svg aria-hidden="true" width="18" height="10" viewBox="0 0 18 10"><path d="M0 5h16M12 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.2"/></svg></button>
+        <p class="status" role="status" aria-live="polite"></p>
+        <p class="fine">Thông tin của bạn chỉ được dùng để trả lời yêu cầu. <a href="confidentialite.html">Tìm hiểu thêm</a>.</p>
+      </form>
+      </lyn-quote-form>
+      <a class="btn ghost" href="https://www.instagram.com/maisondelyn_mua/"><span>Hoặc qua Instagram</span><svg aria-hidden="true" width="18" height="10" viewBox="0 0 18 10"><path d="M0 5h16M12 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.2"/></svg></a>
+    </section>
+  </main>
+
+  <footer class="bottom">
+    <span>Maison de Lyn · Trang điểm cô dâu, Paris</span>
+    <span class="links"><a href="https://www.instagram.com/maisondelyn_mua/">Instagram</a><a href="mentions-legales.html">Thông tin pháp lý</a><a href="confidentialite.html">Bảo mật</a></span>
+  </footer>
+  <lyn-lightbox label-close="Đóng" label-prev="Ảnh trước" label-next="Ảnh sau"></lyn-lightbox>
+  <script type="speculationrules">{"prerender": [{"where": {"selector_matches": "a[href$='.html']"}, "eagerness": "moderate"}]}</script>
+  <script type="module" src="../components.js"></script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'inline-speculation-rules'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src https://formspree.io; form-action https://formspree.io; base-uri 'none'; object-src 'none'; upgrade-insecure-requests">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>문의 · Maison de Lyn</title>
+  <meta name="description" content="파리 웨딩 메이크업 견적 문의: 48시간 이내 답변.">
+  <link rel="alternate" hreflang="fr" href="https://geksmode.github.io/maisondelyn/contact.html">
+  <link rel="alternate" hreflang="en" href="https://geksmode.github.io/maisondelyn/en/contact.html">
+  <link rel="alternate" hreflang="vi" href="https://geksmode.github.io/maisondelyn/vi/contact.html">
+  <link rel="alternate" hreflang="ko" href="https://geksmode.github.io/maisondelyn/ko/contact.html">
+  <link rel="alternate" hreflang="x-default" href="https://geksmode.github.io/maisondelyn/contact.html">
+  <link rel="preload" href="../fonts/BodoniModa-normal-500-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../fonts/Jost-normal-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+  <meta name="theme-color" content="#F5F1EE">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="문의 · Maison de Lyn">
+  <meta property="og:description" content="파리 웨딩 메이크업 견적 문의: 48시간 이내 답변.">
+  <meta property="og:image" content="https://geksmode.github.io/maisondelyn/img/mariee-fenetre.jpg">
+  <meta property="og:url" content="https://geksmode.github.io/maisondelyn/ko/contact.html">
+  <meta property="og:locale" content="ko_KR">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="top">
+    <a class="brand" href="index.html">Maison de Lyn</a>
+    <nav>
+        <a href="prestations.html">서비스</a>
+        <a href="galerie.html">갤러리</a>
+        <a href="faq.html">FAQ</a>
+        <a href="contact.html" aria-current="page">문의</a>
+      <button class="switch" type="button" popovertarget="langues" aria-label="언어">KO</button>
+    </nav>
+    <div id="langues" class="langues" popover role="navigation" aria-label="언어">
+      <a href="../contact.html" hreflang="fr" lang="fr">Français</a>
+      <a href="../en/contact.html" hreflang="en" lang="en">English</a>
+      <a href="../vi/contact.html" hreflang="vi" lang="vi">Tiếng Việt</a>
+      <a href="../ko/contact.html" hreflang="ko" lang="ko" aria-current="page">한국어</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="page">
+      <h1>문의</h1>
+      <p class="lead">결혼식 이야기를 들려주세요. 48시간 이내에 가능한 일정과 견적을 보내 드립니다.</p>
+      <!-- Remplacer VOTRE_ID par l'identifiant Formspree (formspree.io) pour recevoir les demandes par e-mail. -->
+      <lyn-quote-form data-wip="문의 양식은 곧 열립니다. 그동안 Instagram으로 메시지를 보내 주세요." data-ok="감사합니다. 문의가 잘 접수되었습니다. 48시간 이내에 답변드리겠습니다." data-err="전송에 실패했습니다. 다시 시도하시거나 Instagram으로 메시지를 보내 주세요.">
+      <form id="devis" class="reveal" action="https://formspree.io/f/VOTRE_ID" method="POST">
+        <input type="hidden" name="langue" value="ko">
+        <input type="text" name="_gotcha" class="trap" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <label>이름<input name="nom" required maxlength="80" autocomplete="name"></label>
+        <label>이메일<input name="email" type="email" required maxlength="120" autocomplete="email"></label>
+        <label>전화번호<input name="telephone" type="tel" required maxlength="30" autocomplete="tel" inputmode="tel"></label>
+        <label>결혼식 날짜<input name="date" type="date" required></label>
+        <label>준비 장소(도시)<input name="lieu" required maxlength="120"></label>
+        <label>메이크업 인원<input name="personnes" type="number" min="1" max="30" value="1" required inputmode="numeric"></label>
+        <label>서비스<select name="prestation"><option value="mariee">신부</option><option value="proches">가족·지인만</option><option value="evenement">이벤트 또는 촬영</option><option value="planner">웨딩플래너입니다</option></select></label>
+        <label>원하는 스타일<select name="style"><option>아직 모르겠어요</option><option>내추럴</option><option>우아한</option><option>글램</option></select></label>
+        <label class="full">메시지<textarea name="message" rows="3" maxlength="2000"></textarea></label>
+        <button class="btn" type="submit"><span>보내기</span><svg aria-hidden="true" width="18" height="10" viewBox="0 0 18 10"><path d="M0 5h16M12 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.2"/></svg></button>
+        <p class="status" role="status" aria-live="polite"></p>
+        <p class="fine">입력하신 정보는 문의에 답변하는 데에만 사용됩니다. <a href="confidentialite.html">자세히 보기</a>.</p>
+      </form>
+      </lyn-quote-form>
+      <a class="btn ghost" href="https://www.instagram.com/maisondelyn_mua/"><span>또는 Instagram으로</span><svg aria-hidden="true" width="18" height="10" viewBox="0 0 18 10"><path d="M0 5h16M12 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.2"/></svg></a>
+    </section>
+  </main>
+
+  <footer class="bottom">
+    <span>Maison de Lyn · 웨딩 메이크업, 파리</span>
+    <span class="links"><a href="https://www.instagram.com/maisondelyn_mua/">Instagram</a><a href="mentions-legales.html">법적 고지</a><a href="confidentialite.html">개인정보 처리방침</a></span>
+  </footer>
+  <lyn-lightbox label-close="닫기" label-prev="이전 사진" label-next="다음 사진"></lyn-lightbox>
+  <script type="speculationrules">{"prerender": [{"where": {"selector_matches": "a[href$='.html']"}, "eagerness": "moderate"}]}</script>
+  <script type="module" src="../components.js"></script>
+</body>
+</html>

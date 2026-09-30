@@ -1,4 +1,6 @@
-"""Génère le site Maison de Lyn (FR à la racine, EN dans en/).
+"""Génère le site Maison de Lyn (FR à la racine, EN, VI et KO dans en/, vi/ et ko/).
+
+Les textes vietnamiens et coréens sont dans langues.py.
 
 Usage : python3 build.py <dossier du dépôt>
 """
@@ -11,6 +13,19 @@ OUT = sys.argv[1] if len(sys.argv) > 1 else "."
 IG = "https://www.instagram.com/maisondelyn_mua/"
 BASE = "https://geksmode.github.io/maisondelyn/"
 NB = " "  # espace insécable
+
+# Langues du site : code, nom dans la langue, locale Open Graph. Le français est à la racine.
+LANGS = [("fr", "Français", "fr_FR"), ("en", "English", "en_GB"), ("vi", "Tiếng Việt", "vi_VN"), ("ko", "한국어", "ko_KR")]
+
+
+def ldir(lang):
+    """Dossier d'une langue, relatif à la racine du site."""
+    return "" if lang == "fr" else f"{lang}/"
+
+
+def root(lang):
+    """Chemin vers la racine du site depuis une page de cette langue."""
+    return "" if lang == "fr" else "../"
 
 # Politique de sécurité : seules les ressources du site sont chargées, et le formulaire
 # ne peut envoyer ses données qu'à Formspree.
@@ -50,7 +65,7 @@ def shot(pre, lang, name, slot, cls="", lazy=True):
 T = {
     "fr": {
         "nav": [("prestations.html", "Prestations"), ("galerie.html", "Galerie"), ("faq.html", "FAQ"), ("contact.html", "Contact")],
-        "switch": ("EN", "English"),
+        "lang": "Langue",
         "book": "Prendre rendez-vous",
         "footer": "Maquillage de mariée, Paris",
         "close": "Fermer",
@@ -62,7 +77,7 @@ T = {
     },
     "en": {
         "nav": [("prestations.html", "Services"), ("galerie.html", "Gallery"), ("faq.html", "FAQ"), ("contact.html", "Contact")],
-        "switch": ("FR", "Français"),
+        "lang": "Language",
         "book": "Book an appointment",
         "footer": "Bridal make-up, Paris",
         "close": "Close",
@@ -102,10 +117,14 @@ LDJSON = """  <script type="application/ld+json">
 def page(lang, fname, title, desc, body, script=""):
     t = T[lang]
     BOOK = f'  <lyn-book-button><a class="btn" href="contact.html">{btn_inner(t["book"])}</a></lyn-book-button>\n' 
-    other = "en" if lang == "fr" else "fr"
-    pre = "../" if lang == "en" else ""
-    alt = ("en/" if lang == "fr" else "../") + fname
+    pre = root(lang)
     cur = ' aria-current="page"'
+    target = "index.html" if fname == "404.html" else fname
+    hreflang = "".join(f'  <link rel="alternate" hreflang="{l}" href="{BASE}{ldir(l)}{fname}">\n' for l, _, _ in LANGS)
+    menu = "\n".join(
+        f'      <a href="{pre}{ldir(l)}{target}" hreflang="{l}" lang="{l}"{cur if l == lang else ""}>{name}</a>'
+        for l, name, _ in LANGS)
+    locale = dict((l, loc) for l, _, loc in LANGS)[lang]
     links = "\n".join(f'        <a href="{h}"{cur if h == fname else ""}>{n}</a>' for h, n in t["nav"])
     return f"""<!doctype html>
 <html lang="{lang}">
@@ -116,9 +135,7 @@ def page(lang, fname, title, desc, body, script=""):
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <title>{title}</title>
   <meta name="description" content="{desc}">
-  <link rel="alternate" hreflang="fr" href="{BASE}{fname}">
-  <link rel="alternate" hreflang="en" href="{BASE}en/{fname}">
-  <link rel="alternate" hreflang="x-default" href="{BASE}{fname}">
+{hreflang}  <link rel="alternate" hreflang="x-default" href="{BASE}{fname}">
   <link rel="preload" href="{pre}fonts/BodoniModa-normal-500-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="{pre}fonts/Jost-normal-400-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="icon" href="{pre}favicon.svg" type="image/svg+xml">
@@ -128,8 +145,8 @@ def page(lang, fname, title, desc, body, script=""):
   <meta property="og:title" content="{title}">
   <meta property="og:description" content="{desc}">
   <meta property="og:image" content="{BASE}img/mariee-fenetre.jpg">
-  <meta property="og:url" content="{BASE}{'en/' if lang == 'en' else ''}{fname}">
-  <meta property="og:locale" content="{'fr_FR' if lang == 'fr' else 'en_GB'}">
+  <meta property="og:url" content="{BASE}{ldir(lang)}{fname}">
+  <meta property="og:locale" content="{locale}">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="stylesheet" href="{pre}style.css">
 {LDJSON if fname == 'index.html' else ''}</head>
@@ -138,8 +155,11 @@ def page(lang, fname, title, desc, body, script=""):
     <a class="brand" href="index.html">Maison de Lyn</a>
     <nav>
 {links}
-      <a class="switch" href="{alt}" hreflang="{other}" lang="{other}" title="{t['switch'][1]}">{t['switch'][0]}</a>
+      <button class="switch" type="button" popovertarget="langues" aria-label="{t['lang']}">{lang.upper()}</button>
     </nav>
+    <div id="langues" class="langues" popover role="navigation" aria-label="{t['lang']}">
+{menu}
+    </div>
   </header>
 
   <main>
@@ -159,9 +179,9 @@ def page(lang, fname, title, desc, body, script=""):
 
 
 def fix(s):
-    """Espaces insécables entre un nombre et son unité, et après « dès » / « from »."""
+    """Espaces insécables entre un nombre et son unité, et après « dès » / « from » / « từ »."""
     s = re.sub(r"(\d) (€|h\b|%|am\b)", "\\1" + NB + "\\2", s)
-    return re.sub(r"\b(dès|from) (\d)", "\\1" + NB + "\\2", s)
+    return re.sub(r"\b(dès|from|từ) (\d)", "\\1" + NB + "\\2", s)
 
 
 # ---------------------------------------------------------------- contenu
@@ -295,7 +315,7 @@ H = {
 
 def home_body(lang):
     h = H[lang]
-    pre = "../" if lang == "en" else ""
+    pre = root(lang)
     words = "".join(f"<span>{w}</span>" for w in h["marquee"])
     offers = "\n".join(
         f'        <li><span class="num">0{i}</span><span class="name">{n}</span><span class="price">{p}</span></li>'
@@ -326,7 +346,7 @@ def home_body(lang):
 
     <section class="seoul reveal">
       <p class="huge">{h['seoul']}</p>
-      <ul class="langs"><li>FR</li><li>EN</li><li>VI</li><li>KO</li></ul>
+      <ul class="langs">{"".join(f'<li><a href="{pre}{ldir(l)}index.html" hreflang="{l}" lang="{l}" title="{n}">{l.upper()}</a></li>' for l, n, _ in LANGS)}</ul>
       <p>{h['training']}</p>
     </section>
 
@@ -399,14 +419,19 @@ LEGAL = {
       <p>This site uses no cookies or advertising trackers. Fonts are hosted on the site itself.</p>"""),
 }
 
+import langues  # noqa: E402
+
+for _d, _src in ((T, langues.T), (C, langues.C), (H, langues.H), (LEGAL, langues.LEGAL)):
+    _d.update(_src)
+
 BRIDES = [("mariee-damas", "wide"), ("mariee-fenetre", "wide"), ("mariee-tableau", "wide"), ("mariee-polaroid", "wide"), ("couple", "wide")]
 EDITO = ["boucles", "naturel", "robe-blanche", "tweed", "tweed-2"]
 
 
 def build(lang):
     c = C[lang]
-    pre = "../" if lang == "en" else ""
-    out = os.path.join(OUT, "en") if lang == "en" else OUT
+    pre = root(lang)
+    out = os.path.join(OUT, ldir(lang))
     os.makedirs(out, exist_ok=True)
     files = {}
 
@@ -518,17 +543,17 @@ def build(lang):
             fh.write(fix(page(lang, fname, t, d, body, script)))
 
 
-build("fr")
-build("en")
+for _l, _, _ in LANGS:
+    build(_l)
 
 # Plan du site pour les moteurs de recherche (à déclarer dans Google Search Console).
 PAGES = ["index.html", "prestations.html", "galerie.html", "faq.html", "contact.html", "mentions-legales.html", "confidentialite.html"]
 urls = []
 for p in PAGES:
-    for pre in ("", "en/"):
-        loc = BASE + pre + ("" if p == "index.html" else p)
-        alts = "".join(f'<xhtml:link rel="alternate" hreflang="{l}" href="{BASE}{x}{"" if p == "index.html" else p}"/>'
-                       for l, x in (("fr", ""), ("en", "en/")))
+    for lang, _, _ in LANGS:
+        loc = BASE + ldir(lang) + ("" if p == "index.html" else p)
+        alts = "".join(f'<xhtml:link rel="alternate" hreflang="{l}" href="{BASE}{ldir(l)}{"" if p == "index.html" else p}"/>'
+                       for l, _, _ in LANGS)
         urls.append(f"  <url><loc>{loc}</loc>{alts}</url>")
 with open(os.path.join(OUT, "sitemap.xml"), "w") as fh:
     fh.write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
