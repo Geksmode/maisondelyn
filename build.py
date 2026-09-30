@@ -259,7 +259,7 @@ def home_body(lang):
       </div>
     </section>
 
-    <div class="marquee" aria-hidden="true"><div>{words}{words}</div></div>
+    <div class="marquee" aria-hidden="true"><div>{words * 4}</div></div>
 
     <section class="hello reveal">
       <div>

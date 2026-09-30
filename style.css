@@ -394,3 +394,17 @@ input, select, textarea { transition: border-color .25s ease; }
   .offers li { grid-template-columns: 40px 1fr; }
   .offers .price { grid-column: 2; }
 }
+
+/* Bandeau défilant : 4 copies pour couvrir les très grands écrans, pause au survol */
+.marquee div { animation-name: slide4; }
+@keyframes slide4 { to { transform: translateX(-25%); } }
+.marquee:hover div { animation-play-state: paused; }
+/* Si l'appareil demande moins d'animations : mots fixes, centrés, sur une ou deux lignes */
+@media (prefers-reduced-motion: reduce) {
+  .marquee { white-space: normal; text-align: center; }
+  .marquee div { display: block; animation: none; }
+  .marquee span:nth-child(n+9) { display: none; }
+  .marquee span { display: inline-block; padding: 4px 14px; font-size: 20px; }
+  .marquee span::after { margin-left: 28px; }
+  .marquee span:nth-child(8)::after { content: none; }
+}
