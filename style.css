@@ -255,3 +255,25 @@ figcaption { margin-top: 12px; font-size: 13px; color: var(--cacao); }
   .offers .price { grid-column: 2; }
   .marquee span { font-size: 20px; }
 }
+
+/* Visionneuse plein écran */
+[data-lightbox] { cursor: zoom-in; transition: opacity .3s; }
+[data-lightbox]:hover { opacity: .92; }
+.lightbox { width: 100vw; height: 100vh; max-width: none; max-height: none; margin: 0; border: 0; padding: 0; background: #1B1615; color: var(--porcelaine); }
+.lightbox[open] { display: flex; align-items: center; justify-content: center; animation: fade .3s ease; }
+.lightbox::backdrop { background: transparent; }
+.lightbox img { width: auto; max-width: 92vw; max-height: 86vh; object-fit: contain; }
+.lightbox button { position: absolute; background: none; border: 0; color: inherit; font: 300 44px/1 var(--sans); cursor: pointer; padding: 16px 20px; opacity: .8; }
+.lightbox button:hover { opacity: 1; }
+.lb-close { top: 8px; right: 12px; }
+.lb-prev { left: 8px; top: 50%; transform: translateY(-50%); }
+.lb-next { right: 8px; top: 50%; transform: translateY(-50%); }
+.lb-count { position: absolute; bottom: 20px; left: 0; right: 0; text-align: center; font-size: 13px; letter-spacing: .1em; opacity: .7; }
+@keyframes fade { from { opacity: 0; } }
+@media (max-width: 720px) { .lb-prev, .lb-next { display: none; } }
+
+/* Apparition en cascade dans la galerie */
+.grid .reveal:nth-child(3n+2) { transition-delay: .12s; }
+.grid .reveal:nth-child(3n) { transition-delay: .24s; }
+.lightbox button:focus { outline: none; }
+.lightbox button:focus-visible { outline: 1px solid var(--porcelaine); }

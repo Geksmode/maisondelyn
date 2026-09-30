@@ -36,19 +36,19 @@
     <section class="page wide">
       <h1>Mariées</h1>
       <div class="grid landscape">
-        <img src="img/mariee-damas.jpg" alt="" loading="lazy">
-        <img src="img/mariee-fenetre.jpg" alt="" loading="lazy">
-        <img src="img/mariee-tableau.jpg" alt="" loading="lazy">
-        <img src="img/mariee-polaroid.jpg" alt="" loading="lazy">
-        <img src="img/couple.jpg" alt="" loading="lazy">
+        <img class="reveal" data-lightbox src="img/mariee-damas.jpg" alt="" loading="lazy">
+        <img class="reveal" data-lightbox src="img/mariee-fenetre.jpg" alt="" loading="lazy">
+        <img class="reveal" data-lightbox src="img/mariee-tableau.jpg" alt="" loading="lazy">
+        <img class="reveal" data-lightbox src="img/mariee-polaroid.jpg" alt="" loading="lazy">
+        <img class="reveal" data-lightbox src="img/couple.jpg" alt="" loading="lazy">
       </div>
       <h1 class="second">Éditorial</h1>
       <div class="grid portrait">
-        <img src="img/boucles.jpg" alt="" loading="lazy">
-        <img src="img/naturel.jpg" alt="" loading="lazy">
-        <img src="img/robe-blanche.jpg" alt="" loading="lazy">
-        <img src="img/tweed.jpg" alt="" loading="lazy">
-        <img src="img/tweed-2.jpg" alt="" loading="lazy">
+        <img class="reveal" data-lightbox src="img/boucles.jpg" alt="" loading="lazy">
+        <img class="reveal" data-lightbox src="img/naturel.jpg" alt="" loading="lazy">
+        <img class="reveal" data-lightbox src="img/robe-blanche.jpg" alt="" loading="lazy">
+        <img class="reveal" data-lightbox src="img/tweed.jpg" alt="" loading="lazy">
+        <img class="reveal" data-lightbox src="img/tweed-2.jpg" alt="" loading="lazy">
       </div>
       <a class="more" href="https://www.instagram.com/maisondelyn_mua/">Plus sur Instagram</a>
     </section>
@@ -58,7 +58,28 @@
     <span>Maison de Lyn · Maquillage de mariée, Paris</span>
     <a href="https://www.instagram.com/maisondelyn_mua/">Instagram</a>
   </footer>
+  <dialog class="lightbox" aria-label="Photo">
+    <img alt="">
+    <button class="lb-close" aria-label="Fermer">×</button>
+    <button class="lb-prev" aria-label="Photo précédente">‹</button>
+    <button class="lb-next" aria-label="Photo suivante">›</button>
+    <p class="lb-count"></p>
+  </dialog>
   <script>
+    const shots = [...document.querySelectorAll('[data-lightbox]')], lb = document.querySelector('.lightbox');
+    if (shots.length && lb.showModal) {
+      const big = lb.querySelector('img'), count = lb.querySelector('.lb-count');
+      let i = 0, x0 = null;
+      const show = (k) => { i = (k + shots.length) % shots.length; big.src = shots[i].currentSrc || shots[i].src; big.alt = shots[i].alt; count.textContent = (i + 1) + ' / ' + shots.length; };
+      shots.forEach((el, k) => { el.addEventListener('click', () => { show(k); lb.showModal(); }); });
+      lb.querySelector('.lb-close').onclick = () => lb.close();
+      lb.querySelector('.lb-prev').onclick = () => show(i - 1);
+      lb.querySelector('.lb-next').onclick = () => show(i + 1);
+      lb.addEventListener('click', (e) => { if (e.target === lb) lb.close(); });
+      lb.addEventListener('keydown', (e) => { if (e.key === 'ArrowLeft') show(i - 1); if (e.key === 'ArrowRight') show(i + 1); });
+      lb.addEventListener('touchstart', (e) => { x0 = e.touches[0].clientX; }, { passive: true });
+      lb.addEventListener('touchend', (e) => { if (x0 === null) return; const dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 40) show(dx < 0 ? i + 1 : i - 1); x0 = null; });
+    }
     const io = 'IntersectionObserver' in window && new IntersectionObserver((es) => es.forEach(e => {
       if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
     }), { threshold: .15 });

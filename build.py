@@ -18,6 +18,8 @@ T = {
         "book": "Prendre rendez-vous",
         "footer": "Maquillage de mariée, Paris",
         "close": "Fermer",
+        "prev": "Photo précédente",
+        "next": "Photo suivante",
     },
     "en": {
         "nav": [("prestations.html", "Services"), ("galerie.html", "Gallery"), ("faq.html", "FAQ"), ("contact.html", "Contact")],
@@ -25,6 +27,8 @@ T = {
         "book": "Book an appointment",
         "footer": "Bridal make-up, Paris",
         "close": "Close",
+        "prev": "Previous photo",
+        "next": "Next photo",
     },
 }
 
@@ -87,7 +91,28 @@ def page(lang, fname, title, desc, body, script=""):
     <span>Maison de Lyn · {t['footer']}</span>
     <a href="{IG}">Instagram</a>
   </footer>
+  <dialog class="lightbox" aria-label="Photo">
+    <img alt="">
+    <button class="lb-close" aria-label="{t['close']}">×</button>
+    <button class="lb-prev" aria-label="{t['prev']}">‹</button>
+    <button class="lb-next" aria-label="{t['next']}">›</button>
+    <p class="lb-count"></p>
+  </dialog>
 {script}  <script>
+    const shots = [...document.querySelectorAll('[data-lightbox]')], lb = document.querySelector('.lightbox');
+    if (shots.length && lb.showModal) {{
+      const big = lb.querySelector('img'), count = lb.querySelector('.lb-count');
+      let i = 0, x0 = null;
+      const show = (k) => {{ i = (k + shots.length) % shots.length; big.src = shots[i].currentSrc || shots[i].src; big.alt = shots[i].alt; count.textContent = (i + 1) + ' / ' + shots.length; }};
+      shots.forEach((el, k) => {{ el.addEventListener('click', () => {{ show(k); lb.showModal(); }}); }});
+      lb.querySelector('.lb-close').onclick = () => lb.close();
+      lb.querySelector('.lb-prev').onclick = () => show(i - 1);
+      lb.querySelector('.lb-next').onclick = () => show(i + 1);
+      lb.addEventListener('click', (e) => {{ if (e.target === lb) lb.close(); }});
+      lb.addEventListener('keydown', (e) => {{ if (e.key === 'ArrowLeft') show(i - 1); if (e.key === 'ArrowRight') show(i + 1); }});
+      lb.addEventListener('touchstart', (e) => {{ x0 = e.touches[0].clientX; }}, {{ passive: true }});
+      lb.addEventListener('touchend', (e) => {{ if (x0 === null) return; const dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 40) show(dx < 0 ? i + 1 : i - 1); x0 = null; }});
+    }}
     const io = 'IntersectionObserver' in window && new IntersectionObserver((es) => es.forEach(e => {{
       if (e.isIntersecting) {{ e.target.classList.add('in'); io.unobserve(e.target); }}
     }}), {{ threshold: .15 }});
@@ -254,12 +279,12 @@ def home_body(lang):
         <p>{h['intro']}</p>
         <a class="more" href="contact.html">{T[lang]['book']}</a>
       </div>
-      <img src="{pre}img/mariee-tableau.jpg" alt="" loading="lazy">
+      <img data-lightbox src="{pre}img/mariee-tableau.jpg" alt="" loading="lazy">
     </section>
 
     <section class="duo">
-      <figure class="big reveal"><img src="{pre}img/mariee-damas.jpg" alt="" loading="lazy"><figcaption>{h['cap1']}</figcaption></figure>
-      <figure class="small reveal"><img src="{pre}img/couple.jpg" alt="" loading="lazy"><figcaption>{h['cap2']}</figcaption></figure>
+      <figure class="big reveal"><img data-lightbox src="{pre}img/mariee-damas.jpg" alt="" loading="lazy"><figcaption>{h['cap1']}</figcaption></figure>
+      <figure class="small reveal"><img data-lightbox src="{pre}img/couple.jpg" alt="" loading="lazy"><figcaption>{h['cap2']}</figcaption></figure>
     </section>
 
     <section class="seoul reveal">
@@ -304,7 +329,7 @@ def build(lang):
 
     t, d, rows, cond, h1 = c["services"]
     items = "\n".join(
-        f"""      <li>
+        f"""      <li class="reveal">
         <h2>{n}</h2>
         <p class="price">{p}</p>
         <p>{x}</p>
@@ -315,18 +340,18 @@ def build(lang):
 {items}
       </ul>
       <h2 class="sub">{c['extra']['styles_h']}</h2>
-      <dl class="steps">
+      <dl class="steps reveal">
 {"".join(f"        <dt>{a}</dt><dd>{b}</dd>" + chr(10) for a, b in c['extra']['styles'])}      </dl>
       <h2 class="sub">{c['extra']['steps_h']}</h2>
-      <dl class="steps">
+      <dl class="steps reveal">
 {"".join(f"        <dt>{a}</dt><dd>{b}</dd>" + chr(10) for a, b in c['extra']['steps'])}      </dl>
       <p class="small">{cond}</p>
       <a class="more" href="contact.html">{T[lang]['book']}</a>
     </section>""", "")
 
     t, d, h_b, h_e, ig = c["gallery"]
-    brides = "\n".join(f'        <img src="{pre}img/{n}.jpg" alt="" loading="lazy">' for n, _ in BRIDES)
-    edito = "\n".join(f'        <img src="{pre}img/{n}.jpg" alt="" loading="lazy">' for n in EDITO)
+    brides = "\n".join(f'        <img class="reveal" data-lightbox src="{pre}img/{n}.jpg" alt="" loading="lazy">' for n, _ in BRIDES)
+    edito = "\n".join(f'        <img class="reveal" data-lightbox src="{pre}img/{n}.jpg" alt="" loading="lazy">' for n in EDITO)
     files["galerie.html"] = (t, d, f"""    <section class="page wide">
       <h1>{h_b}</h1>
       <div class="grid landscape">
@@ -343,7 +368,7 @@ def build(lang):
     qas = "\n".join(f"        <dt>{q}</dt>\n        <dd>{a}</dd>" for q, a in qa)
     files["faq.html"] = (t, d, f"""    <section class="page">
       <h1>{h1}</h1>
-      <dl class="faq">
+      <dl class="faq reveal">
 {qas}
       </dl>
       <a class="more" href="contact.html">{T[lang]['book']}</a>
@@ -355,7 +380,7 @@ def build(lang):
       <h1>{h1}</h1>
       <p class="lead">{lead}</p>
       <!-- Remplacer VOTRE_ID par l'identifiant Formspree (formspree.io) pour recevoir les demandes par e-mail. -->
-      <form id="devis" action="https://formspree.io/f/VOTRE_ID" method="POST">
+      <form id="devis" class="reveal" action="https://formspree.io/f/VOTRE_ID" method="POST">
         <input type="hidden" name="langue" value="{lang}">
         <label>{f['nom']}<input name="nom" required autocomplete="name"></label>
         <label>{f['email']}<input name="email" type="email" required autocomplete="email"></label>

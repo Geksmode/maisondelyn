@@ -58,12 +58,12 @@
         <p>I do make-up for brides and their loved ones, at home or wherever you get ready. Make-up that looks like you, made to last from the ceremony to the last dance.</p>
         <a class="more" href="contact.html">Book an appointment</a>
       </div>
-      <img src="../img/mariee-tableau.jpg" alt="" loading="lazy">
+      <img data-lightbox src="../img/mariee-tableau.jpg" alt="" loading="lazy">
     </section>
 
     <section class="duo">
-      <figure class="big reveal"><img src="../img/mariee-damas.jpg" alt="" loading="lazy"><figcaption>Studio, red bouquet</figcaption></figure>
-      <figure class="small reveal"><img src="../img/couple.jpg" alt="" loading="lazy"><figcaption>The wedding day</figcaption></figure>
+      <figure class="big reveal"><img data-lightbox src="../img/mariee-damas.jpg" alt="" loading="lazy"><figcaption>Studio, red bouquet</figcaption></figure>
+      <figure class="small reveal"><img data-lightbox src="../img/couple.jpg" alt="" loading="lazy"><figcaption>The wedding day</figcaption></figure>
     </section>
 
     <section class="seoul reveal">
@@ -94,7 +94,28 @@
     <span>Maison de Lyn · Bridal make-up, Paris</span>
     <a href="https://www.instagram.com/maisondelyn_mua/">Instagram</a>
   </footer>
+  <dialog class="lightbox" aria-label="Photo">
+    <img alt="">
+    <button class="lb-close" aria-label="Close">×</button>
+    <button class="lb-prev" aria-label="Previous photo">‹</button>
+    <button class="lb-next" aria-label="Next photo">›</button>
+    <p class="lb-count"></p>
+  </dialog>
   <script>
+    const shots = [...document.querySelectorAll('[data-lightbox]')], lb = document.querySelector('.lightbox');
+    if (shots.length && lb.showModal) {
+      const big = lb.querySelector('img'), count = lb.querySelector('.lb-count');
+      let i = 0, x0 = null;
+      const show = (k) => { i = (k + shots.length) % shots.length; big.src = shots[i].currentSrc || shots[i].src; big.alt = shots[i].alt; count.textContent = (i + 1) + ' / ' + shots.length; };
+      shots.forEach((el, k) => { el.addEventListener('click', () => { show(k); lb.showModal(); }); });
+      lb.querySelector('.lb-close').onclick = () => lb.close();
+      lb.querySelector('.lb-prev').onclick = () => show(i - 1);
+      lb.querySelector('.lb-next').onclick = () => show(i + 1);
+      lb.addEventListener('click', (e) => { if (e.target === lb) lb.close(); });
+      lb.addEventListener('keydown', (e) => { if (e.key === 'ArrowLeft') show(i - 1); if (e.key === 'ArrowRight') show(i + 1); });
+      lb.addEventListener('touchstart', (e) => { x0 = e.touches[0].clientX; }, { passive: true });
+      lb.addEventListener('touchend', (e) => { if (x0 === null) return; const dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 40) show(dx < 0 ? i + 1 : i - 1); x0 = null; });
+    }
     const io = 'IntersectionObserver' in window && new IntersectionObserver((es) => es.forEach(e => {
       if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
     }), { threshold: .15 });

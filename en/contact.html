@@ -37,7 +37,7 @@
       <h1>Contact</h1>
       <p class="lead">Tell me about your wedding. I'll reply within 48 h with my availability and a quote.</p>
       <!-- Remplacer VOTRE_ID par l'identifiant Formspree (formspree.io) pour recevoir les demandes par e-mail. -->
-      <form id="devis" action="https://formspree.io/f/VOTRE_ID" method="POST">
+      <form id="devis" class="reveal" action="https://formspree.io/f/VOTRE_ID" method="POST">
         <input type="hidden" name="langue" value="en">
         <label>Name<input name="nom" required autocomplete="name"></label>
         <label>Email<input name="email" type="email" required autocomplete="email"></label>
@@ -59,6 +59,13 @@
     <span>Maison de Lyn · Bridal make-up, Paris</span>
     <a href="https://www.instagram.com/maisondelyn_mua/">Instagram</a>
   </footer>
+  <dialog class="lightbox" aria-label="Photo">
+    <img alt="">
+    <button class="lb-close" aria-label="Close">×</button>
+    <button class="lb-prev" aria-label="Previous photo">‹</button>
+    <button class="lb-next" aria-label="Next photo">›</button>
+    <p class="lb-count"></p>
+  </dialog>
   <script>
     const form = document.getElementById('devis'), status = form.querySelector('.status');
     form.addEventListener('submit', async (e) => {
@@ -73,6 +80,20 @@
     });
   </script>
   <script>
+    const shots = [...document.querySelectorAll('[data-lightbox]')], lb = document.querySelector('.lightbox');
+    if (shots.length && lb.showModal) {
+      const big = lb.querySelector('img'), count = lb.querySelector('.lb-count');
+      let i = 0, x0 = null;
+      const show = (k) => { i = (k + shots.length) % shots.length; big.src = shots[i].currentSrc || shots[i].src; big.alt = shots[i].alt; count.textContent = (i + 1) + ' / ' + shots.length; };
+      shots.forEach((el, k) => { el.addEventListener('click', () => { show(k); lb.showModal(); }); });
+      lb.querySelector('.lb-close').onclick = () => lb.close();
+      lb.querySelector('.lb-prev').onclick = () => show(i - 1);
+      lb.querySelector('.lb-next').onclick = () => show(i + 1);
+      lb.addEventListener('click', (e) => { if (e.target === lb) lb.close(); });
+      lb.addEventListener('keydown', (e) => { if (e.key === 'ArrowLeft') show(i - 1); if (e.key === 'ArrowRight') show(i + 1); });
+      lb.addEventListener('touchstart', (e) => { x0 = e.touches[0].clientX; }, { passive: true });
+      lb.addEventListener('touchend', (e) => { if (x0 === null) return; const dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 40) show(dx < 0 ? i + 1 : i - 1); x0 = null; });
+    }
     const io = 'IntersectionObserver' in window && new IntersectionObserver((es) => es.forEach(e => {
       if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
     }), { threshold: .15 });

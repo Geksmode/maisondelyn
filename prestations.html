@@ -36,40 +36,40 @@
     <section class="page">
       <h1>Prestations</h1>
       <ul class="services">
-      <li>
+      <li class="reveal">
         <h2>Forfait mariée</h2>
         <p class="price">dès 350 €</p>
         <p>Un essai d'environ 1 h 30, deux à quatre mois avant le mariage, puis le maquillage du jour J sur votre lieu de préparation. Faux cils et kit de retouche inclus.</p>
       </li>
-      <li>
+      <li class="reveal">
         <h2>Essai seul</h2>
         <p class="price">120 €</p>
         <p>Déduit du forfait si vous réservez.</p>
       </li>
-      <li>
+      <li class="reveal">
         <h2>Proches</h2>
         <p class="price">70 € par personne</p>
         <p>Mères, témoins, demoiselles d'honneur, maquillées le matin même.</p>
       </li>
-      <li>
+      <li class="reveal">
         <h2>Retouches</h2>
         <p class="price">60 € de l'heure</p>
         <p>Je reste jusqu'au vin d'honneur ou à la soirée, avec un changement de look si vous le souhaitez.</p>
       </li>
-      <li>
+      <li class="reveal">
         <h2>Événements et shootings</h2>
         <p class="price">dès 90 €</p>
         <p>Fiançailles, EVJF, séances photo, soirées.</p>
       </li>
       </ul>
       <h2 class="sub">Trois styles</h2>
-      <dl class="steps">
+      <dl class="steps reveal">
         <dt>Naturel</dt><dd>Une peau lumineuse, un teint unifié, presque invisible.</dd>
         <dt>Sophistiqué</dt><dd>Un regard travaillé et une bouche affirmée, tout en restant vous.</dd>
         <dt>Glamour</dt><dd>Plus de lumière, de contraste et d'intensité pour la soirée.</dd>
       </dl>
       <h2 class="sub">Le déroulé</h2>
-      <dl class="steps">
+      <dl class="steps reveal">
         <dt>L'essai</dt><dd>Deux à quatre mois avant, nous choisissons ensemble le maquillage.</dd>
         <dt>Le jour J</dt><dd>Je vous rejoins sur votre lieu de préparation, avec tout le matériel.</dd>
         <dt>Après la cérémonie</dt><dd>Selon la formule, je reste pour les retouches ou un changement de look.</dd>
@@ -83,7 +83,28 @@
     <span>Maison de Lyn · Maquillage de mariée, Paris</span>
     <a href="https://www.instagram.com/maisondelyn_mua/">Instagram</a>
   </footer>
+  <dialog class="lightbox" aria-label="Photo">
+    <img alt="">
+    <button class="lb-close" aria-label="Fermer">×</button>
+    <button class="lb-prev" aria-label="Photo précédente">‹</button>
+    <button class="lb-next" aria-label="Photo suivante">›</button>
+    <p class="lb-count"></p>
+  </dialog>
   <script>
+    const shots = [...document.querySelectorAll('[data-lightbox]')], lb = document.querySelector('.lightbox');
+    if (shots.length && lb.showModal) {
+      const big = lb.querySelector('img'), count = lb.querySelector('.lb-count');
+      let i = 0, x0 = null;
+      const show = (k) => { i = (k + shots.length) % shots.length; big.src = shots[i].currentSrc || shots[i].src; big.alt = shots[i].alt; count.textContent = (i + 1) + ' / ' + shots.length; };
+      shots.forEach((el, k) => { el.addEventListener('click', () => { show(k); lb.showModal(); }); });
+      lb.querySelector('.lb-close').onclick = () => lb.close();
+      lb.querySelector('.lb-prev').onclick = () => show(i - 1);
+      lb.querySelector('.lb-next').onclick = () => show(i + 1);
+      lb.addEventListener('click', (e) => { if (e.target === lb) lb.close(); });
+      lb.addEventListener('keydown', (e) => { if (e.key === 'ArrowLeft') show(i - 1); if (e.key === 'ArrowRight') show(i + 1); });
+      lb.addEventListener('touchstart', (e) => { x0 = e.touches[0].clientX; }, { passive: true });
+      lb.addEventListener('touchend', (e) => { if (x0 === null) return; const dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 40) show(dx < 0 ? i + 1 : i - 1); x0 = null; });
+    }
     const io = 'IntersectionObserver' in window && new IntersectionObserver((es) => es.forEach(e => {
       if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
     }), { threshold: .15 });
