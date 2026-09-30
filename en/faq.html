@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FAQ · Maison de Lyn</title>
+  <meta name="description" content="Frequently asked questions about bridal make-up: booking, trial, wear, travel.">
+  <link rel="alternate" hreflang="fr" href="https://geksmode.github.io/maisondelyn/faq.html">
+  <link rel="alternate" hreflang="en" href="https://geksmode.github.io/maisondelyn/en/faq.html">
+  <link rel="alternate" hreflang="x-default" href="https://geksmode.github.io/maisondelyn/faq.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;1,400&family=Jost:wght@300;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="logo" href="index.html">Maison de <em>Lyn</em></a>
+      <div class="head-tools">
+        <a class="lang" href="../faq.html" hreflang="fr" lang="fr" title="Version française">FR</a>
+        <button class="nav-toggle" aria-expanded="false" aria-controls="nav">Menu</button>
+      </div>
+      <nav class="nav" id="nav">
+        <a href="index.html">Home</a>
+        <a href="prestations.html">Services</a>
+        <a href="tarifs.html">Prices</a>
+        <a href="editorial.html">Editorial</a>
+        <a href="faq.html" aria-current="page">FAQ</a>
+        <a class="lang lang-desk" href="../faq.html" hreflang="fr" lang="fr" title="Version française">FR</a>
+        <a class="btn" href="rendez-vous.html">Request a quote</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-head">
+      <div class="wrap narrow">
+        <p class="label">FAQ</p>
+        <h1>Your <em>questions</em></h1>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap narrow">
+        <details><summary>How far in advance should I book?</summary><p>Ideally 6 to 12 months ahead, especially for a Saturday between May and September. Feel free to ask even for a date that is coming up soon.</p></details>
+        <details><summary>Is the trial required?</summary><p>It is strongly recommended: it is when we agree on the look together and I get to know your skin.</p></details>
+        <details><summary>Where does the trial take place?</summary><p>At your home in Paris or at a place we agree on together.</p></details>
+        <details><summary>Will the make-up last all day?</summary><p>Yes, I use long-wear, tear-proof products and leave you a touch-up kit.</p></details>
+        <details><summary>I have sensitive skin or allergies. What should I do?</summary><p>Mention it in your request: I adapt the products and we test them during the trial.</p></details>
+        <details><summary>How many people can you do on the wedding day?</summary><p>It depends on the time of the ceremony. Allow about 45 minutes per guest; for more than 5 people, I can come with an assistant.</p></details>
+        <details><summary>Do you travel outside Paris?</summary><p>Yes, anywhere in Île-de-France and in France on request.</p></details>
+        <details><summary>How do I book my date?</summary><p>Send a request through the form. Your date is reserved once the deposit and signed contract are received.</p></details>
+        <p style="margin-top:48px">Another question? <a href="rendez-vous.html">Write to me</a>.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <div>
+        <p class="logo" style="color:inherit">Maison de <em>Lyn</em></p>
+        <p>Wedding and event make-up artist, Paris and Île-de-France</p>
+      </div>
+      <nav class="footer-nav" aria-label="Site map">
+          <a href="index.html">Home</a>
+          <a href="prestations.html">Services</a>
+          <a href="tarifs.html">Prices</a>
+          <a href="editorial.html">Editorial</a>
+          <a href="faq.html">FAQ</a>
+          <a href="rendez-vous.html">Request a quote</a>
+          <a href="../faq.html" lang="fr">Version française</a>
+      </nav>
+      <div>
+        <p><a href="https://www.instagram.com/maisondelyn_mua/">Instagram @maisondelyn_mua</a></p>
+        <p><small>Legal notice coming soon</small></p>
+      </div>
+    </div>
+  </footer>
+
+  <a class="mobile-cta" href="rendez-vous.html">Request a quote</a>
+
+  <script>
+    const t = document.querySelector('.nav-toggle'), n = document.getElementById('nav');
+    t.addEventListener('click', () => {
+      const open = n.classList.toggle('open');
+      t.setAttribute('aria-expanded', open);
+      t.textContent = open ? 'Close' : 'Menu';
+      document.body.classList.toggle('menu-open', open);
+    });
+    const head = document.querySelector('.site-header');
+    const onScroll = () => head.classList.toggle('scrolled', scrollY > 40);
+    onScroll(); addEventListener('scroll', onScroll, { passive: true });
+    const io = 'IntersectionObserver' in window && new IntersectionObserver((es) => es.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    }), { threshold: .12 });
+    document.querySelectorAll('.reveal').forEach(el => io ? io.observe(el) : el.classList.add('in'));
+  </script>
+</body>
+</html>

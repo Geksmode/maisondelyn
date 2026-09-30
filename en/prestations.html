@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Services · Maison de Lyn</title>
+  <meta name="description" content="Bridal make-up, make-up for guests, events and photo shoots in Paris and Île-de-France.">
+  <link rel="alternate" hreflang="fr" href="https://geksmode.github.io/maisondelyn/prestations.html">
+  <link rel="alternate" hreflang="en" href="https://geksmode.github.io/maisondelyn/en/prestations.html">
+  <link rel="alternate" hreflang="x-default" href="https://geksmode.github.io/maisondelyn/prestations.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;1,400&family=Jost:wght@300;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="logo" href="index.html">Maison de <em>Lyn</em></a>
+      <div class="head-tools">
+        <a class="lang" href="../prestations.html" hreflang="fr" lang="fr" title="Version française">FR</a>
+        <button class="nav-toggle" aria-expanded="false" aria-controls="nav">Menu</button>
+      </div>
+      <nav class="nav" id="nav">
+        <a href="index.html">Home</a>
+        <a href="prestations.html" aria-current="page">Services</a>
+        <a href="tarifs.html">Prices</a>
+        <a href="editorial.html">Editorial</a>
+        <a href="faq.html">FAQ</a>
+        <a class="lang lang-desk" href="../prestations.html" hreflang="fr" lang="fr" title="Version française">FR</a>
+        <a class="btn" href="rendez-vous.html">Request a quote</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-head">
+      <div class="wrap">
+        <p class="label">Services</p>
+        <h1>Every bride is <em>unique</em></h1>
+        <p>I create your make-up with you, based on your skin, your dress and the mood of your day.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="reveal service" id="mariee">
+          <img src="../img/mariee-polaroid.jpg" alt="Bride with make-up" loading="lazy">
+          <div>
+            <h2>Bridal <em>make-up</em></h2>
+            <h3>The trial</h3>
+            <p>An appointment of about 1&nbsp;h 30, 2 to 4 months before the wedding, to find the right look together. Bring photos of your dress and your inspirations.</p>
+            <h3 style="margin-top:24px">The wedding day</h3>
+            <p>I join you where you are getting ready and stay with you until you leave for the ceremony.</p>
+            <ul>
+              <li>Skin preparation</li>
+              <li>False lashes</li>
+              <li>Long-wear products</li>
+              <li>Complimentary touch-up kit</li>
+            </ul>
+            <a class="btn" href="rendez-vous.html?prestation=mariee">Request a quote</a>
+          </div>
+        </div>
+
+        <div class="service" id="options">
+          <div><h2><em>Options</em></h2></div>
+          <div>
+            <ul>
+              <li>Extended presence for touch-ups (couple photos, cocktail hour)</li>
+              <li>A change of look for the evening</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="service" id="proches">
+          <div><h2>Make-up for your <em>guests</em></h2></div>
+          <div>
+            <p>Mothers, witnesses, bridesmaids: I do their make-up on the morning itself so that everyone is ready on time.</p>
+            <p style="margin-top:24px"><a class="btn btn-ghost" href="rendez-vous.html?prestation=proches">Request a quote</a></p>
+          </div>
+        </div>
+
+        <div class="service" id="evenements">
+          <img src="../img/couple.jpg" alt="Wedding couple" loading="lazy">
+          <div>
+            <h2>Events and <em>photo shoots</em></h2>
+            <p>Engagements, hen parties, engagement shoots, parties and galas.</p>
+            <p style="margin-top:24px"><a class="btn btn-ghost" href="rendez-vous.html?prestation=evenement">Request a quote</a></p>
+          </div>
+        </div>
+
+        <div class="service" id="zone">
+          <div><h2>Where I <em>work</em></h2></div>
+          <div><p>Paris and Île-de-France. Travel anywhere in France on request.</p></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <div>
+        <p class="logo" style="color:inherit">Maison de <em>Lyn</em></p>
+        <p>Wedding and event make-up artist, Paris and Île-de-France</p>
+      </div>
+      <nav class="footer-nav" aria-label="Site map">
+          <a href="index.html">Home</a>
+          <a href="prestations.html">Services</a>
+          <a href="tarifs.html">Prices</a>
+          <a href="editorial.html">Editorial</a>
+          <a href="faq.html">FAQ</a>
+          <a href="rendez-vous.html">Request a quote</a>
+          <a href="../prestations.html" lang="fr">Version française</a>
+      </nav>
+      <div>
+        <p><a href="https://www.instagram.com/maisondelyn_mua/">Instagram @maisondelyn_mua</a></p>
+        <p><small>Legal notice coming soon</small></p>
+      </div>
+    </div>
+  </footer>
+
+  <a class="mobile-cta" href="rendez-vous.html">Request a quote</a>
+
+  <script>
+    const t = document.querySelector('.nav-toggle'), n = document.getElementById('nav');
+    t.addEventListener('click', () => {
+      const open = n.classList.toggle('open');
+      t.setAttribute('aria-expanded', open);
+      t.textContent = open ? 'Close' : 'Menu';
+      document.body.classList.toggle('menu-open', open);
+    });
+    const head = document.querySelector('.site-header');
+    const onScroll = () => head.classList.toggle('scrolled', scrollY > 40);
+    onScroll(); addEventListener('scroll', onScroll, { passive: true });
+    const io = 'IntersectionObserver' in window && new IntersectionObserver((es) => es.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    }), { threshold: .12 });
+    document.querySelectorAll('.reveal').forEach(el => io ? io.observe(el) : el.classList.add('in'));
+  </script>
+</body>
+</html>
