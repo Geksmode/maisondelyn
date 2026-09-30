@@ -427,6 +427,7 @@ import langues  # noqa: E402
 # Les textes VI et KO sont dans langues.OUTILS.
 OUTILS = {
     "fr": dict(
+        tabs=["Tarifs", "Budget", "Mon style", "Jour J"], tabs_label="Rubriques des prestations",
         est_h="Estimer mon budget", est_formula="Formule",
         est_opts=["Forfait mariée", "Essai seul", "Événement ou shooting", "Proches seulement"],
         est_proches="Proches à maquiller", est_retouches="Heures de retouches",
@@ -445,6 +446,7 @@ OUTILS = {
         tl_note="Planning indicatif, ajusté ensemble pendant l'essai. Au-delà de cinq personnes, une assistante travaille avec moi.",
         tl_early="Début avant 7 h : un supplément peut s'appliquer."),
     "en": dict(
+        tabs=["Prices", "Budget", "My style", "The day"], tabs_label="Service sections",
         est_h="Estimate your budget", est_formula="Package",
         est_opts=["Bridal package", "Trial only", "Event or shoot", "Family and friends only"],
         est_proches="Family and friends", est_retouches="Hours of touch-ups",
@@ -464,6 +466,7 @@ OUTILS = {
         tl_early="Start before 7 am: a supplement may apply."),
 }
 
+TABS = ["tarifs", "budget", "style", "jour-j"]  # ancres des onglets de la page Prestations
 FORMULES = [("mariee", 350), ("essai", 120), ("evenement", 90), ("proches", 0)]
 STYLES = ["a-definir", "naturel", "sophistique", "glamour"]  # valeurs du champ « Style » du formulaire
 STYLE_PHOTOS = {"naturel": "naturel", "sophistique": "mariee-tableau", "glamour": "mariee-damas"}
@@ -513,7 +516,7 @@ def dayplan_html(lang):
       </lyn-dayplan>"""
 
 
-def quiz_html(lang, pre, inline=False):
+def quiz_html(lang, pre, inline=False, panel=False):
     o = OUTILS[lang]
     styles = C[lang]["extra"]["styles"]
     qs = "\n".join(
@@ -528,6 +531,13 @@ def quiz_html(lang, pre, inline=False):
         for key, (name, desc) in zip(STYLES[1:], styles))
     trigger = (f'<button type="button" class="quiz-link" data-open>{o["quiz_open"]}</button>' if inline else
                f'<button type="button" class="btn ghost" data-open>{btn_inner(o["quiz_open"])}</button>')
+    if panel:
+        return f"""<lyn-quiz class="quiz inline" data-step="{attr(o['quiz_step'])}">
+          <p class="quiz-step"></p>
+          <h2>{o['quiz_h']}</h2>
+{qs}
+{results}
+        </lyn-quiz>"""
     return f"""<lyn-quiz data-step="{attr(o['quiz_step'])}">
         {trigger}
         <dialog class="quiz" aria-label="{attr(o['quiz_h'])}">
@@ -561,6 +571,10 @@ def build(lang):
     files["index.html"] = (t, d, body, "")
 
     t, d, rows, cond, h1 = c["services"]
+    o = OUTILS[lang]
+    tabs = "".join(
+        f'<a role="tab" id="tab-{k}" href="#{k}" aria-controls="{k}">{name}</a>'
+        for k, name in zip(TABS, o["tabs"]))
     items = "\n".join(
         f"""      <li class="reveal">
         <h2>{n}</h2>
@@ -569,20 +583,32 @@ def build(lang):
       </li>""" for n, p, x in rows)
     files["prestations.html"] = (t, d, f"""    <section class="page">
       <h1>{h1}</h1>
+      <lyn-tabs>
+        <div class="tabs" role="tablist" aria-label="{o['tabs_label']}">{tabs}</div>
+        <div class="panel" role="tabpanel" id="tarifs" aria-labelledby="tab-tarifs">
       <ul class="services">
 {items}
       </ul>
-{estimate_html(lang)}
-      <h2 class="sub">{c['extra']['styles_h']}</h2>
-      <dl class="steps reveal">
-{"".join(f"        <dt>{a}</dt><dd>{b}</dd>" + chr(10) for a, b in c['extra']['styles'])}      </dl>
-      {quiz_html(lang, pre)}
-      <h2 class="sub">{c['extra']['steps_h']}</h2>
-      <dl class="steps reveal">
-{"".join(f"        <dt>{a}</dt><dd>{b}</dd>" + chr(10) for a, b in c['extra']['steps'])}      </dl>
-{dayplan_html(lang)}
       <p class="small">{cond}</p>
       {btn("contact.html", T[lang]['book'])}
+        </div>
+        <div class="panel" role="tabpanel" id="budget" aria-labelledby="tab-budget">
+{estimate_html(lang)}
+        </div>
+        <div class="panel" role="tabpanel" id="style" aria-labelledby="tab-style">
+      <h2 class="sub">{c['extra']['styles_h']}</h2>
+      <dl class="steps">
+{"".join(f"        <dt>{a}</dt><dd>{b}</dd>" + chr(10) for a, b in c['extra']['styles'])}      </dl>
+        {quiz_html(lang, pre, panel=True)}
+        </div>
+        <div class="panel" role="tabpanel" id="jour-j" aria-labelledby="tab-jour-j">
+      <h2 class="sub">{c['extra']['steps_h']}</h2>
+      <dl class="steps">
+{"".join(f"        <dt>{a}</dt><dd>{b}</dd>" + chr(10) for a, b in c['extra']['steps'])}      </dl>
+{dayplan_html(lang)}
+          {btn("contact.html", T[lang]['book'])}
+        </div>
+      </lyn-tabs>
     </section>""", "")
 
     t, d, h_b, h_e, ig = c["gallery"]

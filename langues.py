@@ -216,6 +216,7 @@ LEGAL = {
 # Outils interactifs : estimateur de prix, quiz de style, planning du jour J.
 OUTILS = {
     "vi": dict(
+        tabs=["Bảng giá", "Chi phí", "Phong cách", "Ngày cưới"], tabs_label="Các mục dịch vụ",
         est_h="Ước tính chi phí", est_formula="Gói dịch vụ",
         est_opts=["Gói cô dâu", "Chỉ trang điểm thử", "Sự kiện hoặc chụp ảnh", "Chỉ người thân"],
         est_proches="Người thân cần trang điểm", est_retouches="Số giờ dặm lại",
@@ -234,6 +235,7 @@ OUTILS = {
         tl_note="Lịch trình tham khảo, sẽ được điều chỉnh cùng nhau trong buổi trang điểm thử. Nếu nhiều hơn năm người, một trợ lý sẽ làm cùng tôi.",
         tl_early="Bắt đầu trước 7 giờ sáng: có thể có phụ phí."),
     "ko": dict(
+        tabs=["가격", "예산", "스타일", "당일 일정"], tabs_label="서비스 항목",
         est_h="예상 비용 계산", est_formula="패키지",
         est_opts=["신부 패키지", "리허설만", "이벤트·촬영", "가족·지인만"],
         est_proches="메이크업할 가족·지인", est_retouches="수정 메이크업 시간",

@@ -180,15 +180,16 @@ class LynDayplan extends HTMLElement {
 // <lyn-quiz> : trois questions, un style proposé, et le devis pré-rempli avec ce style.
 class LynQuiz extends HTMLElement {
   connectedCallback() {
-    const dlg = this.querySelector('dialog'), step = dlg.querySelector('.quiz-step');
-    const questions = [...dlg.querySelectorAll('[data-q]')], results = [...dlg.querySelectorAll('[data-result]')];
+    // Dans une fenêtre (page Contact) ou directement dans la page (onglet « Mon style »).
+    const dlg = this.querySelector('dialog'), box = dlg || this, step = box.querySelector('.quiz-step');
+    const questions = [...box.querySelectorAll('[data-q]')], results = [...box.querySelectorAll('[data-result]')];
     let answers = [];
-    const show = (k) => {
+    const show = (k, focus = true) => {
       questions.forEach((q, i) => { q.hidden = i !== k; });
       results.forEach((r) => { r.hidden = true; });
       step.textContent = fill(this.dataset.step, { i: k + 1 });
       step.hidden = false;
-      questions[k].querySelector('button').focus();
+      if (focus) questions[k].querySelector('button').focus();
     };
     const finish = () => {
       const count = {};
@@ -201,10 +202,14 @@ class LynQuiz extends HTMLElement {
       r.hidden = false;
       r.querySelector('.btn').focus();
     };
-    this.querySelector('[data-open]').addEventListener('click', () => { answers = []; show(0); dlg.showModal(); });
-    dlg.querySelector('[data-close]').addEventListener('click', () => dlg.close());
-    dlg.addEventListener('click', (e) => {
-      if (e.target === dlg) return dlg.close();
+    if (dlg) {
+      this.querySelector('[data-open]').addEventListener('click', () => { answers = []; show(0); dlg.showModal(); });
+      dlg.querySelector('[data-close]').addEventListener('click', () => dlg.close());
+    } else {
+      show(0, false);
+    }
+    box.addEventListener('click', (e) => {
+      if (dlg && e.target === dlg) return dlg.close();
       const answer = e.target.closest('[data-v]');
       if (answer) {
         answers.push(answer.dataset.v);
@@ -213,7 +218,7 @@ class LynQuiz extends HTMLElement {
       if (e.target.closest('[data-again]')) { answers = []; show(0); return; }
       // Sur la page Contact, le résultat remplit directement le champ « Style ».
       const cta = e.target.closest('.result .btn'), select = this.closest('form')?.querySelector('[name=style]');
-      if (cta && select) {
+      if (cta && select && dlg) {
         e.preventDefault();
         select.value = cta.closest('[data-result]').dataset.result;
         dlg.close();
@@ -223,6 +228,45 @@ class LynQuiz extends HTMLElement {
   }
 }
 
+// <lyn-tabs> : onglets accessibles (clavier, adresse #onglet partageable). Sans JavaScript,
+// les onglets restent des liens vers chaque partie de la page.
+class LynTabs extends HTMLElement {
+  connectedCallback() {
+    const tabs = [...this.querySelectorAll('[role=tab]')];
+    const panels = tabs.map((t) => this.querySelector(`#${t.getAttribute('aria-controls')}`));
+    const select = (i, { focus = false, push = true } = {}) => {
+      const swap = () => tabs.forEach((t, k) => {
+        const on = k === i;
+        t.setAttribute('aria-selected', on);
+        t.tabIndex = on ? 0 : -1;
+        panels[k].hidden = !on;
+      });
+      document.startViewTransition && !reduceMotion && push ? document.startViewTransition(swap) : swap();
+      if (focus) tabs[i].focus();
+      if (push) history.replaceState(null, '', `#${panels[i].id}`);
+    };
+    const fromHash = () => Math.max(0, panels.findIndex((p) => `#${p.id}` === location.hash));
+    this.addEventListener('click', (e) => {
+      const t = e.target.closest('[role=tab]');
+      if (!t) return;
+      e.preventDefault();
+      select(tabs.indexOf(t));
+    });
+    this.querySelector('[role=tablist]').addEventListener('keydown', (e) => {
+      const i = tabs.indexOf(document.activeElement);
+      const next = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: tabs.length - 1 }[e.key];
+      if (i < 0 || next === undefined) return;
+      e.preventDefault();
+      select((next + tabs.length) % tabs.length, { focus: true });
+    });
+    addEventListener('hashchange', () => select(fromHash(), { push: false }));
+    select(fromHash(), { push: false });
+    // Arrivée directe sur un onglet (ex. prestations.html#budget) : on montre la barre d'onglets.
+    if (location.hash && panels.some((p) => `#${p.id}` === location.hash)) this.scrollIntoView({ block: 'start' });
+  }
+}
+
+customElements.define('lyn-tabs', LynTabs);
 customElements.define('lyn-estimate', LynEstimate);
 customElements.define('lyn-dayplan', LynDayplan);
 customElements.define('lyn-quiz', LynQuiz);

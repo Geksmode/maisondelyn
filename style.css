@@ -709,3 +709,30 @@ dialog.quiz[open] { animation: fade .3s ease; }
 .quiz [hidden] { display: none !important; }
 dialog.quiz { margin: auto; }
 .quiz-close { z-index: 1; background: var(--porcelaine); border-radius: 50%; }
+
+/* Onglets de la page Prestations : barre collante, pastille pour l'onglet actif. */
+lyn-tabs { display: block; }
+.tabs {
+  position: sticky; top: 0; z-index: 3; display: flex; gap: 4px; width: max-content; max-width: 100%;
+  margin: -4vh 0 0; padding: 4px; overflow-x: auto; scrollbar-width: none;
+  background: var(--porcelaine); border: 1px solid var(--poudre); border-radius: 999px;
+}
+.tabs::-webkit-scrollbar { display: none; }
+.tabs [role=tab] {
+  flex: none; padding: 10px 20px; border-radius: 999px; font-size: 15px; text-decoration: none; white-space: nowrap;
+  color: var(--cacao); transition: background .25s, color .25s;
+}
+.tabs [role=tab]:hover { color: var(--encre); background: rgba(180, 143, 138, .15); }
+.tabs [role=tab][aria-selected=true] { background: var(--encre); color: var(--porcelaine); }
+.tabs [role=tab]:focus-visible { outline: 2px solid var(--grenat); outline-offset: 2px; }
+.panel { padding-top: 56px; scroll-margin-top: 80px; }
+lyn-tabs:defined .panel[hidden] { display: none; }
+.panel > h2.sub:first-child, .panel > .tool:first-child > h2.sub:first-child { margin-top: 0; }
+.panel .btn { margin-top: 32px; }
+.panel .tool .btn { margin-top: 0; }
+lyn-quiz.inline { display: block; max-width: 760px; margin-top: 12vh; padding: clamp(24px, 4vw, 48px); border: 1px solid var(--poudre); border-radius: 20px; }
+@media (max-width: 480px) {
+  .tabs { width: 100%; justify-content: space-between; }
+  .tabs [role=tab] { padding: 10px 12px; font-size: 14px; }
+}
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: .25s; }

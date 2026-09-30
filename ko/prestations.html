@@ -47,6 +47,9 @@
   <main>
     <section class="page">
       <h1>서비스</h1>
+      <lyn-tabs>
+        <div class="tabs" role="tablist" aria-label="서비스 항목"><a role="tab" id="tab-tarifs" href="#tarifs" aria-controls="tarifs">가격</a><a role="tab" id="tab-budget" href="#budget" aria-controls="budget">예산</a><a role="tab" id="tab-style" href="#style" aria-controls="style">스타일</a><a role="tab" id="tab-jour-j" href="#jour-j" aria-controls="jour-j">당일 일정</a></div>
+        <div class="panel" role="tabpanel" id="tarifs" aria-labelledby="tab-tarifs">
       <ul class="services">
       <li class="reveal">
         <h2>신부 패키지</h2>
@@ -74,6 +77,10 @@
         <p>약혼식, 브라이덜 샤워, 화보 촬영, 파티.</p>
       </li>
       </ul>
+      <p class="small">파리 시내 출장비는 포함되어 있으며, 일드프랑스와 프랑스 기타 지역은 별도 견적입니다. 30 % 계약금으로 날짜가 확정되며, 잔금은 당일에 결제합니다. 오전 7시 이전에 시작하면 추가 요금이 있을 수 있습니다.</p>
+      <a class="btn" href="contact.html"><span>예약 문의</span><svg aria-hidden="true" width="18" height="10" viewBox="0 0 18 10"><path d="M0 5h16M12 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.2"/></svg></a>
+        </div>
+        <div class="panel" role="tabpanel" id="budget" aria-labelledby="tab-budget">
       <lyn-estimate class="tool reveal" lang="ko" data-amount="{total}부터" data-deposit="계약금(30 %): {deposit}" data-msg="예상: {formule}, 가족·지인 {n}명, 수정 메이크업 {h}시간, 약 {total}.">
         <h2 class="sub">예상 비용 계산</h2>
         <fieldset class="chips"><legend>패키지</legend><label><input type="radio" name="formule" value="mariee" data-price="350" checked><span>신부 패키지</span></label><label><input type="radio" name="formule" value="essai" data-price="120"><span>리허설만</span></label><label><input type="radio" name="formule" value="evenement" data-price="90"><span>이벤트·촬영</span></label><label><input type="radio" name="formule" value="proches" data-price="0"><span>가족·지인만</span></label></fieldset>
@@ -85,16 +92,15 @@
         <p class="small">참고용 예상 금액이며 파리 시내 출장비가 포함되어 있습니다. 최종 견적은 날짜와 장소에 따라 달라집니다.</p>
         <a class="btn" href="contact.html"><span>이 견적으로 문의하기</span><svg aria-hidden="true" width="18" height="10" viewBox="0 0 18 10"><path d="M0 5h16M12 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.2"/></svg></a>
       </lyn-estimate>
+        </div>
+        <div class="panel" role="tabpanel" id="style" aria-labelledby="tab-style">
       <h2 class="sub">세 가지 스타일</h2>
-      <dl class="steps reveal">
+      <dl class="steps">
         <dt>내추럴</dt><dd>맑고 균일한 피부, 한 듯 안 한 듯한 메이크업.</dd>
         <dt>우아한</dt><dd>또렷한 눈매와 존재감 있는 입술, 그러면서도 나다운 모습.</dd>
         <dt>글램</dt><dd>저녁을 위한 더 많은 빛과 대비, 그리고 강렬함.</dd>
       </dl>
-      <lyn-quiz data-step="질문 {i}/3">
-        <button type="button" class="btn ghost" data-open><span>내 스타일 찾기</span><svg aria-hidden="true" width="18" height="10" viewBox="0 0 18 10"><path d="M0 5h16M12 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.2"/></svg></button>
-        <dialog class="quiz" aria-label="나에게 어울리는 메이크업은?">
-          <button type="button" class="quiz-close" data-close aria-label="닫기">×</button>
+        <lyn-quiz class="quiz inline" data-step="질문 {i}/3">
           <p class="quiz-step"></p>
           <h2>나에게 어울리는 메이크업은?</h2>
           <fieldset data-q="0"><legend>평소 메이크업은…</legend><button type="button" data-v="naturel">거의 안 해요, 피부 표현 정도</button><button type="button" data-v="sophistique">눈매나 입술에 포인트</button><button type="button" data-v="glamour">화려한 게 좋아요</button></fieldset>
@@ -103,10 +109,11 @@
           <div class="result" data-result="naturel" hidden><img src="../img/naturel.jpg" srcset="../img/naturel-640.webp 640w, ../img/naturel-960.webp 960w, ../img/naturel-1280.webp 1280w, ../img/naturel-1440.webp 1440w" sizes="(max-width: 900px) 100vw, 50vw" width="1440" height="2560" data-full="../img/naturel-1440.webp" loading="lazy" decoding="async" alt=""><div><p class="kicker">나의 스타일</p><h3>내추럴</h3><p>맑고 균일한 피부, 한 듯 안 한 듯한 메이크업.</p><a class="btn" href="contact.html?style=naturel#devis"><span>이 스타일로 견적 문의하기</span><svg aria-hidden="true" width="18" height="10" viewBox="0 0 18 10"><path d="M0 5h16M12 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.2"/></svg></a><button type="button" class="again" data-again>다시 하기</button></div></div>
           <div class="result" data-result="sophistique" hidden><img src="../img/mariee-tableau.jpg" srcset="../img/mariee-tableau-640.webp 640w, ../img/mariee-tableau-960.webp 960w, ../img/mariee-tableau-1280.webp 1280w, ../img/mariee-tableau-1920.webp 1920w, ../img/mariee-tableau-2560.webp 2560w" sizes="(max-width: 900px) 100vw, 50vw" width="2560" height="1440" data-full="../img/mariee-tableau-2560.webp" loading="lazy" decoding="async" alt=""><div><p class="kicker">나의 스타일</p><h3>우아한</h3><p>또렷한 눈매와 존재감 있는 입술, 그러면서도 나다운 모습.</p><a class="btn" href="contact.html?style=sophistique#devis"><span>이 스타일로 견적 문의하기</span><svg aria-hidden="true" width="18" height="10" viewBox="0 0 18 10"><path d="M0 5h16M12 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.2"/></svg></a><button type="button" class="again" data-again>다시 하기</button></div></div>
           <div class="result" data-result="glamour" hidden><img src="../img/mariee-damas.jpg" srcset="../img/mariee-damas-640.webp 640w, ../img/mariee-damas-960.webp 960w, ../img/mariee-damas-1280.webp 1280w, ../img/mariee-damas-1920.webp 1920w, ../img/mariee-damas-2560.webp 2560w" sizes="(max-width: 900px) 100vw, 50vw" width="2560" height="1440" data-full="../img/mariee-damas-2560.webp" loading="lazy" decoding="async" alt=""><div><p class="kicker">나의 스타일</p><h3>글램</h3><p>저녁을 위한 더 많은 빛과 대비, 그리고 강렬함.</p><a class="btn" href="contact.html?style=glamour#devis"><span>이 스타일로 견적 문의하기</span><svg aria-hidden="true" width="18" height="10" viewBox="0 0 18 10"><path d="M0 5h16M12 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.2"/></svg></a><button type="button" class="again" data-again>다시 하기</button></div></div>
-        </dialog>
-      </lyn-quiz>
+        </lyn-quiz>
+        </div>
+        <div class="panel" role="tabpanel" id="jour-j" aria-labelledby="tab-jour-j">
       <h2 class="sub">진행 과정</h2>
-      <dl class="steps reveal">
+      <dl class="steps">
         <dt>리허설</dt><dd>결혼식 2~4개월 전, 함께 메이크업을 정합니다.</dd>
         <dt>본식 당일</dt><dd>모든 도구를 챙겨 준비 장소로 찾아갑니다.</dd>
         <dt>예식 후</dt><dd>패키지에 따라 수정 메이크업이나 룩 체인지를 위해 함께합니다.</dd>
@@ -120,8 +127,9 @@
         <ol class="plan" aria-live="polite"></ol>
         <p class="small">참고용 일정이며 리허설 때 함께 조정합니다. 5명이 넘으면 어시스턴트가 함께 작업합니다.</p>
       </lyn-dayplan>
-      <p class="small">파리 시내 출장비는 포함되어 있으며, 일드프랑스와 프랑스 기타 지역은 별도 견적입니다. 30 % 계약금으로 날짜가 확정되며, 잔금은 당일에 결제합니다. 오전 7시 이전에 시작하면 추가 요금이 있을 수 있습니다.</p>
-      <a class="btn" href="contact.html"><span>예약 문의</span><svg aria-hidden="true" width="18" height="10" viewBox="0 0 18 10"><path d="M0 5h16M12 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.2"/></svg></a>
+          <a class="btn" href="contact.html"><span>예약 문의</span><svg aria-hidden="true" width="18" height="10" viewBox="0 0 18 10"><path d="M0 5h16M12 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.2"/></svg></a>
+        </div>
+      </lyn-tabs>
     </section>
   </main>
 

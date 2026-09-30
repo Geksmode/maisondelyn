@@ -47,6 +47,9 @@
   <main>
     <section class="page">
       <h1>Prestations</h1>
+      <lyn-tabs>
+        <div class="tabs" role="tablist" aria-label="Rubriques des prestations"><a role="tab" id="tab-tarifs" href="#tarifs" aria-controls="tarifs">Tarifs</a><a role="tab" id="tab-budget" href="#budget" aria-controls="budget">Budget</a><a role="tab" id="tab-style" href="#style" aria-controls="style">Mon style</a><a role="tab" id="tab-jour-j" href="#jour-j" aria-controls="jour-j">Jour J</a></div>
+        <div class="panel" role="tabpanel" id="tarifs" aria-labelledby="tab-tarifs">
       <ul class="services">
       <li class="reveal">
         <h2>Forfait mariée</h2>
@@ -74,6 +77,10 @@
         <p>Fiançailles, EVJF, séances photo, soirées.</p>
       </li>
       </ul>
+      <p class="small">Déplacement inclus dans Paris, sur devis en Île-de-France et ailleurs en France. Un acompte de 30 % réserve la date ; le solde est réglé le jour J. Supplément possible pour un début avant 7 h.</p>
+      <a class="btn" href="contact.html"><span>Prendre rendez-vous</span><svg aria-hidden="true" width="18" height="10" viewBox="0 0 18 10"><path d="M0 5h16M12 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.2"/></svg></a>
+        </div>
+        <div class="panel" role="tabpanel" id="budget" aria-labelledby="tab-budget">
       <lyn-estimate class="tool reveal" lang="fr" data-amount="à partir de {total}" data-deposit="Acompte (30 %) : {deposit}" data-msg="Estimation : {formule}, {n} proche(s), {h} h de retouches, environ {total}.">
         <h2 class="sub">Estimer mon budget</h2>
         <fieldset class="chips"><legend>Formule</legend><label><input type="radio" name="formule" value="mariee" data-price="350" checked><span>Forfait mariée</span></label><label><input type="radio" name="formule" value="essai" data-price="120"><span>Essai seul</span></label><label><input type="radio" name="formule" value="evenement" data-price="90"><span>Événement ou shooting</span></label><label><input type="radio" name="formule" value="proches" data-price="0"><span>Proches seulement</span></label></fieldset>
@@ -85,16 +92,15 @@
         <p class="small">Estimation indicative, déplacement inclus dans Paris. Le devis définitif dépend de la date et du lieu.</p>
         <a class="btn" href="contact.html"><span>Demander ce devis</span><svg aria-hidden="true" width="18" height="10" viewBox="0 0 18 10"><path d="M0 5h16M12 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.2"/></svg></a>
       </lyn-estimate>
+        </div>
+        <div class="panel" role="tabpanel" id="style" aria-labelledby="tab-style">
       <h2 class="sub">Trois styles</h2>
-      <dl class="steps reveal">
+      <dl class="steps">
         <dt>Naturel</dt><dd>Une peau lumineuse, un teint unifié, presque invisible.</dd>
         <dt>Sophistiqué</dt><dd>Un regard travaillé et une bouche affirmée, tout en restant vous.</dd>
         <dt>Glamour</dt><dd>Plus de lumière, de contraste et d'intensité pour la soirée.</dd>
       </dl>
-      <lyn-quiz data-step="Question {i} sur 3">
-        <button type="button" class="btn ghost" data-open><span>Trouver mon style</span><svg aria-hidden="true" width="18" height="10" viewBox="0 0 18 10"><path d="M0 5h16M12 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.2"/></svg></button>
-        <dialog class="quiz" aria-label="Quel maquillage pour vous ?">
-          <button type="button" class="quiz-close" data-close aria-label="Fermer">×</button>
+        <lyn-quiz class="quiz inline" data-step="Question {i} sur 3">
           <p class="quiz-step"></p>
           <h2>Quel maquillage pour vous ?</h2>
           <fieldset data-q="0"><legend>Au quotidien, votre maquillage, c'est…</legend><button type="button" data-v="naturel">Presque rien, un peu de teint</button><button type="button" data-v="sophistique">Un regard ou une bouche travaillés</button><button type="button" data-v="glamour">J'aime quand ça se voit</button></fieldset>
@@ -103,10 +109,11 @@
           <div class="result" data-result="naturel" hidden><img src="img/naturel.jpg" srcset="img/naturel-640.webp 640w, img/naturel-960.webp 960w, img/naturel-1280.webp 1280w, img/naturel-1440.webp 1440w" sizes="(max-width: 900px) 100vw, 50vw" width="1440" height="2560" data-full="img/naturel-1440.webp" loading="lazy" decoding="async" alt=""><div><p class="kicker">Votre style</p><h3>Naturel</h3><p>Une peau lumineuse, un teint unifié, presque invisible.</p><a class="btn" href="contact.html?style=naturel#devis"><span>Demander un devis avec ce style</span><svg aria-hidden="true" width="18" height="10" viewBox="0 0 18 10"><path d="M0 5h16M12 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.2"/></svg></a><button type="button" class="again" data-again>Recommencer</button></div></div>
           <div class="result" data-result="sophistique" hidden><img src="img/mariee-tableau.jpg" srcset="img/mariee-tableau-640.webp 640w, img/mariee-tableau-960.webp 960w, img/mariee-tableau-1280.webp 1280w, img/mariee-tableau-1920.webp 1920w, img/mariee-tableau-2560.webp 2560w" sizes="(max-width: 900px) 100vw, 50vw" width="2560" height="1440" data-full="img/mariee-tableau-2560.webp" loading="lazy" decoding="async" alt=""><div><p class="kicker">Votre style</p><h3>Sophistiqué</h3><p>Un regard travaillé et une bouche affirmée, tout en restant vous.</p><a class="btn" href="contact.html?style=sophistique#devis"><span>Demander un devis avec ce style</span><svg aria-hidden="true" width="18" height="10" viewBox="0 0 18 10"><path d="M0 5h16M12 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.2"/></svg></a><button type="button" class="again" data-again>Recommencer</button></div></div>
           <div class="result" data-result="glamour" hidden><img src="img/mariee-damas.jpg" srcset="img/mariee-damas-640.webp 640w, img/mariee-damas-960.webp 960w, img/mariee-damas-1280.webp 1280w, img/mariee-damas-1920.webp 1920w, img/mariee-damas-2560.webp 2560w" sizes="(max-width: 900px) 100vw, 50vw" width="2560" height="1440" data-full="img/mariee-damas-2560.webp" loading="lazy" decoding="async" alt=""><div><p class="kicker">Votre style</p><h3>Glamour</h3><p>Plus de lumière, de contraste et d'intensité pour la soirée.</p><a class="btn" href="contact.html?style=glamour#devis"><span>Demander un devis avec ce style</span><svg aria-hidden="true" width="18" height="10" viewBox="0 0 18 10"><path d="M0 5h16M12 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.2"/></svg></a><button type="button" class="again" data-again>Recommencer</button></div></div>
-        </dialog>
-      </lyn-quiz>
+        </lyn-quiz>
+        </div>
+        <div class="panel" role="tabpanel" id="jour-j" aria-labelledby="tab-jour-j">
       <h2 class="sub">Le déroulé</h2>
-      <dl class="steps reveal">
+      <dl class="steps">
         <dt>L'essai</dt><dd>Deux à quatre mois avant, nous choisissons ensemble le maquillage.</dd>
         <dt>Le jour J</dt><dd>Je vous rejoins sur votre lieu de préparation, avec tout le matériel.</dd>
         <dt>Après la cérémonie</dt><dd>Selon la formule, je reste pour les retouches ou un changement de look.</dd>
@@ -120,8 +127,9 @@
         <ol class="plan" aria-live="polite"></ol>
         <p class="small">Planning indicatif, ajusté ensemble pendant l'essai. Au-delà de cinq personnes, une assistante travaille avec moi.</p>
       </lyn-dayplan>
-      <p class="small">Déplacement inclus dans Paris, sur devis en Île-de-France et ailleurs en France. Un acompte de 30 % réserve la date ; le solde est réglé le jour J. Supplément possible pour un début avant 7 h.</p>
-      <a class="btn" href="contact.html"><span>Prendre rendez-vous</span><svg aria-hidden="true" width="18" height="10" viewBox="0 0 18 10"><path d="M0 5h16M12 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.2"/></svg></a>
+          <a class="btn" href="contact.html"><span>Prendre rendez-vous</span><svg aria-hidden="true" width="18" height="10" viewBox="0 0 18 10"><path d="M0 5h16M12 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.2"/></svg></a>
+        </div>
+      </lyn-tabs>
     </section>
   </main>
 

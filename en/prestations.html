@@ -47,6 +47,9 @@
   <main>
     <section class="page">
       <h1>Services</h1>
+      <lyn-tabs>
+        <div class="tabs" role="tablist" aria-label="Service sections"><a role="tab" id="tab-tarifs" href="#tarifs" aria-controls="tarifs">Prices</a><a role="tab" id="tab-budget" href="#budget" aria-controls="budget">Budget</a><a role="tab" id="tab-style" href="#style" aria-controls="style">My style</a><a role="tab" id="tab-jour-j" href="#jour-j" aria-controls="jour-j">The day</a></div>
+        <div class="panel" role="tabpanel" id="tarifs" aria-labelledby="tab-tarifs">
       <ul class="services">
       <li class="reveal">
         <h2>Bridal package</h2>
@@ -74,6 +77,10 @@
         <p>Engagements, hen parties, photo shoots, evenings.</p>
       </li>
       </ul>
+      <p class="small">Travel is included in Paris and quoted for Île-de-France and the rest of France. A 30 % deposit reserves your date; the balance is paid on the day. A supplement may apply for a start before 7 am.</p>
+      <a class="btn" href="contact.html"><span>Book an appointment</span><svg aria-hidden="true" width="18" height="10" viewBox="0 0 18 10"><path d="M0 5h16M12 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.2"/></svg></a>
+        </div>
+        <div class="panel" role="tabpanel" id="budget" aria-labelledby="tab-budget">
       <lyn-estimate class="tool reveal" lang="en" data-amount="from {total}" data-deposit="Deposit (30 %): {deposit}" data-msg="Estimate: {formule}, {n} family and friends, {h} h of touch-ups, about {total}.">
         <h2 class="sub">Estimate your budget</h2>
         <fieldset class="chips"><legend>Package</legend><label><input type="radio" name="formule" value="mariee" data-price="350" checked><span>Bridal package</span></label><label><input type="radio" name="formule" value="essai" data-price="120"><span>Trial only</span></label><label><input type="radio" name="formule" value="evenement" data-price="90"><span>Event or shoot</span></label><label><input type="radio" name="formule" value="proches" data-price="0"><span>Family and friends only</span></label></fieldset>
@@ -85,16 +92,15 @@
         <p class="small">Indicative estimate, travel included in Paris. The final quote depends on the date and place.</p>
         <a class="btn" href="contact.html"><span>Request this quote</span><svg aria-hidden="true" width="18" height="10" viewBox="0 0 18 10"><path d="M0 5h16M12 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.2"/></svg></a>
       </lyn-estimate>
+        </div>
+        <div class="panel" role="tabpanel" id="style" aria-labelledby="tab-style">
       <h2 class="sub">Three styles</h2>
-      <dl class="steps reveal">
+      <dl class="steps">
         <dt>Natural</dt><dd>Luminous skin and an even complexion, almost invisible.</dd>
         <dt>Sophisticated</dt><dd>Defined eyes and a statement lip, while still looking like you.</dd>
         <dt>Glamour</dt><dd>More light, contrast and intensity for the evening.</dd>
       </dl>
-      <lyn-quiz data-step="Question {i} of 3">
-        <button type="button" class="btn ghost" data-open><span>Find my style</span><svg aria-hidden="true" width="18" height="10" viewBox="0 0 18 10"><path d="M0 5h16M12 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.2"/></svg></button>
-        <dialog class="quiz" aria-label="Which make-up suits you?">
-          <button type="button" class="quiz-close" data-close aria-label="Close">×</button>
+        <lyn-quiz class="quiz inline" data-step="Question {i} of 3">
           <p class="quiz-step"></p>
           <h2>Which make-up suits you?</h2>
           <fieldset data-q="0"><legend>Day to day, your make-up is…</legend><button type="button" data-v="naturel">Barely there, a little complexion</button><button type="button" data-v="sophistique">Defined eyes or a statement lip</button><button type="button" data-v="glamour">I like it to show</button></fieldset>
@@ -103,10 +109,11 @@
           <div class="result" data-result="naturel" hidden><img src="../img/naturel.jpg" srcset="../img/naturel-640.webp 640w, ../img/naturel-960.webp 960w, ../img/naturel-1280.webp 1280w, ../img/naturel-1440.webp 1440w" sizes="(max-width: 900px) 100vw, 50vw" width="1440" height="2560" data-full="../img/naturel-1440.webp" loading="lazy" decoding="async" alt=""><div><p class="kicker">Your style</p><h3>Natural</h3><p>Luminous skin and an even complexion, almost invisible.</p><a class="btn" href="contact.html?style=naturel#devis"><span>Request a quote with this style</span><svg aria-hidden="true" width="18" height="10" viewBox="0 0 18 10"><path d="M0 5h16M12 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.2"/></svg></a><button type="button" class="again" data-again>Start again</button></div></div>
           <div class="result" data-result="sophistique" hidden><img src="../img/mariee-tableau.jpg" srcset="../img/mariee-tableau-640.webp 640w, ../img/mariee-tableau-960.webp 960w, ../img/mariee-tableau-1280.webp 1280w, ../img/mariee-tableau-1920.webp 1920w, ../img/mariee-tableau-2560.webp 2560w" sizes="(max-width: 900px) 100vw, 50vw" width="2560" height="1440" data-full="../img/mariee-tableau-2560.webp" loading="lazy" decoding="async" alt=""><div><p class="kicker">Your style</p><h3>Sophisticated</h3><p>Defined eyes and a statement lip, while still looking like you.</p><a class="btn" href="contact.html?style=sophistique#devis"><span>Request a quote with this style</span><svg aria-hidden="true" width="18" height="10" viewBox="0 0 18 10"><path d="M0 5h16M12 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.2"/></svg></a><button type="button" class="again" data-again>Start again</button></div></div>
           <div class="result" data-result="glamour" hidden><img src="../img/mariee-damas.jpg" srcset="../img/mariee-damas-640.webp 640w, ../img/mariee-damas-960.webp 960w, ../img/mariee-damas-1280.webp 1280w, ../img/mariee-damas-1920.webp 1920w, ../img/mariee-damas-2560.webp 2560w" sizes="(max-width: 900px) 100vw, 50vw" width="2560" height="1440" data-full="../img/mariee-damas-2560.webp" loading="lazy" decoding="async" alt=""><div><p class="kicker">Your style</p><h3>Glamour</h3><p>More light, contrast and intensity for the evening.</p><a class="btn" href="contact.html?style=glamour#devis"><span>Request a quote with this style</span><svg aria-hidden="true" width="18" height="10" viewBox="0 0 18 10"><path d="M0 5h16M12 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.2"/></svg></a><button type="button" class="again" data-again>Start again</button></div></div>
-        </dialog>
-      </lyn-quiz>
+        </lyn-quiz>
+        </div>
+        <div class="panel" role="tabpanel" id="jour-j" aria-labelledby="tab-jour-j">
       <h2 class="sub">How it works</h2>
-      <dl class="steps reveal">
+      <dl class="steps">
         <dt>The trial</dt><dd>Two to four months before, we choose your make-up together.</dd>
         <dt>The wedding day</dt><dd>I join you wherever you get ready, with everything needed.</dd>
         <dt>After the ceremony</dt><dd>Depending on your package, I stay for touch-ups or a change of look.</dd>
@@ -120,8 +127,9 @@
         <ol class="plan" aria-live="polite"></ol>
         <p class="small">Indicative schedule, adjusted together at the trial. For more than five people, an assistant works alongside me.</p>
       </lyn-dayplan>
-      <p class="small">Travel is included in Paris and quoted for Île-de-France and the rest of France. A 30 % deposit reserves your date; the balance is paid on the day. A supplement may apply for a start before 7 am.</p>
-      <a class="btn" href="contact.html"><span>Book an appointment</span><svg aria-hidden="true" width="18" height="10" viewBox="0 0 18 10"><path d="M0 5h16M12 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.2"/></svg></a>
+          <a class="btn" href="contact.html"><span>Book an appointment</span><svg aria-hidden="true" width="18" height="10" viewBox="0 0 18 10"><path d="M0 5h16M12 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.2"/></svg></a>
+        </div>
+      </lyn-tabs>
     </section>
   </main>
 
