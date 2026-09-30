@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Éditorial · Maison de Lyn</title>
+  <meta name="description" content="Portraits beauté et créations éditoriales de Linh, maquilleuse à Paris.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;1,400&family=Jost:wght@300;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="logo" href="index.html">Maison de <em>Lyn</em></a>
+      <button class="nav-toggle" aria-expanded="false" aria-controls="nav">Menu</button>
+      <nav class="nav" id="nav">
+        <a href="index.html">Accueil</a>
+        <a href="prestations.html">Prestations</a>
+        <a href="tarifs.html">Tarifs</a>
+        <a href="editorial.html" aria-current="page">Éditorial</a>
+        <a href="faq.html">FAQ</a>
+        <a class="btn" href="rendez-vous.html">Demander un devis</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-head">
+      <div class="wrap">
+        <p class="label">Éditorial</p>
+        <h1>Portraits et <em>créations</em></h1>
+        <p>Au-delà des mariages, des séances beauté et éditoriales.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="gallery">
+          <img src="img/boucles.jpg" alt="Portrait beauté, fard violet" loading="lazy">
+          <img src="img/naturel.jpg" alt="Portrait beauté naturel" loading="lazy">
+          <img src="img/robe-blanche.jpg" alt="Portrait en robe blanche" loading="lazy">
+          <img src="img/tweed.jpg" alt="Portrait éditorial en tweed" loading="lazy">
+          <img src="img/tweed-2.jpg" alt="Portrait éditorial en tweed, variante" loading="lazy">
+        </div>
+        <p style="margin-top:32px"><a href="https://www.instagram.com/maisondelyn_mua/">Plus de créations sur Instagram @maisondelyn_mua</a></p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <div>
+        <p class="logo" style="color:inherit">Maison de <em>Lyn</em></p>
+        <p>Maquilleuse mariage et événements, Paris et Île-de-France</p>
+      </div>
+      <div>
+        <p><a href="https://www.instagram.com/maisondelyn_mua/">Instagram @maisondelyn_mua</a></p>
+        <p><a href="rendez-vous.html">Demander un devis</a></p>
+        <p><small>Mentions légales à venir</small></p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const t = document.querySelector('.nav-toggle'), n = document.getElementById('nav');
+    t.addEventListener('click', () => {
+      const open = n.classList.toggle('open');
+      t.setAttribute('aria-expanded', open);
+    });
+  </script>
+</body>
+</html>

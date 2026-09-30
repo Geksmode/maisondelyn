@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Maison de Lyn · Maquilleuse mariage à Paris</title>
+  <meta name="description" content="Linh, maquilleuse mariage et événements à Paris et en Île-de-France. Essai, jour J, maquillage des proches.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;1,400&family=Jost:wght@300;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="logo" href="index.html">Maison de <em>Lyn</em></a>
+      <button class="nav-toggle" aria-expanded="false" aria-controls="nav">Menu</button>
+      <nav class="nav" id="nav">
+        <a href="index.html" aria-current="page">Accueil</a>
+        <a href="prestations.html">Prestations</a>
+        <a href="tarifs.html">Tarifs</a>
+        <a href="editorial.html">Éditorial</a>
+        <a href="faq.html">FAQ</a>
+        <a class="btn" href="rendez-vous.html">Demander un devis</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="wrap">
+        <p class="label">Paris et Île-de-France</p>
+        <h1>Maquilleuse <em>mariage</em> à Paris</h1>
+        <p>Un maquillage lumineux qui vous ressemble et tient du premier regard au dernier slow.</p>
+        <a class="btn" href="rendez-vous.html">Demander un devis</a>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap split">
+        <img src="img/mariee-tableau.jpg" alt="Mariée maquillée par Linh" loading="lazy">
+        <div>
+          <p class="label">Bonjour, je suis Linh</p>
+          <h2>Vous préparer en toute <em>sérénité</em></h2>
+          <p>Je suis maquilleuse professionnelle, spécialisée dans les mariages et les événements. Je me déplace chez vous, au domaine ou à l'hôtel, à Paris et en Île-de-France, pour vous préparer le matin de votre mariage.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-voile">
+      <div class="wrap">
+        <h2>Mes <em>prestations</em></h2>
+        <div class="cards">
+          <a class="card" href="prestations.html#mariee"><h3>Mariée</h3><p>Essai, jour J, retouches.</p></a>
+          <a class="card" href="prestations.html#proches"><h3>Proches</h3><p>Mères, témoins, demoiselles d'honneur.</p></a>
+          <a class="card" href="prestations.html#evenements"><h3>Événements</h3><p>Fiançailles, shootings, soirées.</p></a>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <h2>Quelques mariées que j'ai eu la <em>joie</em> d'accompagner</h2>
+        <div class="gallery">
+          <div class="wide"><img src="img/mariee-damas.jpg" alt="Mariée au bouquet rouge" loading="lazy"></div>
+          <img src="img/mariee-polaroid.jpg" alt="Mariée en voile" loading="lazy">
+          <img src="img/couple.jpg" alt="Couple de mariés" loading="lazy">
+          <div class="wide"><img src="img/mariee-fenetre.jpg" alt="Mariée près d'une fenêtre" loading="lazy"></div>
+        </div>
+        <p style="margin-top:32px"><a href="editorial.html">Voir la galerie Éditorial</a> · <a href="https://www.instagram.com/maisondelyn_mua/">Suivre @maisondelyn_mua sur Instagram</a></p>
+      </div>
+    </section>
+
+    <!-- Témoignages : à ajouter quand Linh aura fourni 3 avis (prénom + date du mariage). -->
+
+    <section class="section-voile">
+      <div class="wrap">
+        <h2>Comment ça se <em>passe</em></h2>
+        <ol class="steps">
+          <li><h3>Demande de devis</h3><p>Vous me parlez de votre date, du lieu et du nombre de personnes.</p></li>
+          <li><h3>Essai</h3><p>2 à 4 mois avant, nous trouvons ensemble votre maquillage.</p></li>
+          <li><h3>Confirmation</h3><p>Contrat signé et acompte : votre date est bloquée.</p></li>
+          <li><h3>Jour J</h3><p>Je vous rejoins sur le lieu de préparation.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="cta-final">
+      <div class="wrap">
+        <h2>Parlons de votre <em>journée</em></h2>
+        <p>Je vous réponds sous 48&nbsp;h avec mes disponibilités.</p>
+        <a class="btn" href="rendez-vous.html">Demander un devis</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <div>
+        <p class="logo" style="color:inherit">Maison de <em>Lyn</em></p>
+        <p>Maquilleuse mariage et événements, Paris et Île-de-France</p>
+      </div>
+      <div>
+        <p><a href="https://www.instagram.com/maisondelyn_mua/">Instagram @maisondelyn_mua</a></p>
+        <p><a href="rendez-vous.html">Demander un devis</a></p>
+        <p><small>Mentions légales à venir</small></p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const t = document.querySelector('.nav-toggle'), n = document.getElementById('nav');
+    t.addEventListener('click', () => {
+      const open = n.classList.toggle('open');
+      t.setAttribute('aria-expanded', open);
+    });
+  </script>
+</body>
+</html>

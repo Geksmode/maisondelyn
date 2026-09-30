@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FAQ · Maison de Lyn</title>
+  <meta name="description" content="Questions fréquentes sur le maquillage de mariée : réservation, essai, tenue, déplacements.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;1,400&family=Jost:wght@300;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <a class="logo" href="index.html">Maison de <em>Lyn</em></a>
+      <button class="nav-toggle" aria-expanded="false" aria-controls="nav">Menu</button>
+      <nav class="nav" id="nav">
+        <a href="index.html">Accueil</a>
+        <a href="prestations.html">Prestations</a>
+        <a href="tarifs.html">Tarifs</a>
+        <a href="editorial.html">Éditorial</a>
+        <a href="faq.html" aria-current="page">FAQ</a>
+        <a class="btn" href="rendez-vous.html">Demander un devis</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-head">
+      <div class="wrap narrow">
+        <p class="label">FAQ</p>
+        <h1>Vos <em>questions</em></h1>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap narrow">
+        <details><summary>Combien de temps à l'avance dois-je réserver ?</summary><p>Idéalement 6 à 12 mois avant, surtout pour un samedi entre mai et septembre. N'hésitez pas à me demander même pour une date proche.</p></details>
+        <details><summary>L'essai est-il obligatoire ?</summary><p>Il est fortement conseillé : c'est le moment où l'on valide ensemble le rendu et où je découvre votre peau.</p></details>
+        <details><summary>Où a lieu l'essai ?</summary><p>À votre domicile à Paris ou dans un lieu convenu ensemble.</p></details>
+        <details><summary>Le maquillage tient-il toute la journée ?</summary><p>Oui, j'utilise des produits longue tenue et résistants aux larmes, et je vous laisse un kit de retouche.</p></details>
+        <details><summary>J'ai la peau sensible ou des allergies, comment faire ?</summary><p>Signalez-le dès la demande : j'adapte les produits et on les teste pendant l'essai.</p></details>
+        <details><summary>Combien de personnes pouvez-vous maquiller le jour J ?</summary><p>Cela dépend de l'heure de la cérémonie. Comptez environ 45 minutes par proche ; au-delà de 5 personnes, je peux venir avec une assistante.</p></details>
+        <details><summary>Vous déplacez-vous hors de Paris ?</summary><p>Oui, partout en Île-de-France et en France sur devis.</p></details>
+        <details><summary>Comment réserver ma date ?</summary><p>Envoyez une demande via le formulaire. La date est bloquée à réception de l'acompte et du contrat signé.</p></details>
+        <p style="margin-top:48px">Une autre question ? <a href="rendez-vous.html">Écrivez-moi</a>.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <div>
+        <p class="logo" style="color:inherit">Maison de <em>Lyn</em></p>
+        <p>Maquilleuse mariage et événements, Paris et Île-de-France</p>
+      </div>
+      <div>
+        <p><a href="https://www.instagram.com/maisondelyn_mua/">Instagram @maisondelyn_mua</a></p>
+        <p><a href="rendez-vous.html">Demander un devis</a></p>
+        <p><small>Mentions légales à venir</small></p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const t = document.querySelector('.nav-toggle'), n = document.getElementById('nav');
+    t.addEventListener('click', () => {
+      const open = n.classList.toggle('open');
+      t.setAttribute('aria-expanded', open);
+    });
+  </script>
+</body>
+</html>
