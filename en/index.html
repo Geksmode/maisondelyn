@@ -29,7 +29,7 @@
    "sameAs": ["https://www.instagram.com/maisondelyn_mua/"]}
   </script>
 </head>
-<body>
+<body class="home">
   <header class="top">
     <a class="brand" href="index.html">Maison de Lyn</a>
     <nav>
@@ -42,26 +42,51 @@
   </header>
 
   <main>
-    <section class="intro">
-      <h1>Bridal make-up<br>in Paris</h1>
-      <p>I'm Linh. I do make-up for brides and their loved ones, at home or wherever you get ready, in Paris and Île-de-France.</p>
-      <a class="more" href="contact.html">Book an appointment</a>
+    <section class="hero">
+      <img src="../img/mariee-fenetre.jpg" alt="Bride by a window holding a bouquet">
+      <div class="hero-text">
+        <h1>Bridal<br><em>make-up</em></h1>
+        <p>Paris and Île-de-France</p>
+      </div>
     </section>
 
-    <figure class="full"><img src="../img/mariee-fenetre.jpg" alt="Bride by a window holding a bouquet"></figure>
+    <div class="marquee" aria-hidden="true"><div><span>Natural</span><span>Sophisticated</span><span>Glamour</span><span>Trial at home</span><span>Paris</span><span>Seoul</span><span>Wedding day</span><span>Touch-ups</span><span>Natural</span><span>Sophisticated</span><span>Glamour</span><span>Trial at home</span><span>Paris</span><span>Seoul</span><span>Wedding day</span><span>Touch-ups</span></div></div>
 
-    <section class="pair">
-      <img src="../img/mariee-tableau.jpg" alt="Bride with a red bouquet" loading="lazy">
-      <img src="../img/mariee-polaroid.jpg" alt="Bride in a veil" loading="lazy">
+    <section class="hello reveal">
+      <div>
+        <h2>I'm Linh.</h2>
+        <p>I do make-up for brides and their loved ones, at home or wherever you get ready. Make-up that looks like you, made to last from the ceremony to the last dance.</p>
+        <a class="more" href="contact.html">Book an appointment</a>
+      </div>
+      <img src="../img/mariee-tableau.jpg" alt="" loading="lazy">
     </section>
 
-    <section class="about">
-      <p>Trained in Seoul at the Art Stage 1992 make-up academy, I speak English, French, Vietnamese and Korean. From the trial to the wedding day, every bride has my full attention.</p>
+    <section class="duo">
+      <figure class="big reveal"><img src="../img/mariee-damas.jpg" alt="" loading="lazy"><figcaption>Studio, red bouquet</figcaption></figure>
+      <figure class="small reveal"><img src="../img/couple.jpg" alt="" loading="lazy"><figcaption>The wedding day</figcaption></figure>
     </section>
 
-    <section class="note">
-      <p>A trial to find your look, then the wedding day by your side. Bridal package from 350 €.</p>
+    <section class="seoul reveal">
+      <p class="huge">Seoul — Paris</p>
+      <ul class="langs"><li>FR</li><li>EN</li><li>VI</li><li>KO</li></ul>
+      <p>Trained in Seoul at the Art Stage 1992 make-up academy. I can look after you in English, French, Vietnamese or Korean.</p>
+    </section>
+
+    <section class="offers reveal">
+      <ol>
+        <li><span class="num">01</span><span class="name">Bridal package</span><span class="price">from 350 €</span></li>
+        <li><span class="num">02</span><span class="name">Family and friends</span><span class="price">70 € per person</span></li>
+        <li><span class="num">03</span><span class="name">Events and shoots</span><span class="price">from 90 €</span></li>
+      </ol>
       <a class="more" href="prestations.html">Services and prices</a>
+    </section>
+
+    <section class="closing">
+      <img src="../img/mariee-polaroid.jpg" alt="" loading="lazy">
+      <div>
+        <h2>Tell me about your <em>wedding</em></h2>
+        <a class="more light" href="contact.html">Book an appointment</a>
+      </div>
     </section>
   </main>
 
@@ -69,5 +94,11 @@
     <span>Maison de Lyn · Bridal make-up, Paris</span>
     <a href="https://www.instagram.com/maisondelyn_mua/">Instagram</a>
   </footer>
+  <script>
+    const io = 'IntersectionObserver' in window && new IntersectionObserver((es) => es.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    }), { threshold: .15 });
+    document.querySelectorAll('.reveal').forEach(el => io ? io.observe(el) : el.classList.add('in'));
+  </script>
 </body>
 </html>

@@ -72,5 +72,11 @@
       } catch { status.textContent = "Sending failed. Please try again or message me on Instagram."; }
     });
   </script>
+  <script>
+    const io = 'IntersectionObserver' in window && new IntersectionObserver((es) => es.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    }), { threshold: .15 });
+    document.querySelectorAll('.reveal').forEach(el => io ? io.observe(el) : el.classList.add('in'));
+  </script>
 </body>
 </html>

@@ -72,5 +72,11 @@
       } catch { status.textContent = "L'envoi n'a pas fonctionné. Réessayez ou écrivez-moi sur Instagram."; }
     });
   </script>
+  <script>
+    const io = 'IntersectionObserver' in window && new IntersectionObserver((es) => es.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    }), { threshold: .15 });
+    document.querySelectorAll('.reveal').forEach(el => io ? io.observe(el) : el.classList.add('in'));
+  </script>
 </body>
 </html>

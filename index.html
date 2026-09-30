@@ -29,7 +29,7 @@
    "sameAs": ["https://www.instagram.com/maisondelyn_mua/"]}
   </script>
 </head>
-<body>
+<body class="home">
   <header class="top">
     <a class="brand" href="index.html">Maison de Lyn</a>
     <nav>
@@ -42,26 +42,51 @@
   </header>
 
   <main>
-    <section class="intro">
-      <h1>Maquillage de mariée<br>à Paris</h1>
-      <p>Je suis Linh. Je maquille les mariées et leurs proches, chez vous ou sur votre lieu de préparation, à Paris et en Île-de-France.</p>
-      <a class="more" href="contact.html">Prendre rendez-vous</a>
+    <section class="hero">
+      <img src="img/mariee-fenetre.jpg" alt="Mariée près d'une fenêtre, bouquet à la main">
+      <div class="hero-text">
+        <h1>Maquillage<br>de <em>mariée</em></h1>
+        <p>Paris et Île-de-France</p>
+      </div>
     </section>
 
-    <figure class="full"><img src="img/mariee-fenetre.jpg" alt="Mariée près d'une fenêtre, bouquet à la main"></figure>
+    <div class="marquee" aria-hidden="true"><div><span>Naturel</span><span>Sophistiqué</span><span>Glamour</span><span>Essai à domicile</span><span>Paris</span><span>Séoul</span><span>Jour J</span><span>Retouches</span><span>Naturel</span><span>Sophistiqué</span><span>Glamour</span><span>Essai à domicile</span><span>Paris</span><span>Séoul</span><span>Jour J</span><span>Retouches</span></div></div>
 
-    <section class="pair">
-      <img src="img/mariee-tableau.jpg" alt="Mariée au bouquet rouge" loading="lazy">
-      <img src="img/mariee-polaroid.jpg" alt="Mariée en voile" loading="lazy">
+    <section class="hello reveal">
+      <div>
+        <h2>Je suis Linh.</h2>
+        <p>Je maquille les mariées et leurs proches, chez vous ou sur votre lieu de préparation. Un maquillage qui vous ressemble, pensé pour tenir de la cérémonie à la dernière danse.</p>
+        <a class="more" href="contact.html">Prendre rendez-vous</a>
+      </div>
+      <img src="img/mariee-tableau.jpg" alt="" loading="lazy">
     </section>
 
-    <section class="about">
-      <p>Formée à Séoul, à l'académie de maquillage Art Stage 1992, je parle français, anglais, vietnamien et coréen. De l'essai au jour J, chaque mariée a toute mon attention.</p>
+    <section class="duo">
+      <figure class="big reveal"><img src="img/mariee-damas.jpg" alt="" loading="lazy"><figcaption>Studio, bouquet rouge</figcaption></figure>
+      <figure class="small reveal"><img src="img/couple.jpg" alt="" loading="lazy"><figcaption>Le jour J</figcaption></figure>
     </section>
 
-    <section class="note">
-      <p>Un essai pour trouver votre maquillage, puis le jour J à vos côtés. Forfait mariée dès 350 €.</p>
+    <section class="seoul reveal">
+      <p class="huge">Séoul — Paris</p>
+      <ul class="langs"><li>FR</li><li>EN</li><li>VI</li><li>KO</li></ul>
+      <p>Formée à Séoul, à l'académie de maquillage Art Stage 1992. Je vous accueille en français, anglais, vietnamien ou coréen.</p>
+    </section>
+
+    <section class="offers reveal">
+      <ol>
+        <li><span class="num">01</span><span class="name">Forfait mariée</span><span class="price">dès 350 €</span></li>
+        <li><span class="num">02</span><span class="name">Proches</span><span class="price">70 € par personne</span></li>
+        <li><span class="num">03</span><span class="name">Événements et shootings</span><span class="price">dès 90 €</span></li>
+      </ol>
       <a class="more" href="prestations.html">Prestations et tarifs</a>
+    </section>
+
+    <section class="closing">
+      <img src="img/mariee-polaroid.jpg" alt="" loading="lazy">
+      <div>
+        <h2>Parlons de votre <em>mariage</em></h2>
+        <a class="more light" href="contact.html">Prendre rendez-vous</a>
+      </div>
     </section>
   </main>
 
@@ -69,5 +94,11 @@
     <span>Maison de Lyn · Maquillage de mariée, Paris</span>
     <a href="https://www.instagram.com/maisondelyn_mua/">Instagram</a>
   </footer>
+  <script>
+    const io = 'IntersectionObserver' in window && new IntersectionObserver((es) => es.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    }), { threshold: .15 });
+    document.querySelectorAll('.reveal').forEach(el => io ? io.observe(el) : el.classList.add('in'));
+  </script>
 </body>
 </html>

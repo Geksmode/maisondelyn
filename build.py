@@ -70,7 +70,7 @@ def page(lang, fname, title, desc, body, script=""):
   <meta name="twitter:card" content="summary_large_image">
   <link rel="stylesheet" href="{pre}style.css">
 {LDJSON if fname == 'index.html' else ''}</head>
-<body>
+<body{' class="home"' if fname == "index.html" else ""}>
   <header class="top">
     <a class="brand" href="index.html">Maison de Lyn</a>
     <nav>
@@ -87,7 +87,13 @@ def page(lang, fname, title, desc, body, script=""):
     <span>Maison de Lyn · {t['footer']}</span>
     <a href="{IG}">Instagram</a>
   </footer>
-{script}</body>
+{script}  <script>
+    const io = 'IntersectionObserver' in window && new IntersectionObserver((es) => es.forEach(e => {{
+      if (e.isIntersecting) {{ e.target.classList.add('in'); io.unobserve(e.target); }}
+    }}), {{ threshold: .15 }});
+    document.querySelectorAll('.reveal').forEach(el => io ? io.observe(el) : el.classList.add('in'));
+  </script>
+</body>
 </html>
 """
 
@@ -104,27 +110,7 @@ C = {}
 C["fr"] = dict(
     home=("Maison de Lyn · Maquillage de mariée à Paris",
           "Linh, maquilleuse de mariée à Paris et en Île-de-France. Essai à domicile, jour J, maquillage des proches.",
-          """    <section class="intro">
-      <h1>Maquillage de mariée<br>à Paris</h1>
-      <p>Je suis Linh. Je maquille les mariées et leurs proches, chez vous ou sur votre lieu de préparation, à Paris et en Île-de-France.</p>
-      <a class="more" href="contact.html">Prendre rendez-vous</a>
-    </section>
-
-    <figure class="full"><img src="img/mariee-fenetre.jpg" alt="Mariée près d'une fenêtre, bouquet à la main"></figure>
-
-    <section class="pair">
-      <img src="img/mariee-tableau.jpg" alt="Mariée au bouquet rouge" loading="lazy">
-      <img src="img/mariee-polaroid.jpg" alt="Mariée en voile" loading="lazy">
-    </section>
-
-    <section class="about">
-      <p>Formée à Séoul, à l'académie de maquillage Art Stage 1992, je parle français, anglais, vietnamien et coréen. De l'essai au jour J, chaque mariée a toute mon attention.</p>
-    </section>
-
-    <section class="note">
-      <p>Un essai pour trouver votre maquillage, puis le jour J à vos côtés. Forfait mariée dès 350 €.</p>
-      <a class="more" href="prestations.html">Prestations et tarifs</a>
-    </section>"""),
+          None),
     services=("Prestations et tarifs · Maison de Lyn",
               "Tarifs de maquillage de mariée à Paris : forfait essai et jour J, proches, retouches, événements.",
               [("Forfait mariée", "dès 350 €", "Un essai d'environ 1 h 30, deux à quatre mois avant le mariage, puis le maquillage du jour J sur votre lieu de préparation. Faux cils et kit de retouche inclus."),
@@ -173,27 +159,7 @@ C["fr"]["extra"] = dict(
 C["en"] = dict(
     home=("Maison de Lyn · Bridal make-up in Paris",
           "Linh, bridal make-up artist in Paris and Île-de-France. Trial at home, wedding day, make-up for your family and friends.",
-          """    <section class="intro">
-      <h1>Bridal make-up<br>in Paris</h1>
-      <p>I'm Linh. I do make-up for brides and their loved ones, at home or wherever you get ready, in Paris and Île-de-France.</p>
-      <a class="more" href="contact.html">Book an appointment</a>
-    </section>
-
-    <figure class="full"><img src="../img/mariee-fenetre.jpg" alt="Bride by a window holding a bouquet"></figure>
-
-    <section class="pair">
-      <img src="../img/mariee-tableau.jpg" alt="Bride with a red bouquet" loading="lazy">
-      <img src="../img/mariee-polaroid.jpg" alt="Bride in a veil" loading="lazy">
-    </section>
-
-    <section class="about">
-      <p>Trained in Seoul at the Art Stage 1992 make-up academy, I speak English, French, Vietnamese and Korean. From the trial to the wedding day, every bride has my full attention.</p>
-    </section>
-
-    <section class="note">
-      <p>A trial to find your look, then the wedding day by your side. Bridal package from 350 €.</p>
-      <a class="more" href="prestations.html">Services and prices</a>
-    </section>"""),
+          None),
     services=("Services and prices · Maison de Lyn",
               "Bridal make-up prices in Paris: trial and wedding-day package, family and friends, touch-ups, events.",
               [("Bridal package", "from 350 €", "A trial of about 1 h 30, two to four months before the wedding, then your wedding-day make-up wherever you get ready. False lashes and a touch-up kit included."),
@@ -239,6 +205,85 @@ C["en"]["extra"] = dict(
            ("After the ceremony", "Depending on your package, I stay for touch-ups or a change of look.")],
 )
 
+H = {
+    "fr": dict(h1="Maquillage<br>de <em>mariée</em>", place="Paris et Île-de-France",
+               alt_hero="Mariée près d'une fenêtre, bouquet à la main",
+               marquee=["Naturel", "Sophistiqué", "Glamour", "Essai à domicile", "Paris", "Séoul", "Jour J", "Retouches"],
+               hello="Je suis Linh.",
+               intro="Je maquille les mariées et leurs proches, chez vous ou sur votre lieu de préparation. Un maquillage qui vous ressemble, pensé pour tenir de la cérémonie à la dernière danse.",
+               cap1="Studio, bouquet rouge", cap2="Le jour J",
+               seoul="Séoul — Paris",
+               training="Formée à Séoul, à l'académie de maquillage Art Stage 1992. Je vous accueille en français, anglais, vietnamien ou coréen.",
+               offers=[("Forfait mariée", "dès 350 €"), ("Proches", "70 € par personne"), ("Événements et shootings", "dès 90 €")],
+               offers_link="Prestations et tarifs",
+               closing="Parlons de votre <em>mariage</em>"),
+    "en": dict(h1="Bridal<br><em>make-up</em>", place="Paris and Île-de-France",
+               alt_hero="Bride by a window holding a bouquet",
+               marquee=["Natural", "Sophisticated", "Glamour", "Trial at home", "Paris", "Seoul", "Wedding day", "Touch-ups"],
+               hello="I'm Linh.",
+               intro="I do make-up for brides and their loved ones, at home or wherever you get ready. Make-up that looks like you, made to last from the ceremony to the last dance.",
+               cap1="Studio, red bouquet", cap2="The wedding day",
+               seoul="Seoul — Paris",
+               training="Trained in Seoul at the Art Stage 1992 make-up academy. I can look after you in English, French, Vietnamese or Korean.",
+               offers=[("Bridal package", "from 350 €"), ("Family and friends", "70 € per person"), ("Events and shoots", "from 90 €")],
+               offers_link="Services and prices",
+               closing="Tell me about your <em>wedding</em>"),
+}
+
+
+def home_body(lang):
+    h = H[lang]
+    pre = "../" if lang == "en" else ""
+    words = "".join(f"<span>{w}</span>" for w in h["marquee"])
+    offers = "\n".join(
+        f'        <li><span class="num">0{i}</span><span class="name">{n}</span><span class="price">{p}</span></li>'
+        for i, (n, p) in enumerate(h["offers"], 1))
+    return f"""    <section class="hero">
+      <img src="{pre}img/mariee-fenetre.jpg" alt="{h['alt_hero']}">
+      <div class="hero-text">
+        <h1>{h['h1']}</h1>
+        <p>{h['place']}</p>
+      </div>
+    </section>
+
+    <div class="marquee" aria-hidden="true"><div>{words}{words}</div></div>
+
+    <section class="hello reveal">
+      <div>
+        <h2>{h['hello']}</h2>
+        <p>{h['intro']}</p>
+        <a class="more" href="contact.html">{T[lang]['book']}</a>
+      </div>
+      <img src="{pre}img/mariee-tableau.jpg" alt="" loading="lazy">
+    </section>
+
+    <section class="duo">
+      <figure class="big reveal"><img src="{pre}img/mariee-damas.jpg" alt="" loading="lazy"><figcaption>{h['cap1']}</figcaption></figure>
+      <figure class="small reveal"><img src="{pre}img/couple.jpg" alt="" loading="lazy"><figcaption>{h['cap2']}</figcaption></figure>
+    </section>
+
+    <section class="seoul reveal">
+      <p class="huge">{h['seoul']}</p>
+      <ul class="langs"><li>FR</li><li>EN</li><li>VI</li><li>KO</li></ul>
+      <p>{h['training']}</p>
+    </section>
+
+    <section class="offers reveal">
+      <ol>
+{offers}
+      </ol>
+      <a class="more" href="prestations.html">{h['offers_link']}</a>
+    </section>
+
+    <section class="closing">
+      <img src="{pre}img/mariee-polaroid.jpg" alt="" loading="lazy">
+      <div>
+        <h2>{h['closing']}</h2>
+        <a class="more light" href="contact.html">{T[lang]['book']}</a>
+      </div>
+    </section>"""
+
+
 BRIDES = [("mariee-damas", "wide"), ("mariee-fenetre", "wide"), ("mariee-tableau", "wide"), ("mariee-polaroid", "wide"), ("couple", "wide")]
 EDITO = ["boucles", "naturel", "robe-blanche", "tweed", "tweed-2"]
 
@@ -251,9 +296,10 @@ def build(lang):
     files = {}
 
     t, d, body = c["home"]
+    body = home_body(lang)
     if c["reviews"]:
         quotes = "\n".join(f"        <blockquote><p>{q}</p><cite>{who}</cite></blockquote>" for q, who in c["reviews"])
-        body = body.replace('    <section class="note">', f'    <section class="reviews">\n{quotes}\n    </section>\n\n    <section class="note">')
+        body = body.replace('    <section class="offers', f'    <section class="reviews">\n{quotes}\n    </section>\n\n    <section class="offers', 1)
     files["index.html"] = (t, d, body, "")
 
     t, d, rows, cond, h1 = c["services"]

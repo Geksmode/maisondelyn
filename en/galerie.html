@@ -58,5 +58,11 @@
     <span>Maison de Lyn · Bridal make-up, Paris</span>
     <a href="https://www.instagram.com/maisondelyn_mua/">Instagram</a>
   </footer>
+  <script>
+    const io = 'IntersectionObserver' in window && new IntersectionObserver((es) => es.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    }), { threshold: .15 });
+    document.querySelectorAll('.reveal').forEach(el => io ? io.observe(el) : el.classList.add('in'));
+  </script>
 </body>
 </html>
