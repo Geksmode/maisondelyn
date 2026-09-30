@@ -35,6 +35,7 @@ LDJSON = """  <script type="application/ld+json">
    "url": "https://geksmode.github.io/maisondelyn/", "image": "https://geksmode.github.io/maisondelyn/img/mariee-fenetre.jpg",
    "priceRange": "€€", "areaServed": ["Paris", "Île-de-France"],
    "address": {"@type": "PostalAddress", "addressLocality": "Paris", "addressCountry": "FR"},
+   "knowsLanguage": ["fr", "en", "vi", "ko"],
    "sameAs": ["https://www.instagram.com/maisondelyn_mua/"]}
   </script>
 """
@@ -116,6 +117,10 @@ C["fr"] = dict(
       <img src="img/mariee-polaroid.jpg" alt="Mariée en voile" loading="lazy">
     </section>
 
+    <section class="about">
+      <p>Formée à l'Académie ArtStage à Paris, je parle français, anglais, vietnamien et coréen. De l'essai au jour J, chaque mariée a toute mon attention.</p>
+    </section>
+
     <section class="note">
       <p>Un essai pour trouver votre maquillage, puis le jour J à vos côtés. Forfait mariée dès 350 €.</p>
       <a class="more" href="prestations.html">Prestations et tarifs</a>
@@ -137,6 +142,7 @@ C["fr"] = dict(
           ("Le maquillage tient-il toute la journée ?", "Oui. J'utilise des produits longue tenue qui résistent aux larmes, et je vous laisse un kit de retouche."),
           ("J'ai la peau sensible.", "Dites-le dans votre demande : j'adapte les produits et nous les testons pendant l'essai."),
           ("Combien de personnes le jour J ?", "Cela dépend de l'heure de la cérémonie. Comptez environ 45 minutes par personne ; au-delà de cinq, je viens avec une assistante."),
+          ("Parlez-vous anglais ?", "Oui, ainsi que le vietnamien et le coréen. Je peux accompagner les mariées venues de l'étranger pour se marier à Paris."),
           ("Vous déplacez-vous hors de Paris ?", "Oui, en Île-de-France et partout en France, sur devis."),
           ("Comment réserver ?", "Écrivez-moi via la page Contact. La date est bloquée à réception de l'acompte et du contrat signé.")],
          "Questions"),
@@ -180,6 +186,10 @@ C["en"] = dict(
       <img src="../img/mariee-polaroid.jpg" alt="Bride in a veil" loading="lazy">
     </section>
 
+    <section class="about">
+      <p>Trained at the ArtStage Academy in Paris, I speak English, French, Vietnamese and Korean. From the trial to the wedding day, every bride has my full attention.</p>
+    </section>
+
     <section class="note">
       <p>A trial to find your look, then the wedding day by your side. Bridal package from 350 €.</p>
       <a class="more" href="prestations.html">Services and prices</a>
@@ -201,6 +211,7 @@ C["en"] = dict(
           ("Will the make-up last all day?", "Yes. I use long-wear, tear-proof products and leave you a touch-up kit."),
           ("I have sensitive skin.", "Mention it in your request: I adapt the products and we test them during the trial."),
           ("How many people on the day?", "It depends on the ceremony time. Allow about 45 minutes per person; for more than five, I bring an assistant."),
+          ("Do you speak English?", "Yes, as well as French, Vietnamese and Korean. I can look after brides coming from abroad to marry in Paris."),
           ("Do you travel outside Paris?", "Yes, across Île-de-France and anywhere in France, on quote."),
           ("How do I book?", "Write to me from the Contact page. Your date is reserved once the deposit and signed contract are received.")],
          "Questions"),
