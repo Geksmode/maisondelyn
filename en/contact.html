@@ -11,6 +11,13 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;1,6..96,500&family=Jost:wght@400;500&display=swap" rel="stylesheet">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Contact · Maison de Lyn">
+  <meta property="og:description" content="Request a quote for your bridal make-up in Paris: reply within 48 h.">
+  <meta property="og:image" content="https://geksmode.github.io/maisondelyn/img/mariee-fenetre.jpg">
+  <meta property="og:url" content="https://geksmode.github.io/maisondelyn/en/contact.html">
+  <meta property="og:locale" content="en_GB">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="stylesheet" href="../style.css">
 </head>
 <body>
@@ -38,7 +45,8 @@
         <label>Wedding date<input name="date" type="date" required></label>
         <label>Town where you get ready<input name="lieu" required></label>
         <label>Number of people<input name="personnes" type="number" min="1" value="1" required></label>
-        <label class="full">Service<select name="prestation"><option value="mariee">Bride</option><option value="proches">Family and friends only</option><option value="evenement">Event or shoot</option></select></label>
+        <label>Service<select name="prestation"><option value="mariee">Bride</option><option value="proches">Family and friends only</option><option value="evenement">Event or shoot</option><option value="planner">I'm a wedding planner</option></select></label>
+        <label>Preferred style<select name="style"><option>Not sure yet</option><option>Natural</option><option>Sophisticated</option><option>Glamour</option></select></label>
         <label class="full">Your message<textarea name="message" rows="4"></textarea></label>
         <button type="submit">Send</button>
         <p class="status" role="status" aria-live="polite"></p>

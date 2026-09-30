@@ -11,6 +11,13 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;1,6..96,500&family=Jost:wght@400;500&display=swap" rel="stylesheet">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Contact · Maison de Lyn">
+  <meta property="og:description" content="Demandez un devis pour votre maquillage de mariée à Paris : réponse sous 48 h.">
+  <meta property="og:image" content="https://geksmode.github.io/maisondelyn/img/mariee-fenetre.jpg">
+  <meta property="og:url" content="https://geksmode.github.io/maisondelyn/contact.html">
+  <meta property="og:locale" content="fr_FR">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -38,7 +45,8 @@
         <label>Date du mariage<input name="date" type="date" required></label>
         <label>Ville de préparation<input name="lieu" required></label>
         <label>Nombre de personnes à maquiller<input name="personnes" type="number" min="1" value="1" required></label>
-        <label class="full">Prestation<select name="prestation"><option value="mariee">Mariée</option><option value="proches">Proches seulement</option><option value="evenement">Événement ou shooting</option></select></label>
+        <label>Prestation<select name="prestation"><option value="mariee">Mariée</option><option value="proches">Proches seulement</option><option value="evenement">Événement ou shooting</option><option value="planner">Je suis wedding planner</option></select></label>
+        <label>Style souhaité<select name="style"><option>Je ne sais pas encore</option><option>Naturel</option><option>Sophistiqué</option><option>Glamour</option></select></label>
         <label class="full">Votre message<textarea name="message" rows="4"></textarea></label>
         <button type="submit">Envoyer</button>
         <p class="status" role="status" aria-live="polite"></p>

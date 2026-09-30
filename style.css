@@ -162,3 +162,24 @@ form button:hover { background: var(--encre); }
   .grid.landscape, .grid.portrait { grid-template-columns: 1fr; }
   form { grid-template-columns: 1fr; gap: 28px; }
 }
+
+/* Styles et déroulé (Prestations) */
+.page h2.sub { font-size: 30px; margin: 12vh 0 32px; }
+.steps { display: grid; grid-template-columns: 220px 1fr; gap: 20px 32px; }
+.steps dt { font-family: var(--serif); font-weight: 500; font-variation-settings: "opsz" 6; font-size: 21px; }
+.steps dd { color: var(--cacao); max-width: 52ch; }
+
+/* Avis (affichés quand Linh en fournit) */
+.reviews { display: grid; grid-template-columns: repeat(3, 1fr); gap: 48px; padding: 14vh var(--pad) 0; }
+.reviews p { font-family: var(--serif); font-variation-settings: "opsz" 6; font-size: 21px; line-height: 1.4; }
+.reviews cite { display: block; margin-top: 16px; font-style: normal; font-size: 14px; color: var(--cacao); }
+
+@media (max-width: 720px) {
+  .steps { grid-template-columns: 1fr; gap: 4px; }
+  .steps dd { margin-bottom: 20px; }
+  .reviews { grid-template-columns: 1fr; }
+}
+select {
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%234A2E28' stroke-width='1.2'/%3E%3C/svg%3E") no-repeat right 4px center;
+  padding-right: 24px;
+}

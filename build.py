@@ -29,6 +29,17 @@ T = {
 }
 
 
+LDJSON = """  <script type="application/ld+json">
+  {"@context": "https://schema.org", "@type": "BeautySalon", "name": "Maison de Lyn",
+   "description": "Maquillage de mariée et d'événements à Paris et en Île-de-France",
+   "url": "https://geksmode.github.io/maisondelyn/", "image": "https://geksmode.github.io/maisondelyn/img/mariee-fenetre.jpg",
+   "priceRange": "€€", "areaServed": ["Paris", "Île-de-France"],
+   "address": {"@type": "PostalAddress", "addressLocality": "Paris", "addressCountry": "FR"},
+   "sameAs": ["https://www.instagram.com/maisondelyn_mua/"]}
+  </script>
+"""
+
+
 def page(lang, fname, title, desc, body, script=""):
     t = T[lang]
     other = "en" if lang == "fr" else "fr"
@@ -49,8 +60,15 @@ def page(lang, fname, title, desc, body, script=""):
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;1,6..96,500&family=Jost:wght@400;500&display=swap" rel="stylesheet">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{title}">
+  <meta property="og:description" content="{desc}">
+  <meta property="og:image" content="{BASE}img/mariee-fenetre.jpg">
+  <meta property="og:url" content="{BASE}{'en/' if lang == 'en' else ''}{fname}">
+  <meta property="og:locale" content="{'fr_FR' if lang == 'fr' else 'en_GB'}">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="stylesheet" href="{pre}style.css">
-</head>
+{LDJSON if fname == 'index.html' else ''}</head>
 <body>
   <header class="top">
     <a class="brand" href="index.html">Maison de Lyn</a>
@@ -125,12 +143,25 @@ C["fr"] = dict(
     contact=("Contact · Maison de Lyn", "Demandez un devis pour votre maquillage de mariée à Paris : réponse sous 48 h.",
              "Contact", "Parlez-moi de votre mariage. Je vous réponds sous 48 h avec mes disponibilités et un devis.",
              dict(nom="Nom", email="E-mail", tel="Téléphone", date="Date du mariage", lieu="Ville de préparation", nb="Nombre de personnes à maquiller",
-                  prest="Prestation", opts=[("mariee", "Mariée"), ("proches", "Proches seulement"), ("evenement", "Événement ou shooting")],
+                  prest="Prestation", opts=[("mariee", "Mariée"), ("proches", "Proches seulement"), ("evenement", "Événement ou shooting"), ("planner", "Je suis wedding planner")],
+                  style="Style souhaité", styles=["Je ne sais pas encore", "Naturel", "Sophistiqué", "Glamour"],
                   msg="Votre message", send="Envoyer",
                   wip="Le formulaire sera actif très bientôt. En attendant, écrivez-moi sur Instagram.",
                   ok="Merci, votre demande est bien arrivée. Je vous réponds sous 48 h.",
                   err="L'envoi n'a pas fonctionné. Réessayez ou écrivez-moi sur Instagram."),
              "Ou sur Instagram"),
+)
+
+C["fr"]["reviews"] = []  # Avis de mariées : [("texte", "Prénom, juin 2025"), ...] — à fournir par Linh.
+C["fr"]["extra"] = dict(
+    styles_h="Trois styles",
+    styles=[("Naturel", "Une peau lumineuse, un teint unifié, presque invisible."),
+            ("Sophistiqué", "Un regard travaillé et une bouche affirmée, tout en restant vous."),
+            ("Glamour", "Plus de lumière, de contraste et d'intensité pour la soirée.")],
+    steps_h="Le déroulé",
+    steps=[("L'essai", "Deux à quatre mois avant, nous choisissons ensemble le maquillage."),
+           ("Le jour J", "Je vous rejoins sur votre lieu de préparation, avec tout le matériel."),
+           ("Après la cérémonie", "Selon la formule, je reste pour les retouches ou un changement de look.")],
 )
 
 C["en"] = dict(
@@ -176,12 +207,25 @@ C["en"] = dict(
     contact=("Contact · Maison de Lyn", "Request a quote for your bridal make-up in Paris: reply within 48 h.",
              "Contact", "Tell me about your wedding. I'll reply within 48 h with my availability and a quote.",
              dict(nom="Name", email="Email", tel="Phone", date="Wedding date", lieu="Town where you get ready", nb="Number of people",
-                  prest="Service", opts=[("mariee", "Bride"), ("proches", "Family and friends only"), ("evenement", "Event or shoot")],
+                  prest="Service", opts=[("mariee", "Bride"), ("proches", "Family and friends only"), ("evenement", "Event or shoot"), ("planner", "I'm a wedding planner")],
+                  style="Preferred style", styles=["Not sure yet", "Natural", "Sophisticated", "Glamour"],
                   msg="Your message", send="Send",
                   wip="The form will be live very soon. Meanwhile, message me on Instagram.",
                   ok="Thank you, your request has arrived. I'll reply within 48 h.",
                   err="Sending failed. Please try again or message me on Instagram."),
              "Or on Instagram"),
+)
+
+C["en"]["reviews"] = []
+C["en"]["extra"] = dict(
+    styles_h="Three styles",
+    styles=[("Natural", "Luminous skin and an even complexion, almost invisible."),
+            ("Sophisticated", "Defined eyes and a statement lip, while still looking like you."),
+            ("Glamour", "More light, contrast and intensity for the evening.")],
+    steps_h="How it works",
+    steps=[("The trial", "Two to four months before, we choose your make-up together."),
+           ("The wedding day", "I join you wherever you get ready, with everything needed."),
+           ("After the ceremony", "Depending on your package, I stay for touch-ups or a change of look.")],
 )
 
 BRIDES = [("mariee-damas", "wide"), ("mariee-fenetre", "wide"), ("mariee-tableau", "wide"), ("mariee-polaroid", "wide"), ("couple", "wide")]
@@ -196,6 +240,9 @@ def build(lang):
     files = {}
 
     t, d, body = c["home"]
+    if c["reviews"]:
+        quotes = "\n".join(f"        <blockquote><p>{q}</p><cite>{who}</cite></blockquote>" for q, who in c["reviews"])
+        body = body.replace('    <section class="note">', f'    <section class="reviews">\n{quotes}\n    </section>\n\n    <section class="note">')
     files["index.html"] = (t, d, body, "")
 
     t, d, rows, cond, h1 = c["services"]
@@ -210,6 +257,12 @@ def build(lang):
       <ul class="services">
 {items}
       </ul>
+      <h2 class="sub">{c['extra']['styles_h']}</h2>
+      <dl class="steps">
+{"".join(f"        <dt>{a}</dt><dd>{b}</dd>" + chr(10) for a, b in c['extra']['styles'])}      </dl>
+      <h2 class="sub">{c['extra']['steps_h']}</h2>
+      <dl class="steps">
+{"".join(f"        <dt>{a}</dt><dd>{b}</dd>" + chr(10) for a, b in c['extra']['steps'])}      </dl>
       <p class="small">{cond}</p>
       <a class="more" href="contact.html">{T[lang]['book']}</a>
     </section>""", "")
@@ -253,7 +306,8 @@ def build(lang):
         <label>{f['date']}<input name="date" type="date" required></label>
         <label>{f['lieu']}<input name="lieu" required></label>
         <label>{f['nb']}<input name="personnes" type="number" min="1" value="1" required></label>
-        <label class="full">{f['prest']}<select name="prestation">{opts}</select></label>
+        <label>{f['prest']}<select name="prestation">{opts}</select></label>
+        <label>{f['style']}<select name="style">{"".join(f"<option>{x}</option>" for x in f['styles'])}</select></label>
         <label class="full">{f['msg']}<textarea name="message" rows="4"></textarea></label>
         <button type="submit">{f['send']}</button>
         <p class="status" role="status" aria-live="polite"></p>
