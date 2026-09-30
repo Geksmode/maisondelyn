@@ -118,7 +118,7 @@ C["fr"] = dict(
     </section>
 
     <section class="about">
-      <p>Formée à l'Académie ArtStage à Paris, je parle français, anglais, vietnamien et coréen. De l'essai au jour J, chaque mariée a toute mon attention.</p>
+      <p>Formée à Séoul, à l'académie de maquillage Art Stage 1992, je parle français, anglais, vietnamien et coréen. De l'essai au jour J, chaque mariée a toute mon attention.</p>
     </section>
 
     <section class="note">
@@ -187,7 +187,7 @@ C["en"] = dict(
     </section>
 
     <section class="about">
-      <p>Trained at the ArtStage Academy in Paris, I speak English, French, Vietnamese and Korean. From the trial to the wedding day, every bride has my full attention.</p>
+      <p>Trained in Seoul at the Art Stage 1992 make-up academy, I speak English, French, Vietnamese and Korean. From the trial to the wedding day, every bride has my full attention.</p>
     </section>
 
     <section class="note">
