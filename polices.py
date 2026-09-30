@@ -3,7 +3,7 @@
 Usage : python3 build.py . && python3 polices.py
 - Vietnamien : Bodoni Moda et Jost n'ont pas les lettres accentuées vietnamiennes (ạ, ế, ở...).
   On utilise Playfair Display (titres) et Be Vietnam Pro (texte), de la même famille de style.
-- Coréen : Noto Serif KR (titres) et Noto Sans KR (texte), réduites aux seuls caractères
+- Coréen : Hahmlet (titres, serif moderne à fort contraste comme Bodoni) et Noto Sans KR (texte), réduites aux seuls caractères
   utilisés dans ko/*.html pour rester légères. À relancer si les textes coréens changent.
 Les polices ne sont téléchargées par le navigateur que sur les pages qui les utilisent.
 """
@@ -54,7 +54,7 @@ hangul = "".join(sorted({ch for ch in text if "㄰" <= ch <= "㆏" or "가" <= c
 blocks = []
 blocks += faces("Playfair+Display", "ital,wght@0,500;1,500", "PlayfairDisplay", {"latin", "latin-ext", "vietnamese"})
 blocks += faces("Be+Vietnam+Pro", "wght@400;500", "BeVietnamPro", {"latin", "latin-ext", "vietnamese"})
-blocks += faces("Noto+Serif+KR", "wght@500", "NotoSerifKR-ko", text=hangul)
+blocks += faces("Hahmlet", "wght@500", "Hahmlet-ko", text=hangul)
 blocks += faces("Noto+Sans+KR", "wght@400;500", "NotoSansKR-ko", text=hangul)
 
 path = os.path.join(HERE, "style.css")
