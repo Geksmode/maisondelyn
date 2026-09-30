@@ -24,6 +24,8 @@ a { color: inherit; }
 h1, h2, dt, .brand {
   font-family: var(--serif);
   font-weight: 500;
+  /* Version « petits caractères » de Bodoni Moda : traits fins plus épais, plus lisible en grand. */
+  font-variation-settings: "opsz" 6;
 }
 
 /* En-tête */
@@ -74,7 +76,7 @@ h1, h2, dt, .brand {
 .pair img { aspect-ratio: 4 / 5; object-fit: cover; }
 
 .note { padding: 14vh var(--pad); }
-.note p { font-family: var(--serif); font-size: clamp(26px, 3.4vw, 40px); line-height: 1.25; max-width: 24ch; }
+.note p { font-family: var(--serif); font-variation-settings: "opsz" 6; font-size: clamp(26px, 3.4vw, 40px); line-height: 1.25; max-width: 24ch; }
 
 /* Pages intérieures */
 .page { padding: 10vh var(--pad) 14vh; max-width: 960px; }
@@ -94,7 +96,7 @@ h1, h2, dt, .brand {
 }
 .services li:last-child { border-bottom: 1px solid var(--poudre); }
 .services h2 { font-size: 28px; line-height: 1.2; }
-.services .price { font-family: var(--serif); font-size: 22px; white-space: nowrap; }
+.services .price { font-family: var(--serif); font-variation-settings: "opsz" 6; font-size: 22px; white-space: nowrap; }
 .services li p:last-child { grid-column: 1 / -1; max-width: 56ch; color: var(--cacao); }
 
 .faq dt { font-size: 24px; line-height: 1.3; }
