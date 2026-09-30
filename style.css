@@ -282,3 +282,84 @@ textarea { min-height: 140px; resize: vertical; }
   .price-table th:nth-child(3), .price-table td:nth-child(3) { display: none; }
   .price-table td:nth-child(2) { white-space: normal; }
 }
+
+/* ---- Modernisation ---- */
+body { -webkit-font-smoothing: antialiased; }
+.site-header { transition: background .3s, border-color .3s, color .3s; }
+.site-header .wrap { min-height: 64px; }
+
+/* Accueil : en-tête transparent sur la photo, plein au défilement */
+.home .site-header { position: fixed; left: 0; right: 0; background: transparent; border-color: transparent; }
+.home .site-header:not(.scrolled) .logo,
+.home .site-header:not(.scrolled) .nav a:not(.btn) { color: var(--porcelaine); }
+.home .site-header:not(.scrolled) .nav-toggle { color: var(--porcelaine); border-color: var(--porcelaine); }
+.home .site-header.scrolled, .home.menu-open .site-header { background: var(--porcelaine); border-color: var(--poudre); }
+.home.menu-open .site-header .logo, .home.menu-open .site-header .nav-toggle { color: var(--encre); border-color: var(--encre); }
+.home .hero { min-height: 100vh; min-height: 100svh; }
+
+.hero-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.btn-light { background: transparent; border-color: var(--porcelaine); color: var(--porcelaine); }
+.btn-light:hover { background: var(--porcelaine); color: var(--encre); }
+.btn { transition: background .25s, color .25s; }
+
+/* Bandeau d'infos clés : l'essentiel sans cliquer */
+.facts { background: var(--encre); color: var(--porcelaine); }
+.facts .wrap { display: grid; grid-template-columns: repeat(4, 1fr); }
+.facts a { color: inherit; text-decoration: none; padding: 28px 20px; border-left: 1px solid rgba(245, 241, 238, .18); transition: background .25s; }
+.facts a:first-child { border-left: 0; }
+.facts a:hover { background: rgba(245, 241, 238, .06); }
+.facts .label { display: block; font-size: 11px; opacity: .7; margin-bottom: 4px; }
+.facts strong { font-family: var(--serif); font-weight: 400; font-size: 24px; }
+
+/* Galerie : zoom doux au survol */
+.gallery > img, .gallery > div { overflow: hidden; }
+.gallery img { transition: transform .8s cubic-bezier(.2, .7, .2, 1); }
+.gallery img:hover { transform: scale(1.04); }
+.card { transition: background .25s, transform .25s; }
+.card:hover { transform: translateY(-4px); }
+
+/* Apparition au défilement */
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity .9s ease, transform .9s cubic-bezier(.2, .7, .2, 1); }
+.reveal.in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .gallery img, .card { transition: none; }
+  html { scroll-behavior: auto; }
+}
+
+/* Plan du site dans le pied de page : chaque page à un clic */
+.footer-nav { display: flex; flex-direction: column; gap: 6px; }
+.footer-nav a { text-decoration: none; font-weight: 500; font-size: 13px; letter-spacing: .2em; text-transform: uppercase; }
+.footer-nav a:hover { color: var(--blush); }
+
+/* Bouton devis fixe sur mobile : réservation en un clic */
+.mobile-cta { display: none; }
+
+@media (max-width: 860px) {
+  .facts .wrap { grid-template-columns: 1fr 1fr; padding: 0; }
+  .facts a:nth-child(3) { border-left: 0; }
+  .facts a:nth-child(n+3) { border-top: 1px solid rgba(245, 241, 238, .18); }
+  .facts strong { font-size: 20px; }
+  .nav { top: 64px; min-height: calc(100vh - 64px); padding: 32px 24px; gap: 28px; }
+  .nav a { font-size: 15px; }
+  .mobile-cta {
+    display: block;
+    position: fixed;
+    left: 12px; right: 12px; bottom: 12px;
+    z-index: 20;
+    text-align: center;
+    background: var(--grenat);
+    color: var(--porcelaine);
+    text-decoration: none;
+    font-weight: 500; font-size: 13px; letter-spacing: .2em; text-transform: uppercase;
+    padding: 16px;
+  }
+  .menu-open .mobile-cta { display: none; }
+  .site-footer { padding-bottom: 96px; }
+  .gallery { grid-auto-flow: column; grid-template-columns: none; grid-auto-columns: 78%; overflow-x: auto; scroll-snap-type: x mandatory; }
+  .gallery > * { scroll-snap-align: start; }
+  .gallery .wide { grid-column: auto; }
+  .gallery .wide img { aspect-ratio: 4 / 5; }
+}
+.home.menu-open .site-header .logo,
+.home.menu-open .site-header .nav a:not(.btn) { color: var(--encre); }
