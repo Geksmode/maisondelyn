@@ -13,7 +13,7 @@ import cv2
 
 SRC = sys.argv[1] if len(sys.argv) > 1 else "img"
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "img")
-WIDTHS = [640, 1280, 1920, 2560]
+WIDTHS = [640, 960, 1280, 1920, 2560]
 
 manifest = {}
 for path in sorted(glob.glob(os.path.join(SRC, "*.jpg"))):

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://geksmode.github.io/maisondelyn/sitemap.xml

@@ -22,15 +22,11 @@ class LynLightbox extends HTMLElement {
     let i = 0, x0 = null;
     const show = (k) => {
       i = (k + shots.length) % shots.length;
-      const swap = () => { big.src = shots[i].dataset.full || shots[i].currentSrc || shots[i].src; big.alt = shots[i].alt; count.textContent = `${i + 1} / ${shots.length}`; };
+      const swap = () => { const im = shots[i].querySelector('img') || shots[i]; big.src = im.dataset.full || im.currentSrc || im.src; big.alt = im.alt; count.textContent = `${i + 1} / ${shots.length}`; };
       dlg.open && document.startViewTransition && !reduceMotion ? document.startViewTransition(swap) : swap();
     };
     shots.forEach((el, k) => {
-      el.tabIndex = 0;
-      el.setAttribute('role', 'button');
-      const open = () => { show(k); dlg.showModal(); };
-      el.addEventListener('click', open);
-      el.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); } });
+      el.addEventListener('click', () => { show(k); dlg.showModal(); });
     });
     dlg.querySelector('.lb-close').onclick = () => dlg.close();
     dlg.querySelector('.lb-prev').onclick = () => show(i - 1);
@@ -66,11 +62,15 @@ class LynQuoteForm extends HTMLElement {
   connectedCallback() {
     const form = this.querySelector('form'), status = this.querySelector('[role=status]');
     if (!form) return;
+    // Pas de date de mariage dans le passé.
+    const day = form.querySelector('[type=date]');
+    if (day) day.min = new Date().toISOString().slice(0, 10);
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const btn = form.querySelector('[type=submit]');
       if (form.action.includes('VOTRE_ID')) { status.textContent = this.dataset.wip; return; }
       btn.setAttribute('aria-busy', 'true');
+      btn.disabled = true;
       try {
         const r = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
         if (!r.ok) throw new Error();
@@ -80,6 +80,7 @@ class LynQuoteForm extends HTMLElement {
         status.textContent = this.dataset.err;
       } finally {
         btn.removeAttribute('aria-busy');
+        btn.disabled = false;
       }
     });
   }

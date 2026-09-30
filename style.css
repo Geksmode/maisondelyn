@@ -1,6 +1,73 @@
+/* Polices hébergées sur le site (pas d'appel à Google : plus rapide et conforme RGPD). */
+@font-face {
+  font-family: 'Bodoni Moda';
+  font-style: italic;
+  font-weight: 500;
+  font-display: swap;
+  src: url(fonts/BodoniModa-italic-500-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Bodoni Moda';
+  font-style: italic;
+  font-weight: 500;
+  font-display: swap;
+  src: url(fonts/BodoniModa-italic-500-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Bodoni Moda';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(fonts/BodoniModa-normal-500-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Bodoni Moda';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(fonts/BodoniModa-normal-500-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Jost';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(fonts/Jost-normal-400-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Jost';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(fonts/Jost-normal-400-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Jost';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(fonts/Jost-normal-500-latin-ext.woff2) format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+@font-face {
+  font-family: 'Jost';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(fonts/Jost-normal-500-latin.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
 :root {
   --porcelaine: #F5F1EE;
   --poudre: #B48F8A;
+  --poudre-texte: #85625D; /* poudre assombri, lisible sur porcelaine */
   --cacao: #4A2E28;
   --encre: #1B1615;
   --grenat: #8A2320;
@@ -41,7 +108,7 @@ h1, h2, dt, .brand {
 .top nav { display: flex; gap: 28px; align-items: baseline; font-size: 15px; }
 .top nav a { text-decoration: none; }
 .top nav a:hover, .top nav a[aria-current] { text-decoration: underline; text-underline-offset: 6px; text-decoration-thickness: 1px; }
-.top .switch { color: var(--poudre); font-size: 13px; letter-spacing: .08em; }
+.top .switch { color: var(--poudre-texte); font-size: 13px; letter-spacing: .08em; }
 
 /* Lien d'action : le seul accent de couleur */
 .more {
@@ -218,7 +285,7 @@ figcaption { margin-top: 12px; font-size: 13px; color: var(--cacao); }
 .offers { padding: 0 var(--pad) 18vh; }
 .offers ol { list-style: none; border-top: 1px solid var(--encre); }
 .offers li { display: grid; grid-template-columns: 80px 1fr auto; align-items: baseline; gap: 24px; padding: 28px 0; border-bottom: 1px solid var(--poudre); }
-.offers .num { font-size: 14px; color: var(--poudre); }
+.offers .num { font-size: 14px; color: var(--poudre-texte); }
 .offers .name { font-family: var(--serif); font-weight: 500; font-variation-settings: "opsz" 6; font-size: clamp(26px, 3.4vw, 44px); line-height: 1.1; }
 .offers .price { font-size: 17px; color: var(--cacao); white-space: nowrap; }
 
@@ -248,6 +315,7 @@ figcaption { margin-top: 12px; font-size: 13px; color: var(--cacao); }
 }
 
 /* Visionneuse plein écran */
+.shot { all: unset; display: block; width: 100%; box-sizing: border-box; }
 [data-lightbox] { cursor: zoom-in; transition: opacity .3s; }
 [data-lightbox]:hover { opacity: .92; }
 .lightbox { width: 100vw; height: 100vh; max-width: none; max-height: none; margin: 0; border: 0; padding: 0; background: #1B1615; color: var(--porcelaine); }
@@ -415,3 +483,10 @@ input, select, textarea { transition: border-color .25s ease; }
 .legal p { max-width: 64ch; color: var(--cacao); }
 .legal mark { background: var(--blush); color: var(--encre); padding: 0 4px; }
 .fine { grid-column: 1 / -1; font-size: 13px; color: var(--cacao); }
+
+/* Piège à robots du formulaire : invisible pour les visiteurs. */
+.trap { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+
+/* Zones tactiles d'au moins 44 px pour les petits liens, sans changer la mise en page. */
+.top .switch, .bottom .links a { position: relative; }
+.top .switch::after, .bottom .links a::after { content: ""; position: absolute; inset: -12px -8px; }

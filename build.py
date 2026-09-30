@@ -12,6 +12,12 @@ IG = "https://www.instagram.com/maisondelyn_mua/"
 BASE = "https://geksmode.github.io/maisondelyn/"
 NB = " "  # espace insécable
 
+# Politique de sécurité : seules les ressources du site sont chargées, et le formulaire
+# ne peut envoyer ses données qu'à Formspree.
+CSP = ("default-src 'self'; script-src 'self' 'inline-speculation-rules'; style-src 'self'; "
+       "img-src 'self' data:; font-src 'self'; connect-src https://formspree.io; "
+       "form-action https://formspree.io; base-uri 'none'; object-src 'none'; upgrade-insecure-requests")
+
 # Tailles disponibles pour chaque photo (écrit par images.py).
 with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "img", "manifest.json")) as _fh:
     IMGS = json.load(_fh)
@@ -35,6 +41,12 @@ def pic(pre, name, slot, attrs="", lazy=True):
     return (f'<img{attrs} src="{pre}img/{name}.jpg" srcset="{srcset}" sizes="{SIZES[slot]}" '
             f'width="{m["w"]}" height="{m["h"]}" data-full="{full}"{extra}')
 
+
+def shot(pre, lang, name, slot, cls="", lazy=True):
+    """Photo cliquable qui s'ouvre en plein écran (un vrai bouton, accessible au clavier)."""
+    return (f'<button type="button" class="shot{" " + cls if cls else ""}" data-lightbox aria-label="{T[lang]["zoom"]}">'
+            f'{pic(pre, name, slot, lazy=lazy)} alt=""></button>')
+
 T = {
     "fr": {
         "nav": [("prestations.html", "Prestations"), ("galerie.html", "Galerie"), ("faq.html", "FAQ"), ("contact.html", "Contact")],
@@ -42,6 +54,7 @@ T = {
         "book": "Prendre rendez-vous",
         "footer": "Maquillage de mariée, Paris",
         "close": "Fermer",
+        "zoom": "Agrandir la photo",
         "legal": "Mentions légales",
         "privacy": "Confidentialité",
         "prev": "Photo précédente",
@@ -53,6 +66,7 @@ T = {
         "book": "Book an appointment",
         "footer": "Bridal make-up, Paris",
         "close": "Close",
+        "zoom": "Enlarge photo",
         "legal": "Legal notice",
         "privacy": "Privacy",
         "prev": "Previous photo",
@@ -98,6 +112,8 @@ def page(lang, fname, title, desc, body, script=""):
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="{CSP}">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <title>{title}</title>
   <meta name="description" content="{desc}">
   <link rel="alternate" hreflang="fr" href="{BASE}{fname}">
@@ -105,7 +121,6 @@ def page(lang, fname, title, desc, body, script=""):
   <link rel="alternate" hreflang="x-default" href="{BASE}{fname}">
   <link rel="preload" href="{pre}fonts/BodoniModa-normal-500-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="{pre}fonts/Jost-normal-400-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="{pre}fonts/fonts.css">
   <link rel="icon" href="{pre}favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="{pre}apple-touch-icon.png">
   <meta name="theme-color" content="#F5F1EE">
@@ -136,7 +151,8 @@ def page(lang, fname, title, desc, body, script=""):
     <span class="links"><a href="{IG}">Instagram</a><a href="mentions-legales.html">{t['legal']}</a><a href="confidentialite.html">{t['privacy']}</a></span>
   </footer>
   <lyn-lightbox label-close="{t['close']}" label-prev="{t['prev']}" label-next="{t['next']}"></lyn-lightbox>
-{BOOK if fname != "contact.html" else ""}{script}  <script type="module" src="{pre}components.js"></script>
+{BOOK if fname != "contact.html" else ""}{script}  <script type="speculationrules">{{"prerender": [{{"where": {{"selector_matches": "a[href$='.html']"}}, "eagerness": "moderate"}}]}}</script>
+  <script type="module" src="{pre}components.js"></script>
 </body>
 </html>
 """
@@ -300,12 +316,12 @@ def home_body(lang):
         <p>{h['intro']}</p>
         {btn("contact.html", T[lang]['book'])}
       </div>
-      {pic(pre, "mariee-tableau", "half", " data-lightbox")} alt="">
+      {shot(pre, lang, "mariee-tableau", "half")}
     </section>
 
     <section class="duo">
-      <figure class="big reveal">{pic(pre, "mariee-damas", "big", " data-lightbox")} alt=""><figcaption>{h['cap1']}</figcaption></figure>
-      <figure class="small reveal">{pic(pre, "couple", "small", " data-lightbox")} alt=""><figcaption>{h['cap2']}</figcaption></figure>
+      <figure class="big reveal">{shot(pre, lang, "mariee-damas", "big")}<figcaption>{h['cap1']}</figcaption></figure>
+      <figure class="small reveal">{shot(pre, lang, "couple", "small")}<figcaption>{h['cap2']}</figcaption></figure>
     </section>
 
     <section class="seoul reveal">
@@ -424,8 +440,8 @@ def build(lang):
     </section>""", "")
 
     t, d, h_b, h_e, ig = c["gallery"]
-    brides = "\n".join('        ' + pic(pre, n, "half", ' class="reveal" data-lightbox') + ' alt="">' for n, _ in BRIDES)
-    edito = "\n".join('        ' + pic(pre, n, "third", ' class="reveal" data-lightbox') + ' alt="">' for n in EDITO)
+    brides = "\n".join('        ' + shot(pre, lang, n, "half", "reveal", lazy=k > 1) for k, (n, _) in enumerate(BRIDES))
+    edito = "\n".join('        ' + shot(pre, lang, n, "third", "reveal") for n in EDITO)
     files["galerie.html"] = (t, d, f"""    <section class="page wide">
       <h1>{h_b}</h1>
       <div class="grid landscape">
@@ -457,15 +473,16 @@ def build(lang):
       <lyn-quote-form data-wip="{f['wip']}" data-ok="{f['ok']}" data-err="{f['err']}">
       <form id="devis" class="reveal" action="https://formspree.io/f/VOTRE_ID" method="POST">
         <input type="hidden" name="langue" value="{lang}">
-        <label>{f['nom']}<input name="nom" required autocomplete="name"></label>
-        <label>{f['email']}<input name="email" type="email" required autocomplete="email"></label>
-        <label>{f['tel']}<input name="telephone" type="tel" required autocomplete="tel"></label>
+        <input type="text" name="_gotcha" class="trap" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <label>{f['nom']}<input name="nom" required maxlength="80" autocomplete="name"></label>
+        <label>{f['email']}<input name="email" type="email" required maxlength="120" autocomplete="email"></label>
+        <label>{f['tel']}<input name="telephone" type="tel" required maxlength="30" autocomplete="tel" inputmode="tel"></label>
         <label>{f['date']}<input name="date" type="date" required></label>
-        <label>{f['lieu']}<input name="lieu" required></label>
-        <label>{f['nb']}<input name="personnes" type="number" min="1" value="1" required></label>
+        <label>{f['lieu']}<input name="lieu" required maxlength="120"></label>
+        <label>{f['nb']}<input name="personnes" type="number" min="1" max="30" value="1" required inputmode="numeric"></label>
         <label>{f['prest']}<select name="prestation">{opts}</select></label>
         <label>{f['style']}<select name="style">{"".join(f"<option>{x}</option>" for x in f['styles'])}</select></label>
-        <label class="full">{f['msg']}<textarea name="message" rows="3"></textarea></label>
+        <label class="full">{f['msg']}<textarea name="message" rows="3" maxlength="2000"></textarea></label>
         <button class="btn" type="submit">{btn_inner(f['send'])}</button>
         <p class="status" role="status" aria-live="polite"></p>
         <p class="fine">{f['gdpr']}</p>
@@ -503,4 +520,19 @@ def build(lang):
 
 build("fr")
 build("en")
+
+# Plan du site pour les moteurs de recherche (à déclarer dans Google Search Console).
+PAGES = ["index.html", "prestations.html", "galerie.html", "faq.html", "contact.html", "mentions-legales.html", "confidentialite.html"]
+urls = []
+for p in PAGES:
+    for pre in ("", "en/"):
+        loc = BASE + pre + ("" if p == "index.html" else p)
+        alts = "".join(f'<xhtml:link rel="alternate" hreflang="{l}" href="{BASE}{x}{"" if p == "index.html" else p}"/>'
+                       for l, x in (("fr", ""), ("en", "en/")))
+        urls.append(f"  <url><loc>{loc}</loc>{alts}</url>")
+with open(os.path.join(OUT, "sitemap.xml"), "w") as fh:
+    fh.write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
+             'xmlns:xhtml="http://www.w3.org/1999/xhtml">\n' + "\n".join(urls) + "\n</urlset>\n")
+with open(os.path.join(OUT, "robots.txt"), "w") as fh:
+    fh.write(f"User-agent: *\nAllow: /\n\nSitemap: {BASE}sitemap.xml\n")
 print("ok")

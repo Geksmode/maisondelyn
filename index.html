@@ -3,6 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'inline-speculation-rules'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src https://formspree.io; form-action https://formspree.io; base-uri 'none'; object-src 'none'; upgrade-insecure-requests">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <title>Maison de Lyn · Maquillage de mariée à Paris</title>
   <meta name="description" content="Linh, maquilleuse de mariée à Paris et en Île-de-France. Essai à domicile, jour J, maquillage des proches.">
   <link rel="alternate" hreflang="fr" href="https://geksmode.github.io/maisondelyn/index.html">
@@ -10,7 +12,6 @@
   <link rel="alternate" hreflang="x-default" href="https://geksmode.github.io/maisondelyn/index.html">
   <link rel="preload" href="fonts/BodoniModa-normal-500-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="fonts/Jost-normal-400-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="fonts/fonts.css">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <meta name="theme-color" content="#F5F1EE">
@@ -46,7 +47,7 @@
 
   <main>
     <section class="hero">
-      <img src="img/mariee-fenetre.jpg" srcset="img/mariee-fenetre-640.webp 640w, img/mariee-fenetre-1280.webp 1280w, img/mariee-fenetre-1920.webp 1920w, img/mariee-fenetre-2560.webp 2560w" sizes="100vw" width="2560" height="1440" data-full="img/mariee-fenetre-2560.webp" fetchpriority="high" alt="Mariée près d'une fenêtre, bouquet à la main">
+      <img src="img/mariee-fenetre.jpg" srcset="img/mariee-fenetre-640.webp 640w, img/mariee-fenetre-960.webp 960w, img/mariee-fenetre-1280.webp 1280w, img/mariee-fenetre-1920.webp 1920w, img/mariee-fenetre-2560.webp 2560w" sizes="100vw" width="2560" height="1440" data-full="img/mariee-fenetre-2560.webp" fetchpriority="high" alt="Mariée près d'une fenêtre, bouquet à la main">
       <div class="hero-text">
         <h1>Maquillage<br>de <em>mariée</em></h1>
         <p>Paris et Île-de-France</p>
@@ -61,12 +62,12 @@
         <p>Je maquille les mariées et leurs proches, chez vous ou sur votre lieu de préparation. Un maquillage qui vous ressemble, pensé pour tenir de la cérémonie à la dernière danse.</p>
         <a class="btn" href="contact.html"><span>Prendre rendez-vous</span><svg aria-hidden="true" width="18" height="10" viewBox="0 0 18 10"><path d="M0 5h16M12 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.2"/></svg></a>
       </div>
-      <img data-lightbox src="img/mariee-tableau.jpg" srcset="img/mariee-tableau-640.webp 640w, img/mariee-tableau-1280.webp 1280w, img/mariee-tableau-1920.webp 1920w, img/mariee-tableau-2560.webp 2560w" sizes="(max-width: 900px) 100vw, 50vw" width="2560" height="1440" data-full="img/mariee-tableau-2560.webp" loading="lazy" decoding="async" alt="">
+      <button type="button" class="shot" data-lightbox aria-label="Agrandir la photo"><img src="img/mariee-tableau.jpg" srcset="img/mariee-tableau-640.webp 640w, img/mariee-tableau-960.webp 960w, img/mariee-tableau-1280.webp 1280w, img/mariee-tableau-1920.webp 1920w, img/mariee-tableau-2560.webp 2560w" sizes="(max-width: 900px) 100vw, 50vw" width="2560" height="1440" data-full="img/mariee-tableau-2560.webp" loading="lazy" decoding="async" alt=""></button>
     </section>
 
     <section class="duo">
-      <figure class="big reveal"><img data-lightbox src="img/mariee-damas.jpg" srcset="img/mariee-damas-640.webp 640w, img/mariee-damas-1280.webp 1280w, img/mariee-damas-1920.webp 1920w, img/mariee-damas-2560.webp 2560w" sizes="(max-width: 900px) 100vw, 62vw" width="2560" height="1440" data-full="img/mariee-damas-2560.webp" loading="lazy" decoding="async" alt=""><figcaption>Studio, bouquet rouge</figcaption></figure>
-      <figure class="small reveal"><img data-lightbox src="img/couple.jpg" srcset="img/couple-640.webp 640w, img/couple-1280.webp 1280w, img/couple-1920.webp 1920w, img/couple-2560.webp 2560w" sizes="(max-width: 900px) 100vw, 36vw" width="2560" height="1440" data-full="img/couple-2560.webp" loading="lazy" decoding="async" alt=""><figcaption>Le jour J</figcaption></figure>
+      <figure class="big reveal"><button type="button" class="shot" data-lightbox aria-label="Agrandir la photo"><img src="img/mariee-damas.jpg" srcset="img/mariee-damas-640.webp 640w, img/mariee-damas-960.webp 960w, img/mariee-damas-1280.webp 1280w, img/mariee-damas-1920.webp 1920w, img/mariee-damas-2560.webp 2560w" sizes="(max-width: 900px) 100vw, 62vw" width="2560" height="1440" data-full="img/mariee-damas-2560.webp" loading="lazy" decoding="async" alt=""></button><figcaption>Studio, bouquet rouge</figcaption></figure>
+      <figure class="small reveal"><button type="button" class="shot" data-lightbox aria-label="Agrandir la photo"><img src="img/couple.jpg" srcset="img/couple-640.webp 640w, img/couple-960.webp 960w, img/couple-1280.webp 1280w, img/couple-1920.webp 1920w, img/couple-2560.webp 2560w" sizes="(max-width: 900px) 100vw, 36vw" width="2560" height="1440" data-full="img/couple-2560.webp" loading="lazy" decoding="async" alt=""></button><figcaption>Le jour J</figcaption></figure>
     </section>
 
     <section class="seoul reveal">
@@ -85,7 +86,7 @@
     </section>
 
     <section class="closing">
-      <img src="img/mariee-polaroid.jpg" srcset="img/mariee-polaroid-640.webp 640w, img/mariee-polaroid-1280.webp 1280w, img/mariee-polaroid-1920.webp 1920w, img/mariee-polaroid-2560.webp 2560w" sizes="100vw" width="2560" height="1440" data-full="img/mariee-polaroid-2560.webp" loading="lazy" decoding="async" alt="">
+      <img src="img/mariee-polaroid.jpg" srcset="img/mariee-polaroid-640.webp 640w, img/mariee-polaroid-960.webp 960w, img/mariee-polaroid-1280.webp 1280w, img/mariee-polaroid-1920.webp 1920w, img/mariee-polaroid-2560.webp 2560w" sizes="100vw" width="2560" height="1440" data-full="img/mariee-polaroid-2560.webp" loading="lazy" decoding="async" alt="">
       <div>
         <h2>Parlons de votre <em>mariage</em></h2>
         <a class="btn light" href="contact.html"><span>Prendre rendez-vous</span><svg aria-hidden="true" width="18" height="10" viewBox="0 0 18 10"><path d="M0 5h16M12 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.2"/></svg></a>
@@ -99,6 +100,7 @@
   </footer>
   <lyn-lightbox label-close="Fermer" label-prev="Photo précédente" label-next="Photo suivante"></lyn-lightbox>
   <lyn-book-button><a class="btn" href="contact.html"><span>Prendre rendez-vous</span><svg aria-hidden="true" width="18" height="10" viewBox="0 0 18 10"><path d="M0 5h16M12 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.2"/></svg></a></lyn-book-button>
+  <script type="speculationrules">{"prerender": [{"where": {"selector_matches": "a[href$='.html']"}, "eagerness": "moderate"}]}</script>
   <script type="module" src="components.js"></script>
 </body>
 </html>

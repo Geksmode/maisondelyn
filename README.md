@@ -13,3 +13,12 @@ Site vitrine de Linh, maquilleuse de mariée à Paris. HTML et CSS statiques, pu
 
 ## Formulaire
 Le formulaire de `contact.html` utilise [Formspree](https://formspree.io) (gratuit). Créez un formulaire avec l'adresse e-mail de Linh, puis remplacez `VOTRE_ID` dans `build.py` et régénérez.
+
+## Photos
+Les photos sources (2560 px) passent par `python3 images.py <dossier>` : chaque photo est déclinée en WebP de 640 à 2560 px, plus un JPEG de secours, et `img/manifest.json` est mis à jour. Relancer ensuite `python3 build.py .`.
+
+## Sécurité et rapidité
+- Politique de sécurité (CSP) dans chaque page : seules les ressources du site sont chargées et le formulaire n'envoie qu'à Formspree. Si un service externe est ajouté (vidéo, carte, statistiques), il faut l'autoriser dans `CSP` de `build.py`.
+- Formulaire : longueurs limitées, champ piège `_gotcha` contre les robots, bouton désactivé pendant l'envoi.
+- Pages suivantes préparées à l'approche d'un lien (Speculation Rules), transitions entre pages, polices et images servies par le site.
+- `sitemap.xml` et `robots.txt` sont générés par `build.py`.

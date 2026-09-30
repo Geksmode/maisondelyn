@@ -3,6 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'inline-speculation-rules'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src https://formspree.io; form-action https://formspree.io; base-uri 'none'; object-src 'none'; upgrade-insecure-requests">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <title>Privacy · Maison de Lyn</title>
   <meta name="description" content="Privacy · Maison de Lyn">
   <link rel="alternate" hreflang="fr" href="https://geksmode.github.io/maisondelyn/confidentialite.html">
@@ -10,7 +12,6 @@
   <link rel="alternate" hreflang="x-default" href="https://geksmode.github.io/maisondelyn/confidentialite.html">
   <link rel="preload" href="../fonts/BodoniModa-normal-500-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="../fonts/Jost-normal-400-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="../fonts/fonts.css">
   <link rel="icon" href="../favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="../apple-touch-icon.png">
   <meta name="theme-color" content="#F5F1EE">
@@ -59,6 +60,7 @@
   </footer>
   <lyn-lightbox label-close="Close" label-prev="Previous photo" label-next="Next photo"></lyn-lightbox>
   <lyn-book-button><a class="btn" href="contact.html"><span>Book an appointment</span><svg aria-hidden="true" width="18" height="10" viewBox="0 0 18 10"><path d="M0 5h16M12 1l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.2"/></svg></a></lyn-book-button>
+  <script type="speculationrules">{"prerender": [{"where": {"selector_matches": "a[href$='.html']"}, "eagerness": "moderate"}]}</script>
   <script type="module" src="../components.js"></script>
 </body>
 </html>
