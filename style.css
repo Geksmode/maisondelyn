@@ -14,7 +14,7 @@
 body {
   background: var(--porcelaine);
   color: var(--encre);
-  font: 300 17px/1.65 var(--sans);
+  font: 400 17px/1.65 var(--sans);
   -webkit-font-smoothing: antialiased;
 }
 
@@ -23,7 +23,7 @@ a { color: inherit; }
 
 h1, h2, dt, .brand {
   font-family: var(--serif);
-  font-weight: 400;
+  font-weight: 500;
 }
 
 /* En-tête */
@@ -115,7 +115,7 @@ input, select, textarea {
   display: block;
   width: 100%;
   margin-top: 6px;
-  font: 300 18px/1.4 var(--sans);
+  font: 400 18px/1.4 var(--sans);
   color: var(--encre);
   background: transparent;
   border: 0;
@@ -129,7 +129,7 @@ textarea { resize: vertical; }
 input:focus, select:focus, textarea:focus { outline: none; border-bottom-color: var(--encre); }
 form button {
   justify-self: start;
-  font: 400 16px var(--sans);
+  font: 500 16px var(--sans);
   color: var(--porcelaine);
   background: var(--grenat);
   border: 0;
