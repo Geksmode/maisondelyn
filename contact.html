@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contact · Maison de Lyn</title>
+  <meta name="description" content="Demandez un devis pour votre maquillage de mariée à Paris : réponse sous 48 h.">
+  <link rel="alternate" hreflang="fr" href="https://geksmode.github.io/maisondelyn/contact.html">
+  <link rel="alternate" hreflang="en" href="https://geksmode.github.io/maisondelyn/en/contact.html">
+  <link rel="alternate" hreflang="x-default" href="https://geksmode.github.io/maisondelyn/contact.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;1,6..96,400&family=Jost:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <a class="brand" href="index.html">Maison de Lyn</a>
+    <nav>
+        <a href="prestations.html">Prestations</a>
+        <a href="galerie.html">Galerie</a>
+        <a href="faq.html">FAQ</a>
+        <a href="contact.html" aria-current="page">Contact</a>
+      <a class="switch" href="en/contact.html" hreflang="en" lang="en" title="English">EN</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="page">
+      <h1>Contact</h1>
+      <p class="lead">Parlez-moi de votre mariage. Je vous réponds sous 48 h avec mes disponibilités et un devis.</p>
+      <!-- Remplacer VOTRE_ID par l'identifiant Formspree (formspree.io) pour recevoir les demandes par e-mail. -->
+      <form id="devis" action="https://formspree.io/f/VOTRE_ID" method="POST">
+        <input type="hidden" name="langue" value="fr">
+        <label>Nom<input name="nom" required autocomplete="name"></label>
+        <label>E-mail<input name="email" type="email" required autocomplete="email"></label>
+        <label>Téléphone<input name="telephone" type="tel" required autocomplete="tel"></label>
+        <label>Date du mariage<input name="date" type="date" required></label>
+        <label>Ville de préparation<input name="lieu" required></label>
+        <label>Nombre de personnes à maquiller<input name="personnes" type="number" min="1" value="1" required></label>
+        <label class="full">Prestation<select name="prestation"><option value="mariee">Mariée</option><option value="proches">Proches seulement</option><option value="evenement">Événement ou shooting</option></select></label>
+        <label class="full">Votre message<textarea name="message" rows="4"></textarea></label>
+        <button type="submit">Envoyer</button>
+        <p class="status" role="status" aria-live="polite"></p>
+      </form>
+      <a class="more" href="https://www.instagram.com/maisondelyn_mua/">Ou sur Instagram</a>
+    </section>
+  </main>
+
+  <footer class="bottom">
+    <span>Maison de Lyn · Maquillage de mariée, Paris</span>
+    <a href="https://www.instagram.com/maisondelyn_mua/">Instagram</a>
+  </footer>
+  <script>
+    const form = document.getElementById('devis'), status = form.querySelector('.status');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (form.action.includes('VOTRE_ID')) { status.textContent = "Le formulaire sera actif très bientôt. En attendant, écrivez-moi sur Instagram."; return; }
+      try {
+        const r = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
+        if (!r.ok) throw new Error();
+        form.reset();
+        status.textContent = "Merci, votre demande est bien arrivée. Je vous réponds sous 48 h.";
+      } catch { status.textContent = "L'envoi n'a pas fonctionné. Réessayez ou écrivez-moi sur Instagram."; }
+    });
+  </script>
+</body>
+</html>
